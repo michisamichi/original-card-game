@@ -1,0 +1,11 @@
+{
+  "name": "original-card-game-prototype",
+  "version": "0.1.164",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "node tools-serve.js",
+    "serve:room": "node tools-room-server.js"
+  }
+}
