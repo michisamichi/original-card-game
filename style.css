@@ -1316,3 +1316,24 @@ header .brand-title{font-family:Georgia,'Times New Roman',serif;color:#f1e4c5;le
  .tabletop-arena .public-card-strip{margin-bottom:3px}
  .tabletop-arena .battle-history{padding:3px}
 }
+
+/* v0.1.399 — readable tablet hand and a distinct turn control.
+   Width follows visible card count; no overlapping hitboxes or new JS. */
+@media (orientation:landscape) and (min-width:900px) and (min-height:650px){
+ .match-panel .tabletop-arena .hand:not(:has(>.card:nth-child(7)))>.card{flex-basis:clamp(88px,calc((100% - 76px)/6),124px);max-width:124px;transform:translateY(calc(var(--fan-drop,0px) * .6)) rotate(calc(var(--fan-angle,0deg) * .55))}
+ .match-panel .tabletop-arena .hand:not(:has(>.card:nth-child(7)))>.card:is(.selected,:focus-visible){transform:translateY(0)}
+ .match-panel .tabletop-arena .hand:not(:has(>.card:nth-child(7)))>.card .name{font-size:.78rem}
+ .match-panel .tabletop-arena .hand:not(:has(>.card:nth-child(7)))>.card .desc{font-size:.68rem}
+ .match-panel .tabletop-arena .hand:not(:has(>.card:nth-child(7)))>.card .cost{min-width:24px;min-height:24px;font-size:.82rem}
+ .tabletop-arena .arena-rail.is-own-turn .arena-end:not(:disabled){border-color:#e7d89a;box-shadow:inset 0 0 0 1px #fff3c5,inset 0 -3px #89642b66,0 0 10px #edc56b66,0 3px 5px #23190e88}
+ .tabletop-arena .arena-rail.is-enemy-turn .arena-end:disabled{background:linear-gradient(#4f5961,#313a43);border-color:#81909a;color:#e7eef5;text-shadow:none}
+ .tabletop-arena .arena-rail .arena-cancel:disabled{opacity:.64}
+}
+@media (orientation:landscape) and (min-width:900px) and (min-height:830px){
+ .match-panel .tabletop-arena .hand:not(:has(>.card:nth-child(7)))>.card :is(.card-art,.card-emblem){max-height:54px}
+}
+
+/* Keep the menu out of active two-device matches; restore it when the match
+   finishes or the user returns to the lobby. Room/recovery controls stay usable. */
+:is(.view-cloud,.view-online):has(>.match-panel .arena-rail:not(.is-finished))>header>.nav{display:none}
+#app:has(>.match-panel .arena-rail:not(.is-finished))>header{padding:3px 0 4px;gap:0;min-height:0}
