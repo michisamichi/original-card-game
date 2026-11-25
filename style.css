@@ -1361,3 +1361,20 @@ header .brand-title{font-family:Georgia,'Times New Roman',serif;color:#f1e4c5;le
 .match-panel .tabletop-arena[data-target-mode=play] :is(.board .card,.hero .hp)[data-action-state=target]:not(:focus-visible){outline:3px dashed #bceeff;outline-offset:1px}
 .match-panel .tabletop-arena[data-target-mode] .card[data-target-source]:not(:focus-visible){outline-style:double;outline-width:4px;outline-offset:1px}
 .match-panel .tabletop-arena[data-target-mode] .arena-guidance[data-mode=target]{font-weight:700}
+
+/* v0.1.403 — tablet match controls and side panels.
+   Keep recovery controls and all public information available. */
+@media (orientation:landscape) and (min-width:900px) and (min-height:650px){
+ .match-panel:has(.arena-rail:not(.is-finished)):has(>.room-controls:not([open]))>h2{display:none}
+ .match-panel:has(.arena-rail:not(.is-finished)):has(>.room-controls:not([open]))>.room-controls{grid-area:1/1/2/3}
+ .match-panel:has(.arena-rail:not(.is-finished)):has(>.room-controls:not([open]))>.room-controls>summary{min-height:40px;display:flex;align-items:center;gap:6px}
+ .match-panel:has(.arena-rail:not(.is-finished)):has(>.room-controls:not([open]))>.room-controls>summary::before{content:'▸';font-size:.85em}
+ .tabletop-arena .arena-rail .battle-turn{width:100%;text-wrap:balance;padding:3px 4px;line-height:1.25;overflow-wrap:anywhere}
+ .tabletop-arena .arena-rail .arena-guidance{text-wrap:balance}
+ .tabletop-arena button.public-card-entry{min-height:44px;gap:3px}
+ .tabletop-arena .public-card-side{white-space:normal;overflow-wrap:anywhere;line-height:1.2}
+ .tabletop-arena .public-card-name{line-height:1.2}
+ .tabletop-arena .battle-history .battle-log-details>summary{min-height:44px;display:flex;align-items:center}
+ .tabletop-arena .arena-zones .arena-grave-inspect{min-height:36px}
+ .tabletop-arena .arena-mana .mana{font-size:1rem;font-variant-numeric:tabular-nums}
+}
