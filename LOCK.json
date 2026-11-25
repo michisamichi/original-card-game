@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "held",
-  "owner": "manual393-hand-scroll",
-  "baseMain": "604b1bd4ac22e6a47393a53c0c2a4e5d44d8ebda"
+  "state": "free",
+  "owner": null,
+  "baseMain": null
 }
