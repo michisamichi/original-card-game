@@ -9,7 +9,7 @@ export function appendCardFace(parent,d,instance,art,{showDescription=true,lazyA
  parent.append(cost,span('name',d.name),span('card-kind',TYPES[d.type]));
  // CSS-only emblem keeps empty or failed artwork from looking broken, without network requests.
  const emblem=span('card-emblem','');emblem.setAttribute('aria-hidden','true');if(Object.hasOwn(CATALOG,d.id))emblem.setAttribute('data-standard-art',d.id);emblem.hidden=!!art;parent.append(emblem);
- if(art){const img=document.createElement('img');img.className='card-art';img.alt='';img.decoding='async';if(lazyArt)img.loading='lazy';img.onerror=()=>{img.hidden=true;emblem.hidden=false;};img.src=art;parent.append(img);}
+ if(art){const img=document.createElement('img');img.className='card-art';img.alt='';img.decoding='async';img.draggable=false;img.setAttribute('aria-hidden','true');if(lazyArt)img.loading='lazy';img.onerror=()=>{img.hidden=true;emblem.hidden=false;};img.src=art;parent.append(img);}
  if(showDescription)parent.append(span('desc',instance.silenced?'沈黙中':description(d)));
  if(d.type==='minion'){
   const attack=effectiveAttack(d,instance),health=instance.currentHealth??d.maxHealth;
