@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "held",
-  "owner": "manual401-target-clarity",
-  "baseMain": "ce05bf08276c9f0c2cf9bce2bb468d09b18fa549"
+  "state": "free",
+  "owner": null,
+  "baseMain": null
 }
