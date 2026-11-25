@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "manual402-hide-banner",
+  "baseMain": "ea08187ddd3d089a3d84ccf41776f65ea80bb8e7"
 }
