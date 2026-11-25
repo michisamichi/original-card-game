@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "repair-baseline-20261125-1638",
+  "baseMain": "240f5715420ac095e3f9c3a6bdc0a04b53a5d3b6"
 }
