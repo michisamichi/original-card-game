@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "held",
-  "owner": "manual397-clock",
-  "baseMain": "ae3322d3af8d968c8e2f67c926c0870104fcca13"
+  "state": "free",
+  "owner": null,
+  "baseMain": null
 }
