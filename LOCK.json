@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "held",
-  "owner": "manual396-battle-start",
-  "baseMain": "1381be53a797984f597ae23448c291f7e09459ab"
+  "state": "free",
+  "owner": null,
+  "baseMain": null
 }
