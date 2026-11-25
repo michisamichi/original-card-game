@@ -1245,3 +1245,14 @@ header .brand-title{font-family:Georgia,'Times New Roman',serif;color:#f1e4c5;le
 .tabletop-arena .public-card-entry[data-history-defeat=true] .public-card-side{color:#ffe2d9}
 .battle-log-pane .log-shieldBroken{color:#c7eaff}.battle-log-pane .log-silence{color:#d3e0e9}
 .battle-log-pane .log-shieldBroken::marker{color:#9bd7fa}.battle-log-pane .log-silence::marker{color:#b8c8d7}
+
+/* v0.1.386: public-history shortcuts and paint-only readability. */
+.tabletop-arena button.public-card-entry{appearance:none;width:100%;text-align:left;font:inherit;cursor:pointer;touch-action:manipulation}
+.tabletop-arena button.public-card-entry:focus-visible{outline:2px solid #fff2c5;outline-offset:1px}
+.tabletop-arena button.public-card-entry:active{box-shadow:inset 0 0 0 2px #fff1c599}
+.tabletop-arena .public-card-heading{letter-spacing:0;line-height:1.2}
+.tabletop-arena .public-card-side{font-weight:650}
+.match-panel .tabletop-arena .hand>.card .desc{color:#eef5ff;background-color:#162539;border-color:#93a9c65c}
+.match-panel .tabletop-arena .hand>.card .name{font-weight:800}
+.match-panel .tabletop-arena .hand>.card .card-art{box-shadow:inset 0 0 0 1px #fff3,0 1px 3px #0007}
+@media(orientation:portrait),(max-width:899px){.tabletop-arena button.public-card-entry{min-height:36px}}
