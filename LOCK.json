@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "held",
-  "owner": "manual394-room-menu",
-  "baseMain": "51f222069c6a5937257dd9c6eb6d84d5360f085c"
+  "state": "free",
+  "owner": null,
+  "baseMain": null
 }
