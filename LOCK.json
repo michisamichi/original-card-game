@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "manual-cleanup-20261125",
+  "baseMain": "fa82410a2e0e7d36ac8626d25123f1fb6e778101"
 }
