@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "held",
-  "owner": "card392-resume-20261125-0954",
-  "baseMain": "c8ddac5a036d4d33062d3b4c3d572c74da1763f1"
+  "state": "free",
+  "owner": null,
+  "baseMain": null
 }
