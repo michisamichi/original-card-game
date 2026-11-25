@@ -20,5 +20,17 @@ export function templateDraft(t,type){const d=normalizeTemplate(t);if(d.type!==t
 export function renameTemplate(raw,id,name){const list=normalizeTemplates(raw);if(!list.some(t=>t.id===id))throw Error('テンプレートがありません');return normalizeTemplates(list.map(t=>t.id===id?{...t,name}:t));}
 export function findTemplates(raw,{type='all',query=''}={}){
  const q=String(query).trim().normalize('NFKC').toLowerCase();
- return normalizeTemplates(raw).filter(t=>(type==='all'||t.type===type)&&(!q||`${t.name} ${abilityText(t.ability)}`.normalize('NFKC').toLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'ja')||a.id.localeCompare(b.id));
+ return normalizeTemplates(raw).filter(t=>(type==='all'||t.type===type)&&(!q||t.name.normalize('NFKC').toLowerCase().includes(q)||`${t.name} ${abilityText(t.ability)}`.normalize('NFKC').toLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name,'ja')||a.id.localeCompare(b.id));
+}
+
+// One validated snapshot per read-only screen. Search never mutates its entries;
+// callers discard this index after any store write or full screen rebuild.
+export function createTemplateSearchIndex(raw=[]){
+ const normalize=value=>String(value).trim().normalize('NFKC').toLowerCase();
+ const entries=normalizeTemplates(raw).sort((a,b)=>a.name.localeCompare(b.name,'ja')||a.id.localeCompare(b.id)).map(t=>({template:t,name:normalize(t.name),text:null}));
+ return ({type='all',query=''}={})=>{const q=normalize(query);return entries.filter(e=>{
+  if(type!=='all'&&e.template.type!==type)return false;
+  if(!q||e.name.includes(q))return true;
+  return (e.text??(e.text=normalize(`${e.template.name} ${abilityText(e.template.ability)}`))).includes(q);
+ }).map(e=>e.template);};
 }

@@ -1,6 +1,6 @@
 // Optional device-only synthesized cues. One short cue per observed revision.
 // No media downloads, no audio timers, no waiting for audio in game actions.
-const CUES=Object.freeze({finish:[523,659,784],secret:[392,554,440],turn:[440,660],damage:[180,105],heal:[440,587],death:[220,147],shield:[880,660],attack:[260,180],summon:[330,495],spell:[495,660],buff:[440,550],weaken:[330,220],secretSet:[330,392]});
+const CUES=Object.freeze({finish:[523,659,784],secret:[392,554,440],turn:[440,660],damage:[180,105],heal:[440,587],death:[220,147],shield:[880,660],attack:[260,180],summon:[330,495],spell:[495,660],buff:[440,550],weaken:[330,220],silence:[440,220],transform:[330,440,660],secretSet:[330,392],stat:[392,523],expire:[440,330],bounce:[587,392],reveal:[330,523],poison:[196,233]});
 export function createBattleAudio({context=()=>{const C=globalThis.AudioContext||globalThis.webkitAudioContext;return C?new C():null;},visible=()=>globalThis.document?.visibilityState!=='hidden'}={}){
  let ctx=null,voices=new Set();
  function unlock(enabled){if(!enabled)return;try{ctx??=context();if(ctx?.state==='suspended')Promise.resolve(ctx.resume()).catch(()=>{});}catch{}}
