@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "manual400-adaptive-minions",
+  "baseMain": "1f2244e851732b5f7bfe4ee2249922aedc3f55c5"
 }
