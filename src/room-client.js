@@ -8,7 +8,13 @@ function sameSnapshot(a,b){if(a===b)return true;if(!a||!b||typeof a!=='object'||
 const rejected=r=>exactFields(r,['ok','error'])&&r.ok===false&&typeof r.error==='string'&&r.error.trim().length>0&&r.error.length<=1000;
 function validReply(r,type){if(r?.ok!==true)return false;if(type!=='act')return exactFields(r,['ok','view']);return exactFields(r,['ok','view','acceptedRevision'])||exactFields(r,['ok','view','acceptedRevision','duplicate'])&&r.duplicate===true;}
 const randomId=n=>Array.from(globalThis.crypto.getRandomValues(new Uint8Array(n)),v=>v.toString(16).padStart(2,'0')).join('');
-export const createRoomCredentials=()=>({code:randomId(6),token:randomId(32)});
+// Four public digits map to a reserved 12-hex storage key; existing Firebase rules stay intact.
+const SHORT_ROOM_PREFIX='dec0de00';
+export const validShortRoomCode=v=>typeof v==='string'&&/^[0-9]{4}$/.test(v);
+export function encodeShortRoomCode(v){if(!validShortRoomCode(v))throw Error('数字4桁の部屋コードを入力してください');return SHORT_ROOM_PREFIX+v;}
+export const displayRoomCode=v=>typeof v==='string'&&v.startsWith(SHORT_ROOM_PREFIX)&&validShortRoomCode(v.slice(8))?v.slice(8):v;
+function randomShortCode(){const x=globalThis.crypto.getRandomValues(new Uint32Array(1))[0];return String(Math.floor(x/0x100000000*10000)).padStart(4,'0');}
+export const createRoomCredentials=({short=false}={})=>({code:short?encodeShortRoomCode(randomShortCode()):randomId(6),token:randomId(32)});
 export function createRoomClient({send,code,token}){
  if(typeof send!=='function'||typeof code!=='string'||!/^[a-f0-9]{12}$/.test(code)||typeof token!=='string'||!/^[a-f0-9]{64}$/.test(token))throw Error('通信設定不正');
  let current=null,pending=null,inFlight=false,closing=false,generation=0;

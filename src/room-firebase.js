@@ -38,9 +38,9 @@ export function transitionShared(record,q,uid,{now,seed,firstSeat}){
 const entropy=()=>{const x=globalThis.crypto.getRandomValues(new Uint32Array(2));return {seed:x[0]||1,firstSeat:x[1]%2};};
 // Adapter interface: read(code), transaction(code, reducer), watch(code,...), uid(), clock().
 export function createSharedTransport(backend,{random=entropy}={}){
- const send=async q=>{const uid=await backend.uid();const time={now:await backend.clock(),...random()};if(q.type==='sync')return transitionShared(await backend.read(q.code),q,uid,time).result;
+ const send=async(q,{freshCreate=false}={})=>{const uid=await backend.uid();const time={now:await backend.clock(),...random()};if(q.type==='sync')return transitionShared(await backend.read(q.code),q,uid,time).result;
  let outcome;
- const tx=await backend.transaction(q.code,record=>{outcome=transitionShared(record,q,uid,time);return Object.hasOwn(outcome,'next')?outcome.next:undefined;});
+ const tx=await backend.transaction(q.code,record=>{outcome=freshCreate&&q.type==='create'&&record?{result:fail('部屋コード使用済み')}:transitionShared(record,q,uid,time);return Object.hasOwn(outcome,'next')?outcome.next:undefined;});
  if(!outcome)throw Error('通信応答不正');
  if(Object.hasOwn(outcome,'next')&&!tx.committed)throw Error('操作確定を確認できません');
  return outcome.result;
