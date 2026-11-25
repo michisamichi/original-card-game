@@ -1,12 +1,12 @@
 # サホバース② — 開発・引き継ぎの入口
 
 ## 最新状態（2026-11-25）
-- ゲーム本体 v0.1.396。main の実コードを公開版の正とする。開発前に毎回 main の最新 SHA と内容を確認する。
+- ゲーム本体 v0.1.397。main の実コードを公開版の正とする。開発前に毎回 main の最新 SHA と内容を確認する。
 - リポジトリ: https://github.com/michisamichi/original-card-game
-- プレイ: https://michisamichi.github.io/original-card-game/?v=396 （今後は実際の版番号に更新）
+- プレイ: https://michisamichi.github.io/original-card-game/?v=397 （今後は実際の版番号に更新）
 - 旧ルート直下の重複JS30個は削除済み。実行入口は index.html → src/main.js。style.css と src/ がゲーム本体。
 - 完全な開発資料（ソース、全テスト、検証ログ、デザイン参考画像7枚）は ChatGPT の個人ライブラリ「サホバース②開発/最新開発一式.zip」に保存。GitHubの公開範囲には入れていない。この文書が旧ZIP内の運用指示に優先する。
-- 基準の実行コード: v0.1.396。同じ4桁コードで参加しても開始しないという報告への修正。Firebase購読の確定済み状態を席別に投影・検証して直接反映し、更新通知後の再読込が失敗する場合でも対戦開始・ターン同期できるよう改善。トランザクションは最初の値イベントを待機し、既存部屋の一時的なnullを確定拒否とせず1回再試行、古いデータによる上書き禁止。Node 22.16.0、全73ファイル・2,743/2,743件（5分割）合格。関連61件、Chromiumの模擬Firebase通信4サイズで手動更新なしの2端末対戦開始・ターン交代、追加読込の意図的失敗に耐えることを確認。実機・Safari・実Firebase SDK/Rules・Pages配備は未確認で、ユーザーの実環境の根本原因は未確定。Firebase設定・Rules・対戦ルール・保存形式・旧ゲーム不変。
+- 基準の実行コード: v0.1.397。実端末で報告された Invalid token in path に対応。FirebaseのSDKローカル特殊パス .info/serverTimeOffset のget()を廃止し、接続確認後に公式のonValue取得方式で補正値を読み、取得・失敗・タイムアウト時に購読解除。失敗段階を日本語表示し不正値での時刻代替は行わない。Firebase公式 https://firebase.google.com/docs/database/web/offline-capabilities#clock-skew 。Node 22.16.0、全73ファイル・2,745/2,745件合格（159/587/657/405/937の5分割）。実際のFirebaseアダプターを通すChromium模擬SDK試験で旧版の同エラーを再現し、修正版4サイズで4桁部屋作成・参加・自動開始・ターン交代合格。実機・Safari・実Firebase SDK/Rulesは未確認のため実環境での解消は未確定。Firebase設定・Rules・対戦ルール・保存形式・旧ゲーム不変。
 
 - 開発はユーザーの「進めて」指示で行う。全Nodeテストは必要に応じて分割し、同一の最終候補に対する全件・終了コードを確認する。
 - 手動開発候補_対戦画面.zip の手札スクロール差分はv0.1.393で再検証・改善して反映済み。旧候補は再適用しない。
