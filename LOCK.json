@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "manual397-effect-audit1",
+  "baseMain": "f84b044c2ffc68ca46d6aa878f5eeda768e709a0"
 }
