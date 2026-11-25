@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "automation-preparation-20261125",
+  "baseMain": "4cee2ba86d05185d648c31280fa2ffe0a13f1904"
 }
