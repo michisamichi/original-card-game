@@ -1354,3 +1354,11 @@ header .brand-title{font-family:Georgia,'Times New Roman',serif;color:#f1e4c5;le
  .match-panel .tabletop-arena .board:not(:has(>.card:nth-child(5)))>.card:not(:has(.board-status)) :is(.card-art,.card-emblem){height:70px;max-height:70px}
  .match-panel .tabletop-arena .board:not(:has(>.card:nth-child(5)))>.card:not(:has(.board-status)){min-height:126px}
 }
+
+/* v0.1.401 — target selection: distinguish the source, legal targets and
+   other cards without moving any touch target or obscuring numeric stats. */
+.match-panel .tabletop-arena[data-target-mode] :is(.board,.hand)>.card[data-action-state=unavailable] :is(.card-art,.card-emblem){filter:saturate(.45) brightness(.72)}
+.match-panel .tabletop-arena[data-target-mode=attack] :is(.board .card,.hero .hp)[data-action-state=target]:not(:focus-visible){outline:3px solid #ffbc75;outline-offset:1px}
+.match-panel .tabletop-arena[data-target-mode=play] :is(.board .card,.hero .hp)[data-action-state=target]:not(:focus-visible){outline:3px dashed #bceeff;outline-offset:1px}
+.match-panel .tabletop-arena[data-target-mode] .card[data-target-source]:not(:focus-visible){outline-style:double;outline-width:4px;outline-offset:1px}
+.match-panel .tabletop-arena[data-target-mode] .arena-guidance[data-mode=target]{font-weight:700}
