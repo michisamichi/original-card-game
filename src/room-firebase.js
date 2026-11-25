@@ -46,6 +46,8 @@ export function createSharedTransport(backend,{random=entropy}={}){
  if(Object.hasOwn(outcome,'next')&&!tx.committed)throw Error('操作確定を確認できません');
  return outcome.result;
  };
- const watch=async(credentials,{signal,onSignal})=>{const uid=await backend.uid();if(signal.aborted)return;return backend.watch(credentials.code,{signal,onValue:record=>{if(!record){onSignal({closed:true});return;}const r=unpack(record,credentials.code);if(record.host!==uid&&record.guest!==uid)throw Error('参加資格がありません');onSignal({revision:r.roomRevision});}});};
+ // The observed snapshot already contains the committed state. Project it for this seat
+ // instead of requiring the UI to fetch the same revision a second time.
+ const watch=async(credentials,{signal,onSignal})=>{const uid=await backend.uid();if(signal.aborted)return;const serverNow=await backend.clock(),started=Date.now();if(signal.aborted)return;return backend.watch(credentials.code,{signal,onValue:record=>{if(signal.aborted)return;if(!record){onSignal({closed:true});return;}const result=transitionShared(record,{...credentials,protocol:ROOM_PROTOCOL,catalogVersion:CATALOG_VERSION,type:'sync'},uid,{now:Math.max(0,serverNow+Math.max(0,Date.now()-started)),seed:1,firstSeat:0}).result;if(!result.ok)throw Error(result.error);onSignal({revision:result.view.roomRevision},result);}});};
  return {send,watch};
 }

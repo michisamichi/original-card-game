@@ -22,6 +22,9 @@ export function createRoomClient({send,code,token}){
   if(closing)throw Error('部屋を削除中です');const epoch=generation;
   const result=await send({protocol:PROTOCOL,catalogVersion:CATALOG_VERSION,type,code,token,...copy(extra)});
   if(epoch!==generation)throw Error('削除前の通信応答を無視しました');
+  return acceptResult(result,type,extra);
+ }
+ function acceptResult(result,type,extra={}){
   if(rejected(result))throw Object.assign(Error(result.error),{definitive:true});
   if(result?.ok!==true)throw Error('通信応答不正');
   const v=result?.view;
@@ -37,6 +40,7 @@ export function createRoomClient({send,code,token}){
  }
  async function transmit(){if(!pending||inFlight)throw Error('送信中または再送対象なし');inFlight=true;try{const v=await exchange('act',pending);pending=null;return v;}catch(e){if(e.definitive)pending=null;throw e;}finally{inFlight=false;}}
  return Object.freeze({
+  acceptSync:result=>acceptResult(result,'sync'),
   create:(deck,customCards=[])=>exchange('create',{deck,customCards}),join:(deck,customCards=[])=>exchange('join',{deck,customCards}),sync:()=>exchange('sync'),
   close:async()=>{if(closing||pending||inFlight||current?.phase!=='waiting')throw Error('待機中のみ削除できます');closing=true;try{const r=await send({protocol:PROTOCOL,catalogVersion:CATALOG_VERSION,type:'close',code,token});if(!exactFields(r,['ok','closed'])||r.ok!==true||r.closed!==true)throw Error(rejected(r)?r.error:'削除応答不正');generation++;current=null;}finally{closing=false;}},
   revision:()=>current?.roomRevision??-1,snapshot:()=>current?copy(current):null,hasPending:()=>pending!==null,

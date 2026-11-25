@@ -6,16 +6,28 @@ const VERSION='11.10.0'; // 初代と同じ固定SDK版
 const NAME='original-card-game-shared-v1';
 
 const bounded=(promise,ms=15000)=>new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('通信応答待ちの上限に達しました。再接続してください')),ms);Promise.resolve(promise).then(x=>{clearTimeout(timer);resolve(x);},e=>{clearTimeout(timer);reject(e);});});
+// Wait for the initial value event before running a transaction. A get() alone
+// need not have populated the transaction cache. Never treat an unexpected null
+// as a definitive missing room or use an older snapshot to overwrite it.
+export async function runObservedTransaction(s,r,fn){let stop=()=>{},observed=null;
+ try{
+  await bounded(new Promise((resolve,reject)=>{stop=s.onValue(r,snap=>{observed=snap.val();resolve();},reject);}));
+  for(let attempt=0;attempt<2;attempt++){
+   let uncached=false;
+   const tx=await bounded(s.runTransaction(r,current=>{uncached=current===null&&observed!==null;return uncached?undefined:fn(current);},{applyLocally:false}));
+   if(!uncached||tx.committed)return tx;
+   if(attempt===0)await bounded(s.get(r));
+  }
+  throw Error('部屋の最新状態を取得できません。状態を更新して再試行してください');
+ }finally{stop();}
+}
 export function createFirebaseConnection(config=CLOUD_CONFIG){let loading=null;
  async function init(){const status=firebaseConfigStatus(config);if(status!=='configured')throw Error(status==='unconfigured'?'新ゲーム専用Firebaseの設定が未入力です':'新ゲーム専用Firebaseの設定形式が不正です');
  if(!loading)loading=(async()=>{const [appSdk,authSdk,dbSdk]=await Promise.all(['app','auth','database'].map(n=>import(`https://www.gstatic.com/firebasejs/${VERSION}/firebase-${n}.js`)));const app=appSdk.getApps().find(a=>a.name===NAME)||appSdk.initializeApp(config,NAME);const auth=authSdk.getAuth(app);await auth.authStateReady();if(!auth.currentUser)await authSdk.signInAnonymously(auth);if(!auth.currentUser?.isAnonymous)throw Error('匿名認証が必要です');const db=dbSdk.getDatabase(app);return {auth,db,s:dbSdk};})().catch(e=>{loading=null;throw e;});return bounded(loading);}
  // A one-shot connection check, with a hard timeout and listener cleanup.
  async function requireConnection(s,db){let stop=()=>{};try{await bounded(new Promise((resolve,reject)=>{stop=s.onValue(s.ref(db,'.info/connected'),snap=>{if(snap.val()===true)resolve();},reject);}),8000);}finally{stop();}}
  const roomRef=(s,db,code)=>{if(!/^[a-f0-9]{12}$/.test(code))throw Error('部屋コード不正');return s.ref(db,`${CLOUD_PATH}/${code}`);};
- const backend={uid:async()=>{const {auth}=await init();if(!auth.currentUser?.isAnonymous)throw Error('匿名認証が必要です');return auth.currentUser.uid;},clock:async()=>{const {s,db}=await init();const snap=await bounded(s.get(s.ref(db,'.info/serverTimeOffset')));return Math.round(Date.now()+(Number(snap.val())||0));},read:async code=>{const {s,db}=await init();await requireConnection(s,db);const snap=await bounded(s.get(roomRef(s,db,code)));return snap.val();},transaction:async(code,fn)=>{const {s,db}=await init();await requireConnection(s,db);const r=roomRef(s,db,code);let stop=()=>{};try{
- // Retain a listener while reading and transacting so an uncached initial null does not abort a valid join.
- stop=s.onValue(r,()=>{},()=>{});await bounded(s.get(r));return await bounded(s.runTransaction(r,fn,{applyLocally:false}));
- }finally{stop();}},watch:async(code,{signal,onValue})=>{const {s,db}=await init();if(signal.aborted)return;return new Promise((resolve,reject)=>{let unsubRoom=()=>{},unsubConn=()=>{},done=false,connected=false;const finish=e=>{if(done)return;done=true;signal.removeEventListener('abort',abort);unsubRoom();unsubConn();e?reject(e):resolve();};const abort=()=>finish();signal.addEventListener('abort',abort,{once:true});unsubConn=s.onValue(s.ref(db,'.info/connected'),snap=>{if(done)return;if(snap.val()===true){if(connected)return;connected=true;unsubRoom=s.onValue(roomRef(s,db,code),r=>{if(!done)try{onValue(r.val());}catch(e){finish(e);}},finish);if(done)unsubRoom();}else if(connected)finish(Error('Firebase通信切断'));},finish);if(done)unsubConn();});}};
+ const backend={uid:async()=>{const {auth}=await init();if(!auth.currentUser?.isAnonymous)throw Error('匿名認証が必要です');return auth.currentUser.uid;},clock:async()=>{const {s,db}=await init();const snap=await bounded(s.get(s.ref(db,'.info/serverTimeOffset')));return Math.round(Date.now()+(Number(snap.val())||0));},read:async code=>{const {s,db}=await init();await requireConnection(s,db);const snap=await bounded(s.get(roomRef(s,db,code)));return snap.val();},transaction:async(code,fn)=>{const {s,db}=await init();await requireConnection(s,db);const r=roomRef(s,db,code);return runObservedTransaction(s,r,fn);},watch:async(code,{signal,onValue})=>{const {s,db}=await init();if(signal.aborted)return;return new Promise((resolve,reject)=>{let unsubRoom=()=>{},unsubConn=()=>{},done=false,connected=false;const finish=e=>{if(done)return;done=true;signal.removeEventListener('abort',abort);unsubRoom();unsubConn();e?reject(e):resolve();};const abort=()=>finish();signal.addEventListener('abort',abort,{once:true});unsubConn=s.onValue(s.ref(db,'.info/connected'),snap=>{if(done)return;if(snap.val()===true){if(connected)return;connected=true;unsubRoom=s.onValue(roomRef(s,db,code),r=>{if(!done)try{onValue(r.val());}catch(e){finish(e);}},finish);if(done)unsubRoom();}else if(connected)finish(Error('Firebase通信切断'));},finish);if(done)unsubConn();});}};
  const artRef=(s,db,code)=>{if(!/^[a-f0-9]{12}$/.test(code))throw Error('部屋コード不正');return s.ref(db,`${CLOUD_ART_PATH}/${code}`);};
  const art=createRoomArtTransport({put:async(code,seat,payload)=>{const {s,db}=await init();await requireConnection(s,db);const r=s.child(artRef(s,db,code),String(seat));
   // Write-once. Retry of the identical snapshot is safe; never overwrite an existing image set.
