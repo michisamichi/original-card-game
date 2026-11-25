@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "free",
-  "owner": null,
-  "baseMain": null
+  "state": "held",
+  "owner": "initial-lock-test-A",
+  "baseMain": "2ef27505de72ef724a9f2c115e26af51b94206a8"
 }
