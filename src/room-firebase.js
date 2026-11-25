@@ -26,6 +26,7 @@ export function transitionShared(record,q,uid,{now,seed,firstSeat}){
  let seat=record?.host===uid?0:record?.guest===uid?1:-1;
  if(q.type==='create'){if(record&&seat!==0)return {result:fail('部屋コード使用済み')};seat=0;}
  else if(!record)return {result:fail('部屋がありません')};
+ else if(q.type==='join'&&seat===0)return {result:fail('作成者と同じ認証情報です')};
  else if(q.type==='join'&&seat<0){if(record.guest)return {result:fail('満室です')};seat=1;}
  else if(seat<0)return {result:fail('参加資格がありません')};
  let saved=room?[room]:[],changed=false;
