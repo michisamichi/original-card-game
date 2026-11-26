@@ -1,5 +1,6 @@
 // Declarative user cards, using the same validator and executor as built-ins.
 import {CATALOG,validateCard} from './cards.js';
+import {CLASS_CARDS} from './class-cards.js';
 export const MAX_CUSTOM_CARDS=80;
 const idValid=id=>typeof id==='string'&&/^u_[a-f0-9]{24}$/.test(id);
 const nameKey=name=>name.normalize('NFKC').trim().toLowerCase();
@@ -14,11 +15,13 @@ export function normalizeCustomCard(c){
 }
 export function normalizeCustomCards(raw){
  if(!Array.isArray(raw)||raw.length>MAX_CUSTOM_CARDS)throw Error('自作カード保存形式が不正');
- const names=new Set(Object.values(CATALOG).map(c=>nameKey(c.name))),ids=new Set();
+ // A newly introduced built-in name must not invalidate an existing saved custom card.
+ const classIds=new Set(CLASS_CARDS.map(c=>c.id));
+ const names=new Set(Object.values(CATALOG).filter(c=>!classIds.has(c.id)).map(c=>nameKey(c.name))),ids=new Set();
  return Array.from(raw,c=>{const d=normalizeCustomCard(c),name=nameKey(d.name);if(names.has(name)||ids.has(d.id)||Object.hasOwn(CATALOG,d.id))throw Error('カード名またはIDが重複しています');names.add(name);ids.add(d.id);return d;});
 }
 export function buildCatalog(raw=[]){return {...CATALOG,...Object.fromEntries(normalizeCustomCards(raw).map(c=>[c.id,c]))};}
-export function upsertCustomCard(cards,card){const current=normalizeCustomCards(cards),d=normalizeCustomCard(card),i=current.findIndex(c=>c.id===d.id);if(i<0)current.push(d);else current[i]=d;return normalizeCustomCards(current);}
+export function upsertCustomCard(cards,card){const current=normalizeCustomCards(cards),d=normalizeCustomCard(card),i=current.findIndex(c=>c.id===d.id);if(Object.values(CATALOG).some(c=>nameKey(c.name)===nameKey(d.name)))throw Error('カード名またはIDが重複しています');if(i<0)current.push(d);else current[i]=d;return normalizeCustomCards(current);}
 export function deleteCustomCard(cards,id,decks){const current=normalizeCustomCards(cards);if(!current.some(c=>c.id===id))throw Error('自作カードがありません');if(decks.some(d=>d.cards.includes(id)))throw Error('保存済みデッキから先に取り除いてください');return current.filter(c=>c.id!==id);}
 export function matchCustomCards(cards,decks){const used=new Set(decks.flat());return Object.fromEntries(normalizeCustomCards(cards).filter(c=>used.has(c.id)).map(c=>[c.id,c]));}
 export function validateMatchCatalog(map){if(!map||typeof map!=='object'||Array.isArray(map))throw Error('対戦カード定義不正');const list=normalizeCustomCards(Object.values(map));if(list.some(c=>!Object.hasOwn(map,c.id)||map[c.id].id!==c.id||map[c.id].name!==c.name)||Object.entries(map).some(([id,c])=>id!==c.id))throw Error('対戦カードID不整合');return list.length?{...CATALOG,...map}:CATALOG;}

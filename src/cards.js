@@ -1,3 +1,4 @@
+import {CLASS_CARDS} from './class-cards.js';
 import {validateAbility,abilityText} from './effects.js';
 // New values; no numerical conversion from the legacy card database.
 export const KEYWORD_LABELS=Object.freeze({taunt:'挑発',charge:'速攻',rush:'急襲',divineShield:'聖なる盾',windfury:'疾風',lifesteal:'生命奪取',poisonous:'猛毒',stealth:'潜伏',spellDamage:'呪文ダメージ +1'});
@@ -17,7 +18,7 @@ const cards=[...baseCards,
  secret('ward','反響の結界',2,'heroAttack','damage','enemyMinions',1),
  secret('thorn','茨の罠',2,'attack','damage','eventMinion',2),
  secret('rune','封火の刻印',2,'minionPlayed','damage','eventMinion',2),
- secret('echo','知識の残響',1,'spellPlayed','draw','self',1)];
+ secret('echo','知識の残響',1,'spellPlayed','draw','self',1),...CLASS_CARDS];
 export function validateCard(c){
  const integer=(v,min,max)=>Number.isInteger(v)&&v>=min&&v<=max;
  if(!c||typeof c.id!=='string'||!/^[a-z][a-z0-9_]{0,31}$/.test(c.id)||typeof c.name!=='string'||!c.name.trim()||c.name.length>40||!integer(c.manaCost,0,RULES.manaCap))throw Error('カード定義不正');
@@ -32,7 +33,7 @@ export function validateCard(c){
 }
 for(const c of cards)validateCard(c);
 if(new Set(cards.map(c=>c.id)).size!==cards.length)throw Error('カードID重複');
-export const CATALOG_VERSION='prototype-23';
+export const CATALOG_VERSION='prototype-24';
 export const CATALOG=Object.freeze(Object.fromEntries(cards.map(c=>[c.id,Object.freeze({...c,...(c.keywords?{keywords:Object.freeze(c.keywords)}:{}),...(c.ability?{ability:Object.freeze(c.ability)}:{})})])));
 export const DEMO_DECK=Object.freeze(baseCards.flatMap(c=>[c.id,c.id]));
 export const STANDARD_DECK=Object.freeze(cards.slice(0,16).filter(c=>c.id!=='titan').flatMap(c=>[c.id,c.id]));
