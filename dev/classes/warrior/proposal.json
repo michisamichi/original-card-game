@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "warrior",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 3,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 4,
   "status": "ready",
   "cards": [
     {
@@ -129,6 +129,41 @@
         "target": "self",
         "amount": 1
       }
+    },
+    {
+      "id": "warrior_bulwark",
+      "name": "鉄城の番兵",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 1,
+      "maxHealth": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "heal",
+        "target": "sourceMinion",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warrior_siege",
+      "name": "戦線崩し",
+      "type": "spell",
+      "manaCost": 4,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinions",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "weakenAttack",
+          "target": "enemyMinions",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -146,10 +181,10 @@
     "golem",
     "warrior_ironmarshal",
     "warrior_ironmarshal",
-    "wisp",
-    "wisp",
-    "archer",
-    "archer",
+    "warrior_bulwark",
+    "warrior_bulwark",
+    "warrior_siege",
+    "warrior_siege",
     "warrior_bannerguard",
     "warrior_bannerguard",
     "warrior_hammerguard",
@@ -166,14 +201,14 @@
   "requests": [],
   "verification": {
     "status": "passed",
-    "baseline": "main HEAD 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f unchanged; fixed ZIP re-materialized and SHA256 identical to previous verified checkout; inner ZIP a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad.",
-    "node": "Node 22.16.0 53/53 (36 simulated games included); all 8 definitions and normalization, 30-card deck, shieldwall enemy target rejection, friendly health and taunt, veteran death draw.",
-    "browser": "Chromium 1194x834: 8/8 through actual creator controls, saved definitions match; no page errors or external requests. Fixed amount controls absent as intended.",
+    "baseline": "main v0.1.406 SHA 681ec179c708a222e7dbfd660bb7636f08195ac6、固定ZIP v22 内ゲーム SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。先行公開4定義一致。",
+    "node": "Node 22.16.0: 57/57件合格。10定義・別ID/別名normalizeCustomCard一致、30枚validateDeck、36模擬対戦、鉄城の番兵の自己回復（自分の終了時のみ、上限あり）、戦線崩しの敵全体ダメージ・生存者弱体化・空盤面安全性を含む。",
+    "browser": "Chromium 1194×834 現行カード作成UI実操作10/10定義再現保存一致、ページエラー・外部通信なし。",
     "notRun": [
-      "正式カタログ組込み後の全回帰・通信互換性試験",
+      "正式カタログ統合後の全回帰・通信互換性検証",
       "Safari・実機・実Firebase・Pages",
       "対人バランス"
     ]
   },
-  "notes": "第3段階：鋼壁の戦列と戦線の老将を各2枚、ward/titanを置換。専用8種類16枚、共通14枚。数値・名称暫定。既存汎用効果のみ。readyは統合候補。"
+  "notes": "第4段階：鉄城の番兵・戦線崩し各2枚を追加しwisp/archerを置換。専用10種類20枚、共通10枚。既存効果のみ・数値と名称は暫定。readyは統合候補。"
 }
