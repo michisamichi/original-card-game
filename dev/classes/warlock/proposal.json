@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "warlock",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 4,
   "status": "ready",
   "cards": [
     {
@@ -129,19 +129,106 @@
           "amount": 3
         }
       }
+    },
+    {
+      "id": "warlock_cinder_familiar",
+      "name": "燼火の使い魔",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "generateFixed",
+        "target": "tokenSpark",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_doom_messenger",
+      "name": "終焉の告使",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "damage",
+        "target": "enemyHero",
+        "amount": 2
+      }
+    },
+    {
+      "id": "warlock_void_acolyte",
+      "name": "虚空の従者",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "damage",
+        "target": "enemyHero",
+        "amount": 1,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warlock_grave_miasma",
+      "name": "冥瘴の波",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinions",
+        "amount": 2,
+        "followUp": {
+          "condition": "killed",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warlock_ember_bargain",
+      "name": "残火の取引",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "heal",
+        "target": "self",
+        "amount": 3,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "generateFixed",
+          "target": "tokenSpark",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
+    "warlock_cinder_familiar",
+    "warlock_cinder_familiar",
     "guard",
     "guard",
-    "wolf",
-    "wolf",
+    "warlock_doom_messenger",
+    "warlock_doom_messenger",
     "warlock_hollow_vessel",
     "warlock_hollow_vessel",
-    "knight",
-    "knight",
+    "warlock_void_acolyte",
+    "warlock_void_acolyte",
     "warlock_soul_pact",
     "warlock_soul_pact",
     "warlock_abyss_imp",
@@ -152,14 +239,14 @@
     "warlock_blood_wraith",
     "warlock_dusk_ritual",
     "warlock_dusk_ritual",
-    "bolt",
-    "bolt",
+    "warlock_grave_miasma",
+    "warlock_grave_miasma",
     "warlock_grave_archivist",
     "warlock_grave_archivist",
     "warlock_ruin_brand",
     "warlock_ruin_brand",
-    "healer",
-    "healer",
+    "warlock_ember_bargain",
+    "warlock_ember_bargain",
     "ember",
     "ember"
   ],
@@ -193,11 +280,11 @@
   ],
   "verification": {
     "status": "passed",
-    "baseline": "main 4a6409e3、v0.1.405、ライブラリZIP version_id 21・19,733,950 bytes（前回取得済みの同一版を再展開）。内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、src tree 9bb1874d76febe66e08bfca53fdf4a9d28f54136一致。ルート実行/保護ファイルのblob照合一致。公開ロックfree。保存直前main/branch HEAD確認。",
-    "node": "Node 22.16.0、関連6ファイル616/616合格。専用79件（累計8定義のvalidateCard・別ID別名normalizeCustomCard・デッキ30枚、前回の境界条件、今回13追加条件、9クラス×両席×3seedの54戦決定性・状態検証・終局）。手札破棄0枚/1枚・破棄時死亡効果なし、死亡時墓地回収の対象有無と手札満杯、5ダメージの撃破/盾/対象不在/手札なし、HP15/16/1の分岐と空山札敗北を確認。初回テスト補助関数がtarget:undefinedを含む不正操作を作成したため6件失敗、補助関数のみ修正し再実行全合格。ゲームソース修正なし。",
-    "localBuiltIn": "試験用ローカル複製に累計8定義とウォーロック30枚レシピのみ反映しstarter-decks.test.js 78/78合格（全9デッキ45模擬対戦を含む）。正式カタログ版変更なし。",
-    "browser": "Chromium実DOM 1194×834、累計8種類を既存カード作成UIから別名/別IDで再現して保存し全定義一致。外部リクエストとページエラーなし。",
-    "notVerified": "全Node回帰試験、他クラス同時統合後の衝突・カタログ版更新・混在版拒否、実機/Safari/実Firebase/Pages配備、対人バランス、自傷追加要望は未検証。統合役で再検証必須。"
+    "baseline": "開始時 v0.1.405 main 4a6409e3、固定ZIP v21の内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、src tree 9bb1874d76febe66e08bfca53fdf4a9d28f54136および8ルートblob一致。作業中統合役がv0.1.406へ更新したため再取得。固定ZIP v22（19,830,795 bytes）、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、src tree 87008113fadf0445f803cf6c991cf143506c8516および8ルート実行/保護blob一致。main 681ec179、class-cards.jsに公開済み4定義の同一性を確認。ロックは統合役held、担当提案のみ更新。",
+    "node": "Node 22.16.0。第3段階 v405 76/76（54戦含む）、第4段階 v405 632/632（旧8定義の再検証と新13定義、各54戦、関連試験含む）。v406で同じ最終候補の関連7ファイル632/632を再実行し全合格。各定義validateCard、別ID別名normalizeCustomCard、既存ID/名称衝突と公開4定義同一性、30枚validateDeck、生成時満手札・沈黙、死亡時致死ダメージ、手札2/3枚境界（使用後）と致死時追加効果停止、全体攻撃の盾/生存/空盤面/複数死亡・死亡誘発、回復上限・手札生成を確認。v406の9クラス全対戦相手×両席×3 seedで最終デッキ54戦と第2段階デッキ54戦を再検証、決定性・assertState・終局合格。",
+    "browser": "v405とv406それぞれChromium実DOM 1194×834、累計13種類を既存カード作成UIで別ID別名として再現・保存し全定義一致。ページエラー・外部リクエストなし。",
+    "localBuiltIn": "v406試験用複製で公開済み4定義を保持、src/class-cards.jsへ残り9定義、src/starter-decks.jsのwarlockのみ変更。starter-decks.test.js 113/113合格（9クラス45模擬対戦、全採用カード再現、レシピ検証）。カタログ版は試験用のまま。",
+    "notVerified": "最終候補の全Node回帰、他クラスの未統合提案と合わせた再検証・通信カタログ版更新・混在版拒否、実機/Safari/実Firebase/Pages配備、対人バランス、自傷効果追加要望は未検証。統合役が公開前に再検証すること。"
   },
-  "notes": "第2段階：前回4定義を維持し4種類追加。wisp/sage/flame/draw各2枚を新規4種に置換、累計専用8種類16枚と既存7種類14枚。手札破棄は支払い条件ではなく効果で、空手札なら不発でも登場・ダメージ処理は成立（仕様・バランス留意点）。名前/数値暫定。自傷は汎用追加要望のみ。"
+  "notes": "第3・4段階をまとめて保存。第3段階でscout/wolf/knight各2枚を燼火の使い魔・終焉の告使・虚空の従者各2枚へ置換、第4段階でbolt/healer各2枚を冥瘴の波・残火の取引各2枚へ置換。専用13種類26枚、共通の盾の衛兵・爆炎の小鬼各2枚（4枚）を維持。序盤の手札補充と死亡時ダメージ・除去を優先した暫定案。追加条件lowHandはカード使用/第一効果後に2枚以下、冥瘴の波は複数撃破してもドロー1枚。空盤面への全体スペル使用は現行仕様で可能（対象なしで効果不発）。前回の手札破棄・自傷追加要望を維持。名称・マナ・数値は暫定、採用制限・ヒーローパワー変更なし。"
 }
