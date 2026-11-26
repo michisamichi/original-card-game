@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "mage",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 3,
   "status": "ready",
   "cards": [
     {
@@ -84,11 +84,98 @@
         "target": "enemyMinionChoice",
         "amount": 1
       }
+    },
+    {
+      "id": "mage_cinder_pin",
+      "name": "燐光の針",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 2
+      }
+    },
+    {
+      "id": "mage_codex_keeper",
+      "name": "星書の番人",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1
+      }
+    },
+    {
+      "id": "mage_mirror_gate",
+      "name": "鏡界の門",
+      "type": "secret",
+      "manaCost": 3,
+      "ability": {
+        "when": "heroAttack",
+        "operation": "returnHand",
+        "target": "eventMinion",
+        "amount": 1
+      }
+    },
+    {
+      "id": "mage_ember_familiar",
+      "name": "残火の使い魔",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 1,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "generateFixed",
+        "target": "tokenSpark",
+        "amount": 1
+      }
+    },
+    {
+      "id": "mage_storm_scholar",
+      "name": "雷紋の学匠",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 3
+      }
+    },
+    {
+      "id": "mage_hidden_library",
+      "name": "秘蔵書庫の解錠",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "draw",
+        "target": "self",
+        "amount": 2,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "generateFixed",
+          "target": "tokenSpark",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
+    "mage_ember_familiar",
+    "mage_ember_familiar",
     "guard",
     "guard",
     "mage_astral_apprentice",
@@ -99,40 +186,41 @@
     "golem",
     "mage_frost_tempest",
     "mage_frost_tempest",
-    "wisp",
-    "wisp",
+    "dragon",
+    "dragon",
     "mage_archive_sprite",
     "mage_archive_sprite",
-    "spark",
-    "spark",
+    "mage_cinder_pin",
+    "mage_cinder_pin",
     "mage_siphon_ray",
     "mage_siphon_ray",
-    "draw",
-    "draw",
-    "sage",
-    "sage",
-    "flame",
-    "flame",
+    "mage_hidden_library",
+    "mage_hidden_library",
+    "mage_codex_keeper",
+    "mage_codex_keeper",
+    "mage_storm_scholar",
+    "mage_storm_scholar",
     "mage_lantern_hex",
     "mage_lantern_hex",
-    "echo",
-    "echo"
+    "mage_mirror_gate",
+    "mage_mirror_gate"
   ],
   "requests": [],
   "verification": {
     "status": "passed",
-    "base": "v0.1.405 / main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-    "baseline": "固定ZIP version_id=21を再取得・展開。内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad と記録一致。同じmain SHAから取得済みのGit blob SHAとローカルsrc全37 JS、index.html、style.css、package.json、tools2件、Firebase設定/Rules（計44件）を実際に計算して全一致。main HEADと担当HEADを保存前再確認。",
-    "node": "Node 22.16.0。新規65/65件（定義・名称/ID・normalizeCustomCard・validateDeck 1、効果・対象境界10、9クラス×両席×3 seed=54模擬対戦）。関連既存5ファイル（starter-decks、spell-damage-destroy、custom-cards、creation、follow-conditions）込み6ファイル476/476件合格。模擬対戦は同能力の自作ID、各操作assertState、500操作以内の勝敗確定。",
-    "effects": "前回3種を再検証。書記精霊は登場時に既存poolSpellから1枚生成（山札減少なし）。光線は敵ミニオンに2ダメージ、撃破時のみ1枚ドロー、非撃破はドローなし、呪文ダメージ+1で撃破条件達成。変幻は敵ミニオン1体を既存wisp（1/2）へ変身、味方・ヒーロー不可、墓地追加なし。光線・変幻は対象不在で使用不可。効果操作の決定性を比較。",
-    "browser": "実Chromium 1194×834、オフラインモジュールマップ・インメモリ保存で全6種を別名・別IDでカード作成UIから作成し保存。ID/名称を戻して元の定義に完全一致。追加条件・固定数値の変身も含む。ページエラー・外部通信なし。",
+    "base": "v0.1.406 / main 681ec179c708a222e7dbfd660bb7636f08195ac6",
+    "baseline": "開始時v0.1.405と固定ZIP version_id=21の同一性確認、途中でv0.1.406へ統合されたため固定ZIP version_id=22を新規取得・展開。ゲームZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、HEAD記録一致。新規・変更7ファイルのGit blob SHA、旧照合基準から不変38ファイルのバイト一致（計45件）を確認。既公開メイジ3定義完全一致。既存カタログ・他8クラス提案（取得時各revision 2）とID/名称重複なし。保存直前のmain・担当HEAD・blob確認。",
+    "node": "Node 22.16.0。第3段階v0.1.405で70/70件、第4段階75/75件、v0.1.405で全2900/2900件（暁の竜を戻す前）。最終案をv0.1.406に再適用し76既存ファイル+新規1ファイル、全2946/2946件、終了コード0（新規75件: 定義・正規化・デッキ検証1、効果境界20、9クラス×両席×3 seed=54模擬戦）。新規試験は別ID別名の自作カードとして実エンジン利用・状態検証。",
+    "effects": "燐光の針は敵ミニオン選択のみ・呪文強化で3ダメージ、星書の番人は登場時でなく死亡時に1ドロー。鏡界の門は自分への直接攻撃前に敵攻撃ミニオンを手札へ戻し、攻撃中止・秘策消費。敵手札10枚時は秘策温存・攻撃続行、ミニオンへの攻撃では発動しない。残火の使い魔は死亡時に閃光弾1枚生成（山札不変）、雷紋の学匠は敵ミニオンに3ダメージ（呪文強化非適用・敵場空でも召喚可）、秘蔵書庫の解錠は2ドロー後手札2枚以下で閃光弾1枚生成（条件不成立なら生成なし）。既存6種も再検証。",
+    "browser": "実Chromium 1194×834、オフラインモジュールマップ・インメモリ保存で第3段階9種、第4段階12種、最終v0.1.406で12種すべてを別名別IDで現行カード作成UIから作成・保存。ID/名称を戻し定義一致。ページエラー・外部通信なし。",
+    "integrationSandbox": "v0.1.406の別ローカルコピーで公開済3種を保持し未公開9種をclass-cards.jsへ追加、メイジレシピのみ置換。正式IDで全67種のカタログが成立、30枚・生成プール不変。現在の9クラス（対メイジは最終案）×両席×5 seed=90戦正常終了、9524操作、各操作状態検証・元状態不変。簡易AI49勝。カタログ版変更と本番通信は統合役の検証範囲。",
+    "balance": "v0.1.405同一対戦相手（旧9デッキ）、seed・席・ランダム非終了操作優先方針の簡易比較90戦：v0.1.405暫定メイジ31勝、専用12種・灯火の精霊入り19勝、灯火の精霊を暁の竜に戻す案48勝。比較を参考に大型共通ミニオンを再採用。対人バランスを証明するものではない。",
     "untested": [
-      "全75ファイル回帰試験（関連5ファイル+新規1のみ）",
-      "正式IDでのカタログ統合・他クラス提案との競合・統合後の通信互換性",
-      "実機・Safari・実Firebase・Pages公開",
-      "対人バランス調整"
+      "正式ID統合候補での全回帰（現行main+自作IDの全回帰と正式ID仮統合の90戦は合格）",
+      "今後の他クラスrevision 2以降との統合、カタログ版更新・統合版通信",
+      "実機・Safari・実Firebase・Pages配備・対人バランス"
     ],
-    "integration": "readyは提案単位の検証済み。統合役が最新版に再適用し、全回帰・カタログ互換性・実行環境を検証する。"
+    "integration": "readyは提案単位の検証済み。公開済3種は変更禁止、累積12種から未公開9種のみ統合対象。統合役は最新mainで再検証。"
   },
-  "notes": "第2段階：月影の弓兵・火花の矢・封火の刻印の各2枚を専用3種に差し替え。累積6種類12枚、デッキ30枚（ミニオン16、スペル12、秘策2）、同名2枚以内。名称・数値は暫定。新規効果エンジン・ルール・ヒーローパワーは追加せず、既存のランダム基本スペル生成、撃破後追加効果、変身を採用。main・固定ZIPは変更しない。"
+  "notes": "第3段階：spark/sage/echo各2枚を燐光の針・星書の番人・鏡界の門へ差し替え。第4段階：scout/flame/draw各2枚を残火の使い魔・雷紋の学匠・秘蔵書庫の解錠へ差し替え。第5段階（デッキ調整）：wispをdragonに戻し終盤の大型戦力を確保。最終30枚、専用12種24枚、共通3種6枚、ミニオン16/スペル12/秘策2、同名2枚以内。名称・数値は暫定。既存効果のみ使用、ヒーローパワー・クラス制限・新規ルールなし。main・固定ZIPは更新しない。"
 }
