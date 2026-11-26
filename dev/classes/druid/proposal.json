@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "druid",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -45,6 +45,51 @@
         "target": "self",
         "amount": 3
       }
+    },
+    {
+      "id": "druid_forest_blessing",
+      "name": "森羅の祝福",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "buffBoth",
+        "target": "friendlyMinions",
+        "amount": 1
+      }
+    },
+    {
+      "id": "druid_giant_awakening",
+      "name": "巨獣の目覚め",
+      "type": "spell",
+      "manaCost": 5,
+      "ability": {
+        "when": "play",
+        "operation": "summonHand",
+        "target": "handMinion",
+        "amount": 1
+      }
+    },
+    {
+      "id": "druid_woodland_oracle",
+      "name": "樹冠の導師",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 4,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1,
+        "followUp": {
+          "condition": "highMaxMana",
+          "operation": "buffBoth",
+          "target": "sourceMinion",
+          "amount": 2
+        }
+      }
     }
   ],
   "deck": [
@@ -54,8 +99,8 @@
     "guard",
     "wolf",
     "wolf",
-    "knight",
-    "knight",
+    "druid_forest_blessing",
+    "druid_forest_blessing",
     "druid_ancient_bastion",
     "druid_ancient_bastion",
     "dragon",
@@ -66,14 +111,14 @@
     "druid_grove_call",
     "sentinel",
     "sentinel",
-    "beast",
-    "beast",
+    "druid_woodland_oracle",
+    "druid_woodland_oracle",
     "titan",
     "titan",
     "draw",
     "draw",
-    "heal",
-    "heal",
+    "druid_giant_awakening",
+    "druid_giant_awakening",
     "sage",
     "sage",
     "druid_deep_roots",
@@ -83,16 +128,16 @@
   "verification": {
     "status": "passed",
     "base": "v0.1.405 / 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-    "baseline": "固定ZIP version 21を取得、内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad 一致。src全36 JS、index.html、style.css、package.json、tools 2件、database.rules.json、firebase.json のGit blob SHA一致。公開ルートcloud-config.jsもsrc/cloud-config.jsと同一SHA。",
-    "cardValidation": "validateCard 3/3、別ID・別名のnormalizeCustomCard一致3/3、既存ID・名称衝突なし、validateDeck 30枚・各2枚合格。",
-    "browser": "実Chromium（1194×834、オフラインmodule map、メモリ内storage）、カード作成UIで3/3を別名保存し、normalizeCustomCard後にID・名称以外の定義一致、ページエラー・外部通信なし。",
-    "node": "Node 22.16.0、現行エンジン＋自作カードID版64/64、ローカルで専用IDをカタログ・ドルイド初期デッキへ仮統合した版64/64。各64件＝定義1＋個別効果9（最大マナ2/9/10、盤面0/6/7、HP15/29/30）＋9クラス×両席×3 seed=54模擬対戦。各対戦で合法操作、状態検証、同一入力決定性、600手以内の完走を確認。",
+    "baseline": "固定ZIPを再取得、外側SHA-256 42c68f982206195b1a0ef1d85c6f922a08cebdf3ec25d36d9eae50c1d2d985c9、内側SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、前回取得分と同一。main SHA不変、前回照合済みローカル版の全実行・保護ファイル44件と再取得版がバイト一致。",
+    "cardValidation": "累積6/6 validateCard、別ID・別名normalizeCustomCard一致、ID・名称衝突なし、validateDeck合格（15種類×2枚）。",
+    "browser": "実Chromium（1194×834、オフラインmodule map、メモリ内storage）で累積6種類を別ID・別名でカード作成UIから入力・保存・正規化し、追加効果条件・種類・対象・数値を含め定義一致。ページエラー・外部通信なし。",
+    "node": "Node 22.16.0、現行エンジン＋自作カード版75/75、専用IDと初期デッキのローカル仮統合版75/75（各75件：定義1、前回個別効果9、新規個別効果11、9クラス×両席×3 seed=54模擬対戦）。全対戦で合法操作、状態検証、決定性、600手以内の完走。新規：全体強化（盤面0/1/7、攻撃上限）、手札特殊召喚（候補なし/1体/満杯/複数候補、個体ID維持・登場時効果なし）、追加効果（最大マナ4/6/7/10、ドロー、自己強化）。",
     "notTested": [
-      "他クラス新規提案との統合後の全Node回帰試験",
+      "統合後の全Node回帰試験、他クラス新規提案との組合せ",
       "実機・Safari・実Firebase通信・公開Pages",
       "対人バランス・正式クラス採用制限・ヒーローパワー"
     ],
-    "notes": "ローカル仮統合の実行ファイルは元のSHAへ復元済み。mainや固定ZIPには変更なし。"
+    "notes": "仮統合のsrc/cards.js・src/starter-decks.jsは基準バイトへ復元済み。mainと固定ZIPは未変更。"
   },
-  "notes": "第1段階：マナ加速・盤面展開・大型挑発の3種類を追加、爆炎の小鬼・月影の弓兵・岩壁の巨兵を各2枚置換。12既存種類24枚を維持、合計15種類30枚。カード数値は暫定バランス案。現行汎用効果のみで実現、不足効果要望なし。"
+  "notes": "第2段階：森羅の祝福・巨獣の目覚め・樹冠の導師を追加、蒼鉄の騎士・癒やしの光・森の巨獣を各2枚置換。累積専用6種類12枚＋既存9種類18枚、計30枚。数値は暫定。特殊召喚対象は手札のランダムなミニオンで大型限定ではなく、登場効果は発動しない現行ルール。共通機能追加なし。"
 }
