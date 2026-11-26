@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "paladin",
   "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
-  "revision": 9,
+  "revision": 10,
   "status": "draft",
   "cards": [
     {
@@ -304,6 +304,41 @@
         "target": "tokenGuard",
         "amount": 1
       }
+    },
+    {
+      "id": "paladin_fellowship_prayer",
+      "name": "連心の祈り",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "heal",
+        "target": "friendlyMinions",
+        "amount": 2,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "paladin_wayfarer_warden",
+      "name": "巡礼の護衛長",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 3,
+      "maxHealth": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "summon",
+        "operation": "summonFixed",
+        "target": "tokenWisp",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -341,14 +376,13 @@
   "requests": [],
   "verification": {
     "status": "partial",
-    "baseline": "v0.1.410 main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b、root tree 6fcb06c358c4ee4c8a8d300ac8e45f63fd0bfe35、src tree 7693a84d4bd316bcc8cdd9b6b96981af40650527、固定ZIP version 26、内側ゲームZIP SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。ZIPのsrc treeとルート実行ファイル・設定のGit SHA一致、統合済15種の定義と初期30枚不変。",
-    "node": "Node 24.22.3。候補コードはsrc/class-cards.jsに未統合6種を追加しただけ（公開167種すべて維持、全173種・専用149種）。全82テストファイルのnpm test初回3,378/3,380合格（108.34秒、終了1）。不合格2件は旧167種と旧秘策12種の固定期待値のみ。候補実行コード不変で該当2ファイルの件数期待値を173種・秘策13種に修正し、117/117再試験合格（29.78秒、終了0）。全3,380件を分割結果として確認、修正後一括再実行は未実施。既存統合マニフェストの全公開定義の一致確認は保持し、ローカル件数・未統合差分を検証側に反映した。",
-    "effect": "累積21種のvalidateCard・normalizeCustomCard別ID/名一致、所有クラス、他クラス拒否。黄昏の避難所：劣勢/同数/回復上限/生成上限。白閃の裁定：撃破/非撃破/盾/潜伏・不正対象。光陣の号令：光の従者で3体到達の境界。象牙の護剣士：盾付与・対象なし召喚。暮鐘の結界：直接攻撃前弱体化（攻撃3→1、2→0）、ミニオン攻撃/スペルには不発、聖堂の警鐘との順次解決。終祷の衛騎士：戦闘死で衛兵を1体、満盤面から死亡枠に入る・召喚ターン攻撃不可。状態不変・決定性・再送拒否を併せて確認。",
-    "simulation": "初期レシピと代替3レシピ×9クラス×先後2条件×3seed＝216戦、全終局・状態検証・決定性・旧操作拒否（合計28,185合法操作）。模擬勝敗は初期42勝12敗、回復・除去38勝16敗、盾36勝18敗、秘策・継戦36勝18敗（各54戦）。固定乱数の単純操作ポリシーによる参考結果で対人バランスの測定ではない。初期レシピは維持。加えて各レシピ対ハンターの4共有状態模擬戦を完走、両席投影・手札非公開・再送冪等・ローカル状態結果一致。既存9クラススキル試験・45組模擬戦も合格。",
-    "ui_harness": "Nodeの最小DOMハーネスで現行アプリをmountし、全21種のカード作成欄と保存操作を使い別ID・別名で再現、保存後normalizeCustomCardで完全一致。実ブラウザの描画・イベント伝播・レイアウト試験とは異なる。",
-    "browser": "今回の実Chromium起動は実行ファイル欠落で失敗。別ブラウザもローカル候補に接続できず。実ブラウザで全21種の再現保存、4画面サイズ確認を未実施のためdraft。前回の実Chromium結果を今回の合格扱いしない。",
-    "collision": "main全167定義と他8クラス提案（warrior r4/shaman r7/rogue r7/hunter r7/druid r7/warlock r7/mage r5/priest r7）照合、追加6種のID・同名衝突なし。",
-    "unverified": "実Chromiumカード作成と4サイズ、全Node再一括、候補の正式カタログ版更新・混在版拒否、実機Safari・実Firebase・対人バランス。統合時に改めて全回帰・実UIを検証。候補の版数や共通エンジン、クラススキル、保存形式は変更しない。"
+    "baseline": "v0.1.410 main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b、root tree 6fcb06c358c4ee4c8a8d300ac8e45f63fd0bfe35、src tree 7693a84d4bd316bcc8cdd9b6b96981af40650527、固定ZIP version 26（最新Library ID/版が前回取得済みローカル実体の属性と一致）、ZIP整合テスト正常・再展開、内側ゲームZIP SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。src treeとルート実行ファイル・設定のGit SHA一致。",
+    "node": "Node 24.22.3。node --test tests/paladin410.test.js tests/paladin-ui.test.js tests/starter-decks.test.js tests/class-skills408.test.js tests/class-selection409.test.js 549/549合格、39.62秒、終了0。累積23種のvalidateCard、別ID・別名normalizeCustomCard一致、所有クラス・他クラス採用拒否、全5レシピvalidateDeck（各15種30枚）を確認。新規2種：連心の祈りの味方全体回復と回復上限、使用後手札2枚以下の境界、味方なしで追加効果不発、山札切れで終局。巡礼の護衛長は盤面空き2/1/0枠、個体上限100、挑発・生成ミニオン召喚ターン攻撃不可。既存の未統合6種の条件・盾・秘策・死亡効果も再検証。",
+    "simulation": "初期と代替4レシピ×9クラス×先後2条件×3seed＝270戦、全終局・合法操作決定性・状態検証・旧操作拒否（35,297操作）。固定乱数単純方針の勝敗は順に42-12、38-16、36-18、36-18、44-10（各54戦）。人間対戦の勝率を示すものではない。全5レシピの対ハンター共有状態方式模擬対戦も完走、両席の投影・手札非公開・再送冪等。既存45組模擬戦、9スキル試験を再実行。",
+    "ui_harness": "最小DOMハーネスで現行アプリのカード作成画面を操作し、累積23種すべて別ID・別名で保存、normalizeCustomCard経由で定義一致。実画面の描画・レイアウトとは異なる。",
+    "browser": "今回の実行環境もChromium実体・Playwrightブラウザキャッシュがなく実Chromium再現は未実施。draft維持。",
+    "collision": "mainの全167定義と最新他8クラス提案（warrior r4/shaman r8/rogue r8/hunter r9/druid r10/warlock r9/mage r6/priest r8）を照合、新規2種および前回6種と重複ID・正規化名称なし。",
+    "unverified": "今回の全Node回帰、実ブラウザ・4サイズ・正式カタログ更新と混在版拒否、実機Safari・実Firebase・対人バランス。統合時に再検証。"
   },
-  "notes": "第9段階：黄昏の避難所・白閃の裁定に続き、暮鐘の結界（自分プレイヤーへの攻撃前に攻撃者の攻撃力−2）・終祷の衛騎士（死亡時に盾の衛兵を特殊召喚）を追加。累積21種（公開済15、未統合6）。初期15種各2枚30枚を維持。代替試験は各2枚置換：①白金の誓約→白閃の裁定・光輝の印章→黄昏の避難所、②白金の誓約→光陣の号令・旭光の大聖騎士→象牙の護剣士、③聖堂の警鐘→暮鐘の結界・旭光の大聖騎士→終祷の衛騎士。追加6種は任意入替候補、数値暫定。実ブラウザ未確認のためdraft。main・固定ZIP・他クラス変更なし。"
+  "notes": "第10段階：連心の祈り（味方全体2回復、使用後手札2枚以下なら1ドロー。味方不在なら追加効果も不発）、巡礼の護衛長（5マナ3/5挑発、登場時に灯火の精霊1体）を追加。累積23種、公開15種、未統合8種。初期デッキ30枚は不変。追加2種は代替試験で光輝の印章・旭光の大聖騎士と各2枚入替。数値暫定。実Chromium未実施のためdraft。main・固定ZIP・他クラス変更なし。"
 }
