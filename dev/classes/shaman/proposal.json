@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "shaman",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 4,
   "status": "ready",
   "cards": [
     {
@@ -116,21 +116,97 @@
           "amount": 1
         }
       }
+    },
+    {
+      "id": "shaman_cinderling",
+      "name": "燐火の小精霊",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 1,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "generateFixed",
+        "target": "tokenSpark",
+        "amount": 1
+      }
+    },
+    {
+      "id": "shaman_chainbolt",
+      "name": "雷紋の一撃",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyChoice",
+        "amount": 2,
+        "followUp": {
+          "condition": "killed",
+          "operation": "summonFixed",
+          "target": "tokenWisp",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "shaman_runeseer",
+      "name": "雷晶の導師",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "spellDamage"
+      ],
+      "ability": {
+        "when": "summon",
+        "operation": "generateFixed",
+        "target": "tokenSpark",
+        "amount": 1
+      }
+    },
+    {
+      "id": "shaman_tempestfang",
+      "name": "疾雷の牙精霊",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "rush"
+      ]
+    },
+    {
+      "id": "shaman_ancientmonolith",
+      "name": "万象の巨石精霊",
+      "type": "minion",
+      "manaCost": 6,
+      "attack": 5,
+      "maxHealth": 5,
+      "keywords": [],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "summonFixed",
+        "target": "tokenWisp",
+        "amount": 1
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
+    "shaman_cinderling",
+    "shaman_cinderling",
     "guard",
     "guard",
-    "wolf",
-    "wolf",
+    "shaman_tempestfang",
+    "shaman_tempestfang",
     "shaman_gale",
     "shaman_gale",
     "shaman_stoneheart",
     "shaman_stoneheart",
-    "dragon",
-    "dragon",
+    "shaman_ancientmonolith",
+    "shaman_ancientmonolith",
     "wisp",
     "wisp",
     "shaman_totemcaller",
@@ -139,10 +215,10 @@
     "shaman_thunderstorm",
     "shaman_stormcall",
     "shaman_stormcall",
-    "bolt",
-    "bolt",
-    "sage",
-    "sage",
+    "shaman_chainbolt",
+    "shaman_chainbolt",
+    "shaman_runeseer",
+    "shaman_runeseer",
     "shaman_hexmist",
     "shaman_hexmist",
     "shaman_earthmender",
@@ -153,12 +229,14 @@
   "requests": [],
   "verification": {
     "status": "pass",
-    "baseline": "v0.1.405 / main HEAD 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f・ライブラリZIP version 21は前回から変更なし。保管本体ZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad を再計算、src全37 JSとルート実行/設定7件の44ファイルを前回取得した同一main SHAのGit blob SHAと再照合一致。公開ロックfree。",
-    "node": "Node 22.16.0: 82/82合格（累積8定義、デッキ1件、個別効果19件、9クラス×6シード54戦）。validateCard、別ID別名normalizeCustomCard一致、validateDeck、合法操作・決定性・状態検証・全戦終了。",
-    "integration": "ローカルだけで累積8定義と30枚のレシピをsrc/cards.jsとstarter-decks.jsに仮組み込み、既存starter-decks.test.js 78/78合格（専用ID、9クラス45通りの模擬対戦、既存プリセット・カード作成互換性）。試験後2ファイルを原本へ復元。",
-    "browser": "Chromium実DOM・1194×834・オフラインモジュール/メモリ保存：累積8種類を別名別IDで実カード作成画面から保存し、normalizeCustomCardによる定義一致を確認。変身の固定数値と条件付き追加効果もUIの選択肢のみ使用。ページエラー・外部通信なし。",
-    "edgeCases": "従来4種の境界試験を再実行。風雷の鼓舞：味方のみ+2、ターン終了で解除、空盤面でも進行。変幻の霧：相手ミニオンのみ選択、対象なし/不正対象拒否・状態不変、元の能力/強化解除、死亡効果なし、インスタンスID維持。石核の守護精霊：戦闘死亡後に挑発1/3を1体生成、山札消費なし。精霊の集い：盤面初期0/1/5/6/7体、召喚後3体以上かつ召喚成功時のみ全味方体力+1、7枠満杯なら召喚・追加効果なし、進行継続。",
-    "unverified": "全75ファイルの回帰試験、実機・Safari・実Firebase・Pages、クラス間バランス・採用制限・他クラス提案との統合は未検証。統合役がカタログ互換性・全回帰を検証。readyは未公開の統合候補。"
+    "baseline": "開始時v0.1.405/ZIP21の44実行・設定ファイルを照合。途中でmainがv0.1.406へ更新されたのでZIP22を取得し、mainの変更差分と照合。保管本体ZIP SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、全45実行・設定ファイル一致。公開済みシャーマン4定義は累積提案と完全一致、新規9種類は既存ID/名称と重複なし。",
+    "stages": "v0.1.405上で第3段階11種類 Node 91/91・仮統合81/81・Chromium UI 11/11合格、第4段階13種類 Node 97/97・仮統合83/83・Chromium UI 13/13合格。その後v0.1.406で最終候補を再検証。",
+    "node": "v0.1.406 Node 22.16.0: 97/97合格（13定義、デッキ1件、個別効果29件、9クラス×6シード54戦）。validateCard、別名別ID normalizeCustomCard一致、validateDeck、合法操作・決定性・状態検証・全戦終了。",
+    "browser": "v0.1.406 Chromium実DOM 1194×834、オフラインモジュール/メモリ保存で累積13種類を別名・別IDとして実際のカード作成画面から保存しnormalizeCustomCardで一致。ページエラー・外部通信なし。",
+    "integration": "v0.1.406上で未公開9種類のみclass-cards.jsに追加し、シャーマンの30枚レシピのみ仮変更。starter-decks.test.js 113/113合格（45通りの模擬対戦、旧プリセット、カード作成互換性）。class-integration406.test.jsの既存同名自作カード・旧版ルーム拒否・9通りの共有状態模擬対戦を選択実行し11/11合格。固定revision1マニフェスト照合試験は対象外。試験後にソースを復元し全45実行・設定ファイル一致を再確認。",
+    "edgeCases": "第1・2段階の効果試験を再実行。燐火の小精霊は戦闘死亡時に閃光弾を手札生成（山札消費なし）、雷紋の一撃は敵体力1/2/3と敵ヒーロー対象を試験し撃破時のみ精霊召喚、雷晶の導師は登場時に閃光弾生成し使用時に呪文ダメージ+1、疾雷の牙精霊は登場ターンに敵ミニオンのみ攻撃可・次の自ターンにヒーロー攻撃可、万象の巨石精霊は盤面0/5/6体から登場後自ターン終了時のみ空き枠内で生成・相手ターン終了時は発動なし。",
+    "regression": "旧v0.1.405で仮統合時の既存回帰試験を試行し、固定カタログ数・発動条件別件数・説明文先頭判定の不一致を確認（最初の実行は時間制限で終了コード未取得、残り18ファイルは1185/1188合格）。旧テスト6ファイルの期待件数・文字列判定のみをローカル調整して再試験し、359件中358件合格後残るdeck-cell件数の固定期待値も修正して該当ファイル28/28合格。旧テストは全て原本へ復元。最新v0.1.406での全76ファイルの回帰試験は未実施。統合役は最新カタログに固定マニフェスト等を更新し全回帰を実施すること。",
+    "unverified": "最新版の全76ファイルの回帰試験、他クラスrevision2以降との統合、実機・Safari・実Firebase・Pages、クラス間バランス・採用制限・カタログ版更新は未検証。readyは検証済みの提案であり公開済みではない。"
   },
-  "notes": "第2段階：第1段階の4種類を変更せず、spark・flame・golem・emberを各2枚置換。専用8種類16枚・既存7種類14枚。追加は一時的全体攻撃強化、相手単体変身、死亡時挑発生成、条件付き精霊展開。名前・マナ/ステータスは暫定案。新規効果要求なし。ヒーローパワー・オーバーロード等は新ルールとして追加しない。"
+  "notes": "第3・4段階を一括保存。第3段階はscout・bolt・sage各2枚を燐火の小精霊・雷紋の一撃・雷晶の導師に置換、第4段階はwolf・dragon各2枚を疾雷の牙精霊・万象の巨石精霊に置換。専用13種類26枚、共通guard/wisp各2枚を序盤・精霊テーマ維持のため残す暫定30枚案。v0.1.406公開済み4種類は変更なし、未公開9種類。全て現行汎用効果のみ、新規ルール・追加要望なし。名前・数値は暫定。"
 }
