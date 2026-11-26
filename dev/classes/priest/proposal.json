@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "priest",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 4,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -208,6 +208,39 @@
         "target": "deckSpell",
         "amount": 1
       }
+    },
+    {
+      "id": "priest_candlekeeper",
+      "name": "灯守の修道士",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "buffHealth",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "priest_scripture",
+      "name": "慈光の聖典",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "draw",
+        "target": "self",
+        "amount": 2,
+        "followUp": {
+          "condition": "always",
+          "operation": "heal",
+          "target": "self",
+          "amount": 2
+        }
+      }
     }
   ],
   "deck": [
@@ -221,8 +254,8 @@
     "priest_sanctuary_guard",
     "priest_dawn_wave",
     "priest_dawn_wave",
-    "wisp",
-    "wisp",
+    "priest_candlekeeper",
+    "priest_candlekeeper",
     "priest_mender",
     "priest_mender",
     "priest_judgment",
@@ -231,8 +264,8 @@
     "priest_lightwarden",
     "priest_purify",
     "priest_purify",
-    "draw",
-    "draw",
+    "priest_scripture",
+    "priest_scripture",
     "priest_scribe",
     "priest_scribe",
     "priest_last_light",
@@ -263,8 +296,8 @@
   ],
   "verification": {
     "status": "passed-class-scope",
-    "baseline": "作業開始時v0.1.405 main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / ZIP version21。44ファイルのGit blob SHAを前回取得済み同一コミットの値と照合、内側ZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。保存前に統合役のv0.1.406公開を検出し、main 681ec179c708a222e7dbfd660bb7636f08195ac6 / ZIP version22を実体取得・展開。GITHUB_BASELINE.mdのSHA一致、内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5一致。45実行・設定ファイル中7変更追加ファイルのGit blob SHAを新mainと照合、残りは照合済み旧基準と同一バイト。最新基準のclass-cards.jsで公開済みプリースト4定義と提案の完全一致を確認、重複追加せず残り9定義をローカルに追加。starter-decks.jsのpriestレシピのみ置換。名称衝突なし。保存直前のmain/ZIP/担当HEAD再確認済み。",
-    "node": "Node v22.16.0。v405上の第3段階11種類は専用48/48、第4段階13種類は専用55/55。v406最終候補に再適用し専用55/55（定義・normalizeCustomCard・30枚デッキ14、従来効果14、新効果9、9クラス×2席の模擬対戦18）合格。合法操作、状態検証、決定性、古い操作拒否を確認。試験用の対象カードを含む独立30枚デッキを使用し、模擬対戦は実際の候補デッキを使用。",
+    "baseline": "v0.1.406 main 681ec179c708a222e7dbfd660bb7636f08195ac6 / 固定ライブラリZIP version22を確認。保存直前も同一。外側ZIPを再展開しGITHUB_BASELINE.mdと内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5一致。45実行・設定ファイルを照合（7変更追加ファイルは前回取得した同一mainのGit blob SHA、38ファイルは前回照合済み旧基準の実バイト一致）。公開済み4定義を維持、残り11定義をローカルのclass-cards.jsに追加。starter-decks.jsのpriestレシピのみ置換。既存58カード全定義、生成プール、3既存プリセットとデモ、他8クラスのデッキが基準版とdeepEqual一致。候補カタログ69種類。",
+    "node": "Node v22.16.0。第5段階専用58/58合格、第6段階は初回のドロー順アサーションの誤り（deck.popに対し先頭を期待していた）をテスト側で修正し61/61、その後手札上限と山札切れの試験2件を追加し最終63/63合格。各段階でvalidateCard、別ID・別名normalizeCustomCard一致、validateDeck、専用効果、9クラス×2席の模擬対戦を実行。効果試験で合法操作・状態検証・決定性・旧操作拒否。",
     "effectTests": [
       "治癒師: 味方のみ指定、体力上限、空盤面は対象なしで登場",
       "祈祷: 最大・現在体力+2と1ドロー、対象なし拒否・状態不変",
@@ -278,16 +311,18 @@
       "衛士: 空盤面でも登場時自分HP2回復、挑発で敵の直接攻撃を制限",
       "審問官: 選択敵のみ攻撃力-2、体力・味方不変、敵不在でも対象なしで登場可能",
       "裁定: 敵1体に4ダメージ、倒した場合だけ自分HP3回復（上限30）。非致死・聖なる盾では回復なし、対象なし使用拒否・状態不変",
-      "写本師: 山札に実在するスペル1枚をランダムに同一個体IDで手札へ。山札のスペル不在は安全に不発、疲労ダメージなし"
+      "写本師: 山札に実在するスペル1枚をランダムに同一個体IDで手札へ。山札のスペル不在は安全に不発、疲労ダメージなし",
+      "修道士: 選択した味方ミニオンのみ最大・現在体力+1、敵は選択不可、空盤面でも登場可能で自己強化なし",
+      "聖典: 山札末尾から実在する2枚をドローし自分HP2回復（上限30）、敵・味方ミニオンのHP不変。満HPでもドロー。手札上限10枚で超過分が墓地へ移動し個体ID重複なし。山札残り1枚の場合は2枚目のドローで現行ルールに従い敗北し、終了後回復しない。"
     ],
-    "browser": "実Chromium 1194x834、オフラインモジュールとメモリ保存。v405第3段階11/11、第4段階13/13、v406最終候補13/13種類をカード作成UIで別ID・別名として作成・保存し定義完全一致、pageerror・外部HTTPなし。",
-    "regression": "v405最終候補で関連12ファイル1122/1122（408+714、専用55件を含む）、旧24定義の完全一致を確認。v406再適用後にcreation/custom-cards/decks/starter-decks/priest-proposalの5ファイル438/438（専用55件および9クラス45通りの模擬対戦含む）、class-integration406の同名保存互換性・Firebase版ガード・9通り共有状態模擬対戦の選択試験11/11、合計449/449合格。固定カタログ件数3テストをローカルで58→67に調整。既存class-integration406のrevision1固定マニフェスト試験は意図的に対象外（統合時に累積提案と件数・ハッシュを更新する必要）。テスト修正は担当ブランチに保存しない。v405の結果をv406上の実行結果として扱わない。",
+    "browser": "最終候補で実Chromium 1194×834、オフラインモジュールとメモリ保存。15/15種類をカード作成UIから別ID・別名で作成・保存し定義完全一致。pageerror・外部HTTPなし。",
+    "regression": "最終候補の関連13ファイル1173/1173合格：creation/custom-cards/decks/starter-decks/priest-proposalの5ファイル448/448（専用63件・全9クラス45通り模擬対戦含む）、class-integration406の選択試験11/11（同名保存互換性、Firebase版ガード、共有状態模擬対戦9通り）、turn-effects/follow-conditions/effects/zone-moves/modify-cards/keywords/grant-keywordsの7ファイル714/714。旧カタログ数固定3テストをローカルで58→69に調整。revision1固定マニフェスト試験は対象外で、統合時に累積定義・デッキ・件数・ハッシュの更新が必要。ローカルテスト変更は担当ブランチに保存しない。",
     "unverified": [
-      "v406最終候補の全Node回帰試験、全ブラウザ試験、実機Safari/iPhone/iPad、実Firebase、Pages配備",
-      "他クラスrevision2以降の未統合提案との競合、対人対戦バランス、専用イラスト、最終カタログ版更新と混在版拒否は統合役で再検証",
-      "攻撃力上限指定破壊のrequestは未実装のまま。今回のcards/deckに含めない。"
+      "最終候補の全Node回帰試験、全ブラウザ試験、実機Safari/iPhone/iPad、実Firebase、Pages配備",
+      "他クラスの未統合提案との競合・対人バランス、専用イラスト、統合時の最終カタログ版更新と混在版拒否",
+      "攻撃力上限指定破壊のrequestは未実装。cards/deckに含めない。"
     ],
-    "notes": "2段階の開発を一括保存。v406基準で担当範囲の必須試験は合格。readyは統合候補であり公開済みではない。"
+    "notes": "第5・6段階の開発を一括保存。担当範囲の必須試験は合格。readyは統合候補で公開済みではない。"
   },
-  "notes": "revision3相当: scout→priest_votive、guard→priest_aegis、knight→priest_penitentを各2枚置換し低マナ帯と弱体化を追加。revision4: sentinel→priest_judgment、sage→priest_scribeを各2枚置換し条件付き除去・呪文サーチを追加。累積13種類26枚、共通wisp/draw各2枚の計30枚。前回8定義不変。v406で公開済み4種類を保持し未統合9種類を提案。共通カードは低マナ帯と手札補充を保つため残す。数値・名称は暫定。新規ルール・クラス採用制限・ヒーローパワー・効果エンジン変更なし。main・他クラス・固定ZIP・公開版は担当作業で変更なし。"
+  "notes": "revision5相当: wisp→priest_candlekeeperを2枚置換。revision6: draw→priest_scriptureを2枚置換。累積15種類×2枚で専用30枚の初期デッキ。低マナ帯と2枚ドローを維持し、味方体力強化と自分HP回復を追加。平均マナは前回より約0.067増加（2枚を2→3マナに置換）。既存13定義不変、v406公開済み4種類を維持、未統合11種類。数値・名称は暫定、対人バランス未調整。新規ルール・採用制限・ヒーローパワー・効果エンジン変更なし。main・他クラス・固定ZIP・公開版は担当作業で変更なし。"
 }
