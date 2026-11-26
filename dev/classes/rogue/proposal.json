@@ -2,9 +2,62 @@
   "schema": 1,
   "classId": "rogue",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "rogue_duskblade",
+      "name": "薄暮の密偵",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "stealth"
+      ]
+    },
+    {
+      "id": "rogue_alley_duelist",
+      "name": "路地裏の剣士",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 2,
+      "keywords": [
+        "rush"
+      ]
+    },
+    {
+      "id": "rogue_smoke_repel",
+      "name": "煙幕の退路",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "returnHand",
+        "target": "enemyMinionChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_precise_cut",
+      "name": "影縫いの一閃",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 2,
+        "followUp": {
+          "condition": "killed",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    }
+  ],
   "deck": [
     "scout",
     "scout",
@@ -12,35 +65,64 @@
     "wolf",
     "runner",
     "runner",
-    "knight",
-    "knight",
+    "rogue_alley_duelist",
+    "rogue_alley_duelist",
     "dragon",
     "dragon",
     "wisp",
     "wisp",
-    "archer",
-    "archer",
+    "rogue_duskblade",
+    "rogue_duskblade",
     "beast",
     "beast",
     "spark",
     "spark",
-    "bolt",
-    "bolt",
+    "rogue_precise_cut",
+    "rogue_precise_cut",
     "draw",
     "draw",
     "sage",
     "sage",
     "flame",
     "flame",
-    "thorn",
-    "thorn",
+    "rogue_smoke_repel",
+    "rogue_smoke_repel",
     "echo",
     "echo"
   ],
-  "requests": [],
+  "requests": [
+    {
+      "id": "priorCardPlayedThisTurn",
+      "title": "コンボ用の汎用追加効果条件（将来候補、正式ルール未決定）",
+      "when": "play/summon",
+      "condition": "自分の現在ターンに、このカードより前に手札から合法に使用したカードが1枚以上ある場合。追加効果条件として選択可能にする。",
+      "target": "基本効果：enemyMinionChoice、追加効果：self",
+      "operation": "基本効果damage、追加効果draw",
+      "amount": 2,
+      "followUpAmount": 1,
+      "branch": "条件成立なら1枚ドロー、非成立なら基本効果のみ。使用したカード自身や特殊召喚・生成・不正操作・再送を先行カードとして数えない。",
+      "tests": [
+        "ターン最初のカードでは追加効果なし",
+        "同一ターンに合法な先行カード1枚使用後は追加効果1回",
+        "ターン交代で条件リセット",
+        "無効操作や再送は加算しない",
+        "状態検証・保存・通信の互換性と再現性を確認"
+      ],
+      "notes": "未実装。今回のcards/deckには含めない。統合役の安全性・互換性確認後に採否判断。"
+    }
+  ],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "passed-proposal",
+    "baseline": "main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / v0.1.405 / ライブラリ最新開発一式.zip version 21、内部ゲームZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad 一致。実行ファイル44件のGit blob SHA一致（ルートcloud-config.jsはsrcと同一、.gitkeepは管理用）。",
+    "node": "Node 22.16.0、未変更基準のnpm test 75ファイル2825/2825合格。候補コピーにcardsとrogueレシピのみ挿入して専用43件＋starter-decks 74件＝117/117合格（専用36試合＋全クラス45試合、状態整合・操作の決定性）。候補の既存poison-stealth/zone-moves/follow-conditions/card-face 269/269合格。",
+    "creator": "実ChromiumオフラインDOM、メモリ内保存。4カードを別ID・別名で現行カード作成の選択肢から作成して保存し、normalizeCustomCard後の能力定義完全一致。4画面サイズで全9デッキの選択・複製・30枚表示・横はみ出しなし。",
+    "effects": "潜伏の選択対象外と攻撃後解除、急襲の登場ターン対ミニオン限定、バウンス時の個体ID維持・能力値初期化・死亡なし・満杯手札で非破壊、撃破条件の成否とドロー数を確認。",
+    "untested": [
+      "候補全回帰は未実施（既存 creation/custom-cards/decks テストはカタログ24種類固定のため統合時に従来定義維持と新規数を確認するテストへ調整要）。",
+      "統合後カタログ版更新・旧版混在拒否・保存通信互換性・他クラスとの競合は統合役にて確認。",
+      "実機/Safari/実Firebase/Pages配備、対戦バランス、専用イラストは未検証・未実装。"
+    ],
+    "notes": "readyは提案の統合候補であり未公開。実行コード・固定ZIP・main・Firebaseは変更していない。"
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "第1段階：knight/archer/bolt/thorn各2枚を新規4種類に置換、残り11種類22枚維持。名称・マナ・能力値は暫定。採用制限・ヒーローパワー・新規エンジン処理は追加しない。"
 }
