@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "rogue",
-  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 6,
+  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
+  "revision": 7,
   "status": "ready",
   "cards": [
     {
@@ -280,6 +280,57 @@
         "target": "eventMinion",
         "amount": 2
       }
+    },
+    {
+      "id": "rogue_blackstreet_enforcer",
+      "name": "黒街の執行者",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 4,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "weakenAttack",
+        "target": "enemyMinionChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_marked_for_fall",
+      "name": "抹消の刻印",
+      "type": "spell",
+      "manaCost": 5,
+      "ability": {
+        "when": "play",
+        "operation": "destroy",
+        "target": "enemyMinionChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_quickstep",
+      "name": "疾風の足運び",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "grantRush",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_toll",
+      "name": "裏路地の通行料",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "surchargeHand",
+        "target": "enemyHandRandom",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -297,8 +348,8 @@
     "rogue_street_informant",
     "rogue_duskblade",
     "rogue_duskblade",
-    "beast",
-    "beast",
+    "rogue_blackstreet_enforcer",
+    "rogue_blackstreet_enforcer",
     "rogue_flash_blade",
     "rogue_flash_blade",
     "rogue_precise_cut",
@@ -337,15 +388,15 @@
   ],
   "verification": {
     "status": "passed-proposal",
-    "baseline": "v0.1.406 main 681ec179c708a222e7dbfd660bb7636f08195ac6 / 固定ZIP version 22再取得。内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。ローカルでGit blobとsrcツリー87008113fadf0445f803cf6c991cf143506c8516を再計算し一致（.gitkeepは改行のみを補完、ルートcloud-configはsrcと同じblob）。index.html/style.css/package.json/database.rules.json/firebase.json/tools-room-server.js/tools-serve.js一致。公開済み4種類を維持したclass-cards.jsとローグのstarter-decks.jsだけをローカル候補で拡張。",
-    "node": "Node 22.16.0。第5段階候補17種類：rogue-next.test.js、starter-decks.test.jsの2ファイル152/152。第6段階最終候補20種類：上記＋zone-moves/modify-cards/poison-stealth/mana-grants-conditions/secrets/buffs/follow-conditions/keywords/windfury-lifestealの11ファイル1068/1068、終了コード0、スキップ0。全20定義validateCard・normalizeCustomCard一致・デッキvalidateDeck、名称重複なし、全9クラス45模擬試合と追加カード混合の別デッキ18試合、状態検証・操作の決定性と操作前状態不変を確認。さらにclass-integration406.test.jsから共有状態模擬試合9件のみ抽出し9/9合格（終了コード0）。試験判定2件を修正：潜伏の有効性はhasStealthで確認、回収のドロー枚数は使用カードを手札に移動してから比較。修正後全件合格。",
-    "creator": "実Chromium offline module map・メモリ内保存、starter-decks-browser.pyの対象をローグ20種類に限定して実行。全20種類を別ID別名で現行UIから再現・保存し定義完全一致。1366x1024/1194x834/844x390/390x844で全9デッキ選択・複製・30枚表示・横はみ出しなし、ページエラー・外部リクエストなし、終了コード0。",
-    "effects": "追加6種類の個別効果試験：山札スペル1枚取得・個体ID維持、潜伏付与後の敵対象除外・攻撃時解除、ランダム敵弱体化の攻撃力0下限と味方不変、墓地スペル回収成功後ドロー・自分自身の回収なし・空墓地で追加ドローなし、登場ターンのプレイヤー攻撃、敵ミニオン使用後秘策発動・攻撃力低下。レシピ30枚、同名各2枚、1/2/3/4マナの枚数6/14/6/4、ミニオン20・スペル8・秘策2、専用13種26枚・共通2種4枚。",
+    "baseline": "v0.1.408 main 349d286492840c58a661e6cdc2605cffa5cbf868 / 固定ZIP version 24。内側ZIP SHA256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12。srcツリー5241d101991d14a2f92dc95c27f61bfeefdbe965をGit write-treeで再計算し一致、ルート実行ファイル・package.json・Firebase保護設定のblob一致、ルートcloud-configはsrcと同じblob。公開済み8カードを維持。ローカル候補に未公開16種類を追加しローグレシピのみ変更。カード配列・デッキの正規化FNV-1a照合値9450d9efが保存候補と一致。",
+    "node": "Node 22.16.0。最終候補のrogue408, starter-decks, class-skills408, zone-moves, modify-cards, poison-stealth, mana-grants-conditions, secrets, buffs, follow-conditions, keywords, windfury-lifesteal, grant-keywordsの13ファイル1254/1254合格、終了コード0、スキップ0。新規専用試験66件（24カードvalidateCard・normalizeCustomCard一致、デッキ1、個別効果4、スキル併用1、模擬対戦36）。全9クラス45模擬試合を含む。専用模擬対戦では毎操作の決定性・元状態不変・assertStateを確認。class-skills408の共有状態スキル試験9件も合格。初回の執行者テストのeffectiveAttack引数を誤っていたため定義を渡すようテストを修正し再実行。ゲームエンジン変更なし。",
+    "creator": "実Chromium offline module map・メモリ内保存。全24種類の別名別IDカードを現行作成画面から再現して保存し定義完全一致。1366x1024/1194x834/844x390/390x844で全9初期デッキ選択・複製・30枚表示・横はみ出しなし。ページエラー・外部HTTPリクエストなし。終了コード0。",
+    "effects": "黒街の執行者の敵選択弱体化・体力維持、抹消の刻印の敵破壊、疾風の足運びの登場ターン敵ミニオン限定攻撃、裏路地の通行料で相手手札1枚のみコスト増加、刃の舞と瞬刃の構えの累積+4とターン終了時解除・同ターン再使用拒否。レシピ30枚・各2枚・専用14種28枚と共通scout2枚。専用24種類うち10種類はデッキ編集用。",
     "untested": [
-      "最終候補全回帰は未実施。統合時にv406固定のカタログ数・統合manifest試験を更新して全件実行する。",
-      "実機・Safari・実Firebase・Pages配備、カタログ版変更・旧版混在拒否の次回統合後再試験、対人バランス、他クラス未統合提案との競合、専用イラストは未確認。"
+      "候補全回帰試験は未実施。統合時に固定カタログ数・manifestの試験を拡張し全件実行する。",
+      "実機・Safari・実Firebase・Pages配備、対人バランス、専用イラスト、次回カタログ版更新と旧版混在拒否は未検証。共有状態スキル試験は実Firebaseではない。"
     ],
-    "notes": "第5・第6段階を連続実行し最終候補を保存。main、固定ZIP、Firebase、公開ロックは未変更。readyは統合候補であり公開済みではない。"
+    "notes": "main、固定ZIP、Firebase、公開ロックは変更なし。readyは統合候補であり未公開。"
   },
-  "notes": "第5段階：密約の使者・夜幕の護符・暗路の妨害者を追加し、sage各2枚を密約の使者に置換。第6段階：古い密書・疾走の追跡者・足止めの細工を追加。既存14種類の定義維持、累積20種類、初期デッキ13専用種類26枚・共通4枚、デッキ編集用7種類。名称・能力値は暫定。コンボ要望は維持し未実装能力をカードに採用しない。"
+  "notes": "第7段階：黒街の執行者をbeast各2枚と置換、抹消の刻印・疾風の足運び・裏路地の通行料をデッキ編集用に追加。既存20種類を維持、累積24種類。初期デッキは14専用種類28枚、共通斥候2枚を維持。名称・マナ・能力値暫定。v408暫定スキル刃の舞との併用を検証。コンボ要望は未実装のまま維持。"
 }
