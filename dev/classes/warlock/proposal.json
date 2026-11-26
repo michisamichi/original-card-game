@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "warlock",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 4,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -216,6 +216,116 @@
           "amount": 1
         }
       }
+    },
+    {
+      "id": "warlock_grave_exchange",
+      "name": "冥界との取引",
+      "type": "spell",
+      "manaCost": 4,
+      "ability": {
+        "when": "play",
+        "operation": "reviveLast",
+        "target": "graveMinion",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "discardHand",
+          "target": "ownHand",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warlock_soul_keeper",
+      "name": "魂壺の番人",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "recoverGrave",
+        "target": "graveMinion",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_abyss_warden",
+      "name": "奈落の門番",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 4,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "death",
+        "operation": "heal",
+        "target": "self",
+        "amount": 2
+      }
+    },
+    {
+      "id": "warlock_night_drain",
+      "name": "夜蝕の吸精",
+      "type": "spell",
+      "manaCost": 5,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 4,
+        "followUp": {
+          "condition": "always",
+          "operation": "heal",
+          "target": "self",
+          "amount": 4
+        }
+      }
+    },
+    {
+      "id": "warlock_void_sovereign",
+      "name": "虚無の君主",
+      "type": "minion",
+      "manaCost": 6,
+      "attack": 5,
+      "maxHealth": 5,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "discardHand",
+        "target": "ownHand",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "buffBoth",
+          "target": "sourceMinion",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warlock_eclipse_oracle",
+      "name": "黒蝕の託宣者",
+      "type": "minion",
+      "manaCost": 6,
+      "attack": 4,
+      "maxHealth": 5,
+      "keywords": [],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1,
+        "followUp": {
+          "condition": "lowHP",
+          "operation": "heal",
+          "target": "self",
+          "amount": 2
+        }
+      }
     }
   ],
   "deck": [
@@ -245,8 +355,8 @@
     "warlock_grave_archivist",
     "warlock_ruin_brand",
     "warlock_ruin_brand",
-    "warlock_ember_bargain",
-    "warlock_ember_bargain",
+    "warlock_eclipse_oracle",
+    "warlock_eclipse_oracle",
     "ember",
     "ember"
   ],
@@ -280,11 +390,12 @@
   ],
   "verification": {
     "status": "passed",
-    "baseline": "開始時 v0.1.405 main 4a6409e3、固定ZIP v21の内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、src tree 9bb1874d76febe66e08bfca53fdf4a9d28f54136および8ルートblob一致。作業中統合役がv0.1.406へ更新したため再取得。固定ZIP v22（19,830,795 bytes）、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、src tree 87008113fadf0445f803cf6c991cf143506c8516および8ルート実行/保護blob一致。main 681ec179、class-cards.jsに公開済み4定義の同一性を確認。ロックは統合役held、担当提案のみ更新。",
-    "node": "Node 22.16.0。第3段階 v405 76/76（54戦含む）、第4段階 v405 632/632（旧8定義の再検証と新13定義、各54戦、関連試験含む）。v406で同じ最終候補の関連7ファイル632/632を再実行し全合格。各定義validateCard、別ID別名normalizeCustomCard、既存ID/名称衝突と公開4定義同一性、30枚validateDeck、生成時満手札・沈黙、死亡時致死ダメージ、手札2/3枚境界（使用後）と致死時追加効果停止、全体攻撃の盾/生存/空盤面/複数死亡・死亡誘発、回復上限・手札生成を確認。v406の9クラス全対戦相手×両席×3 seedで最終デッキ54戦と第2段階デッキ54戦を再検証、決定性・assertState・終局合格。",
-    "browser": "v405とv406それぞれChromium実DOM 1194×834、累計13種類を既存カード作成UIで別ID別名として再現・保存し全定義一致。ページエラー・外部リクエストなし。",
-    "localBuiltIn": "v406試験用複製で公開済み4定義を保持、src/class-cards.jsへ残り9定義、src/starter-decks.jsのwarlockのみ変更。starter-decks.test.js 113/113合格（9クラス45模擬対戦、全採用カード再現、レシピ検証）。カタログ版は試験用のまま。",
-    "notVerified": "最終候補の全Node回帰、他クラスの未統合提案と合わせた再検証・通信カタログ版更新・混在版拒否、実機/Safari/実Firebase/Pages配備、対人バランス、自傷効果追加要望は未検証。統合役が公開前に再検証すること。"
+    "baseline": "main 681ec179c708a222e7dbfd660bb7636f08195ac6 v0.1.406。固定ZIP version 22実体再取得、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。src tree 87008113fadf0445f803cf6c991cf143506c8516をGit形式で計算し一致。ルート実行/保護設定8 blob（公開用cloud-configはsrc同一）一致。ロックfree確認。公開済み4カード同一。保存直前main/branch/ZIP版確認。",
+    "node": "Node 22.16.0。第5段階専用試験135/135、第6段階150/150合格（それぞれ2レシピ×9クラス×両席×3seed=108戦、決定性・assertState・終局。第6段階は累計19定義のvalidateCard/別ID別名normalizeCustomCard/名前衝突/公開済み同一性/validateDeckを含む）。既存効果・移動・ターン・追加条件・自作・v406統合・過去の担当試験8ファイル706/706合格。新規効果の蘇生空墓地・満盤面・空手札・登場効果非発動、死亡時墓地回収の自身除外・手札満杯、挑発と死亡回復上限、単体ダメージと盾・HP回復、破棄成功時のみ自己強化、ターン終了時ドロー・HP15/16・満手札・空山札終局・沈黙を確認。",
+    "browser": "v406の変更前実コード、Chromium実DOM 1194×834で19種類を別ID・別名で作成保存し全定義一致。ページエラー・外部通信なし。",
+    "localBuiltIn": "ローカル複製のみで公開済み4定義を維持、残り15定義をclass-cards.jsに追加、starter-decks.jsのwarlockのみ更新。最終採用レシピでstarter-decks.test.js 113/113合格（45模擬戦含む）。正式カタログ版は変更していない試験用。",
+    "balance": "ローカル組込候補で4レシピ各54戦（216戦）、両席・3 seed・9クラス相手、同一の簡易合法行動選択、各操作決定性・状態検証・終局全合格。Revision4レシピ19勝35敗、guardを奈落の門番に2枚交換25勝29敗、終焉の告使を虚無の君主に2枚交換30勝24敗、残火の取引を黒蝕の託宣者に2枚交換26勝28敗。平均マナ2.53→2.80、6マナ枠を確保し低HP回復・継続ドローの特徴を持つ最後の案を選択。複数一括入替は第5/6段階の別ID自作カード比較で34/54、44/54勝となったため見送り。対戦AIは単純選択で実力・対人勝率を推定できない。",
+    "notVerified": "最終候補全Node回帰・他クラス同時統合・正式カタログ版更新と混在版拒否・実機/Safari/実Firebase/Pages配備・対人バランス・自傷追加要望は未検証。統合役が再検証すること。"
   },
-  "notes": "第3・4段階をまとめて保存。第3段階でscout/wolf/knight各2枚を燼火の使い魔・終焉の告使・虚空の従者各2枚へ置換、第4段階でbolt/healer各2枚を冥瘴の波・残火の取引各2枚へ置換。専用13種類26枚、共通の盾の衛兵・爆炎の小鬼各2枚（4枚）を維持。序盤の手札補充と死亡時ダメージ・除去を優先した暫定案。追加条件lowHandはカード使用/第一効果後に2枚以下、冥瘴の波は複数撃破してもドロー1枚。空盤面への全体スペル使用は現行仕様で可能（対象なしで効果不発）。前回の手札破棄・自傷追加要望を維持。名称・マナ・数値は暫定、採用制限・ヒーローパワー変更なし。"
+  "notes": "第5・6段階まとめ。第5段階に冥界との取引・魂壺の番人・奈落の門番、第6段階に夜蝕の吸精・虚無の君主・黒蝕の託宣者を追加。累計19種類、既存13種類の定義は維持。初期デッキは残火の取引2枚→黒蝕の託宣者2枚のみ入替、専用13種26枚・共通2種4枚の30枚。同名2枚。残火の取引含む他6種はデッキ編集用候補。蘇生失敗時は追加破棄なし、空手札時は蘇生が成功しても破棄のみ不発。君主は破棄不発なら強化なし。低HP回復は初段効果後・生存時。カード名・マナ・数値暫定、自傷追加要望維持、採用制限・ヒーローパワー未変更。"
 }
