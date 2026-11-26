@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "hunter",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "revision": 3,
   "status": "ready",
   "cards": [
     {
@@ -98,15 +98,52 @@
         "target": "eventMinion",
         "amount": 1
       }
+    },
+    {
+      "id": "hunter_venom_stinger",
+      "name": "毒針の狩猟虫",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [
+        "poisonous"
+      ]
+    },
+    {
+      "id": "hunter_gale_hound",
+      "name": "疾風の猟犬",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 1,
+      "keywords": [
+        "charge"
+      ]
+    },
+    {
+      "id": "hunter_pack_pathfinder",
+      "name": "群れの先導獣",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "summonFixed",
+        "target": "tokenScout",
+        "amount": 1
+      }
     }
   ],
   "deck": [
     "scout",
     "scout",
-    "wolf",
-    "wolf",
-    "runner",
-    "runner",
+    "hunter_venom_stinger",
+    "hunter_venom_stinger",
+    "hunter_gale_hound",
+    "hunter_gale_hound",
     "hunter_ridge_marksman",
     "hunter_ridge_marksman",
     "hunter_dune_pouncer",
@@ -115,8 +152,8 @@
     "hunter_ashfang_cub",
     "hunter_nightstalker",
     "hunter_nightstalker",
-    "beast",
-    "beast",
+    "hunter_pack_pathfinder",
+    "hunter_pack_pathfinder",
     "hunter_finishing_arrow",
     "hunter_finishing_arrow",
     "bolt",
@@ -135,14 +172,14 @@
   "requests": [],
   "verification": {
     "status": "passed",
-    "baseline": "v0.1.405 / main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / ライブラリZIP v21。ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。前回取得した同一mainの45 Git blob SHA（cloud-config重複含む）を今回取得したZIP実体と再照合し全一致。公開ロックfree確認。",
-    "node": "Node 22.16.0。ローカル候補のみ変更。専用試験66/66（累積7種のvalidateCard・normalizeCustomCard一致・validateDeck・名称重複なし、死亡/登場/急襲/攻撃秘策に加え潜伏の対象制限と解除、撃破時追加ダメージの発動/非発動・対象なし拒否、手札戻し秘策の消費・再使用・登場効果とマナ支払い維持・誤発動防止）。9クラス×6模擬戦54試合5726操作、全試合終了・状態検証・決定性・入力非破壊、全7カードのイベント確認。関連既存回帰425/425（starter-decks/secrets/custom-cards/zone-moves）。初回424/425の1失敗は固定カタログ件数24の期待値のみ。ローカル期待値31に更新して再試験合格。統合時は他の固定件数テストも対応要。",
-    "browser": "実Chromium DOM、オフラインモジュール＋メモリ保存。1194x834・390x844で全9デッキ選択/複製、30枚表示、横はみ出しなし。ハンター15種類すべてを現行作成UIから別名・別IDで保存して定義一致（追加効果と固定数値の手札戻し含む）。ページエラー・外部通信なし。",
+    "baseline": "v0.1.405 / main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / ライブラリZIP v21。ゲームZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。今回取得したZIP実体から44実行・設定ファイルのGit blob SHA算出、同一mainの既知の値と照合一致。ルートcloud-configはsrcの重複、.gitkeep管理例外。",
+    "node": "Node 22.16.0、専用試験69/69。累積10種のvalidateCard・normalizeCustomCard一致、validateDeck、効果試験（猛毒の大型破壊と対ヒーロー通常ダメージ、速攻の登場ターン攻撃、死亡時の固定トークン特殊召喚と召喚ターン）。54模擬戦5854操作、全試合終了・状態検証・決定性・入力非破壊、全10カードのイベント確認。関連既存回帰591/591（starter-decks/secrets/custom-cards/zone-moves/keywords/creation）。カタログ件数固定24の2テストをローカルで34に修正して再試験。統合時の対応が必要。",
+    "browser": "実Chromium、オフラインモジュール＋メモリ保存。1194x834、390x844で全9デッキ選択・複製、30枚、横はみ出しなし。ハンター15種全てを別ID・別名で作成保存し定義一致、ページエラー・外部通信なし。",
     "unverified": [
-      "全Node回帰試験（統合時に実施）",
+      "全Node回帰試験",
       "実機・Safari・実Firebase・Pages公開",
-      "9クラス統合後の対戦バランス・通信カタログ版互換性"
+      "9クラス統合後のバランス・通信カタログ版互換性"
     ]
   },
-  "notes": "第2段階：archer/spark/runeを専用3種各2枚に交換。累積7種類14枚、30枚維持。同一カード定義の既存汎用効果のみ使用。第1段階のカードは定義維持。名称・コスト・数値は暫定。採用制限・ヒーローパワー未追加。"
+  "notes": "第3段階：wolf/runner/beastを専用3種各2枚に交換。累積10種20枚、共通10枚、30枚維持。既存カード定義を維持。名称・コスト・数値暫定。"
 }
