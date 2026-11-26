@@ -33,7 +33,7 @@ export function validateCard(c){
 }
 for(const c of cards)validateCard(c);
 if(new Set(cards.map(c=>c.id)).size!==cards.length)throw Error('カードID重複');
-export const CATALOG_VERSION='prototype-24';
+export const CATALOG_VERSION='prototype-25';
 export const CATALOG=Object.freeze(Object.fromEntries(cards.map(c=>[c.id,Object.freeze({...c,...(c.keywords?{keywords:Object.freeze(c.keywords)}:{}),...(c.ability?{ability:Object.freeze(c.ability)}:{})})])));
 export const DEMO_DECK=Object.freeze(baseCards.flatMap(c=>[c.id,c.id]));
 export const STANDARD_DECK=Object.freeze(cards.slice(0,16).filter(c=>c.id!=='titan').flatMap(c=>[c.id,c.id]));
