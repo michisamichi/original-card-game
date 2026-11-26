@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "classId": "warlock",
-  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
-  "revision": 7,
-  "status": "ready",
+  "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
+  "revision": 8,
+  "status": "draft",
   "cards": [
     {
       "id": "warlock_ash_scribe",
@@ -411,8 +411,8 @@
     "warlock_grave_archivist",
     "warlock_ruin_brand",
     "warlock_ruin_brand",
-    "warlock_eclipse_oracle",
-    "warlock_eclipse_oracle",
+    "warlock_bloodbound_sentinel",
+    "warlock_bloodbound_sentinel",
     "ember",
     "ember"
   ],
@@ -445,13 +445,13 @@
     }
   ],
   "verification": {
-    "status": "passed",
-    "baseline": "v0.1.408 main 349d286492840c58a661e6cdc2605cffa5cbf868、固定ZIP v24（20,171,036 bytes）再取得。内側ZIP SHA-256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12、src/.gitkeep補完後のGit tree 5241d101991d14a2f92dc95c27f61bfeefdbe965、ルート実行/保護7 blob＋src/cloud-config.js一致。公開ロックfree。保存直前のmain、担当HEAD、ZIP版照合。",
-    "node": "Node 22.16.0、ローカル組込候補専用84/84合格（22定義のvalidateCard・別ID別名normalizeCustomCard・30枚validateDeck・クラス推定、7境界試験、54模擬戦）。既存7関連ファイル＋専用試験の計777/777合格。初回776/777で固定カタログ数91の期待値のみ失敗、試験用複製の期待値を105に変更し再実行した。ゲーム処理の変更なし。統合役には正式カタログ数に合わせた試験更新が必要。墓灯の導師の死亡時ミニオン限定サーチ・満手札、灰燼の渇望の撃破/非撃破分岐、血盟の番兵の回復後HP15/16と満HP・挑発分岐を実行。",
-    "simulation": "9クラス×両席×3 seedの54戦、固有スキルを合法行動の候補に含める（自傷死回避の簡易方針）、全操作の決定性・assertState・全戦終局を確認。starter-decks.test.jsの45組の模擬戦とclass-skills408.test.jsも777件に含む。対人勝率は未評価。",
-    "browser": "試験用組込候補のChromium実DOM（1194×834）で専用22種類を別ID・別名でカード作成UIから保存し、全定義一致。ページエラー・外部HTTP通信なし。",
-    "localBuiltIn": "ローカル試験用のclass-cards.jsへ未公開14定義を追加、warlockのレシピのみrevision6のものに変更。公開済み8定義維持。正式カタログ版変更なし。",
-    "notVerified": "全Node回帰・他クラス未統合提案との同時統合・正式カタログ版更新・混在版拒否・実機/Safari/実Firebase/Pages配備・対人バランス・汎用自傷追加要望は未検証。公開前に統合役で再検証。"
+    "status": "partial",
+    "baseline": "v0.1.410 main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b、固定ZIP v26（20,369,189 bytes）取得。内側ZIP SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654、一致した実行・設定48 blob（src/.gitkeep補完、root cloud-configはsrc版で照合）。公開ロックfree。既存19公開定義を全て維持。",
+    "node": "Node v24.22.3、関連8ファイル＋専用87件＋カード作成モックDOM22件、計849/849合格（最終候補、終了コード0）。初回専用の手札境界fixture1件と既存の固定カタログ数期待値1件を試験用コピーのみ修正。実行処理は変更なし。墓灯サーチ満手札、灰燼 非撃破/撃破/聖なる盾、血盟 回復後HP15/16/満HP。30枚・2枚制限・クラス制限・公開定義・同名自作カード/バックアップを検証。",
+    "simulation": "最終デッキの9クラス×両席×3seed=54模擬戦・共有トランザクション2戦（投影、再送、決定性）、全終局。初期デッキ4構成比較640戦（8クラス×両席×10seed×4構成）：旧構成85/160勝、墓灯置換79/160、奈落門番置換75/160、血盟置換87/160。血盟置換は平均終了HP約16.5（旧13.4）、山札切れ敗北33/160で同数。簡易方針であり対人勝率と同一視しない。",
+    "browser": "現版はNodeのモックDOMでカード作成画面の実ハンドラを通じて22/22定義再現・保存一致。実Chromiumは実行ファイル欠落、Playwright公式取得403、ローカル試験ページを代替ブラウザで開く試行も失敗。v408でのr7のChromium22/22実績は履歴に留め、今回の現版ブラウザ合格とはしない。",
+    "localBuiltIn": "試験用class-cards.jsに未統合3定義、starter-decks.jsのwarlockのみ変更。公開167定義維持し候補170定義。正式カタログ版変更なし。",
+    "notVerified": "実Chromium・全Node回帰・他クラス未統合提案との同時統合・正式カタログ版変更・実機/Safari/実Firebase/Pages・対人バランス。draftのためそのまま統合しない。前回ready r7は7ef0fab667ead6063b0df0c6e13b94702eb66bbaに保存済み。"
   },
-  "notes": "第7段階：v0.1.408のクラススキル導入後に再検証。墓灯の導師・灰燼の渇望・血盟の番兵を追加し累計22種類。既存19定義とRevision6の30枚レシピは変更なし（専用13種類26枚、共通2種類4枚）。新3種類はデッキ編集用候補。名称・数値は暫定。血盟の番兵は回復後のHPが15以下で挑発付与。自傷スキルは変更なし、カード作成の汎用自傷要望は維持。"
+  "notes": "第8段階：v0.1.410の9クラス統合後に22種類全定義と採用制限を再検証。固有スキルの自傷を考慮し、初期デッキの黒蝕の託宣者2枚を血盟の番兵2枚に暫定変更（6→5マナ、回復と条件付き挑発、反復ドロー抑制）。旧構成を含む4構成640戦で確認。実ブラウザ未検証のためdraft、r7のready履歴は維持。汎用自傷要望は保留。"
 }
