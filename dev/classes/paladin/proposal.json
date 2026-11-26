@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "paladin",
-  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 6,
+  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
+  "revision": 7,
   "status": "ready",
   "cards": [
     {
@@ -208,6 +208,39 @@
         "target": "friendlyChoice",
         "amount": 1
       }
+    },
+    {
+      "id": "paladin_radiant_formation",
+      "name": "光陣の号令",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "grantShield",
+        "target": "friendlyChoice",
+        "amount": 1,
+        "followUp": {
+          "condition": "wideBoard",
+          "operation": "buffAttack",
+          "target": "friendlyMinions",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "paladin_ivory_protector",
+      "name": "象牙の護剣士",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 4,
+      "maxHealth": 5,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "grantShield",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -245,12 +278,11 @@
   "requests": [],
   "verification": {
     "status": "pass",
-    "baseline": "v0.1.406 / main 681ec179c708a222e7dbfd660bb7636f08195ac6 / root tree aedb84f8f4d59216ce06808cd34955f50a1ccd3f。固定ZIP version 22を再取得・展開、内側ゲームZIP SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、src tree 87008113fadf0445f803cf6c991cf143506c8516、全ルート実行ファイルと設定のblob SHA一致。公開済み4定義と累積提案の一致確認。公開ロックfree。",
-    "node": "Node 22.16.0。第5段階855/855、第6段階857/857合格、各終了コード0。paladin、starter-decks、keywords、buffs、grant-keywords、modify-cards、follow-conditions、secrets、creationの9ファイル。creationのカタログ総数のみ68/69へ更新、既存13カードの個別試験はrevision4の共通カードを含む固定レシピで継続し、新規2種と模擬対戦は最新レシピで実行。累積15種のvalidateCard・normalizeCustomCard一致、validateDeck、専用効果15件、各段階36戦（決定性・状態検証・終局）と45組の初期デッキ模擬対戦を確認。1マナ消費・挑発による攻撃対象制限、味方のみ選択可、対象不在でも召喚可、聖なる盾と付与挑発の組合せを個別検証。",
-    "browser": "実Chromium・オフラインimportmap・メモリ保存。第5段階14種類、第6段階15種類すべてを別名・別IDで実カード作成UIから再現保存し定義一致、両方終了コード0。最終候補で1366×1024、1194×834、844×390、390×844の全9初期デッキ選択・30枚複製・横はみ出しなし。ページエラー・外部通信なし。",
-    "shared": "最終候補でclass-integration406.test.jsのclass mixed shared simulation 9件を選択実行、9/9合格・終了コード0。共有状態遷移とローカル結果の一致・両席の表示検証・非公開手札の非露出を確認。実Firebaseではない。",
-    "deck": "15種各2枚、ミニオン20・スペル8・秘策2。マナ1:4枚、2:14枚、3:6枚、4:4枚、6:2枚、平均2.6。既存の汎用能力のみ。新規2種のID・名称は他8クラス最新提案と重複なし。",
-    "unverified": "全Node回帰（revision1固定統合マニフェストの件数・レシピ検査を含む）、他クラス未統合提案との組合せ、実機・Safari・実Firebase・対人勝率、最終全69種のブラウザ再現は未検証。統合時はマニフェスト更新・全回帰・新カタログ版・混在版拒否を再検証。専用画像・クラス採用制限・ヒーローパワーなし。"
+    "baseline": "v0.1.408 main 349d286492840c58a661e6cdc2605cffa5cbf868、root tree 753d35dddd68dd7e97a3e79ee0ed3d8727a9502a、src tree 5241d101991d14a2f92dc95c27f61bfeefdbe965、固定ZIP version 24、内側ゲームZIP SHA-256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12。ローカルgit write-treeによるsrcツリー照合（.gitkeep補完）、ルート実行ファイル・設定のblob SHA一致。公開済み8種維持。",
+    "node": "Node 22.16.0。ローカルで累積17種を追加済みカタログと照合し不足9種のみ追加、15種30枚の初期レシピを適用。node --test tests/paladin408.test.js tests/starter-decks.test.js tests/class-skills408.test.js、227/227合格、失敗0、2.91秒。17種validateCard・normalizeCustomCard別ID/名で一致、初期レシピと代替レシピvalidateDeck、クラス自動判定、光の従者の2マナ消費・ターン制限・満盤面拒否・結束の聖旗との組合せ、光陣の号令の3体閾値の両側・盾付与、象牙の護剣士の盾付与・対象不在での召喚を確認。初期レシピおよび追加2種を各2枚代替採用する試験レシピ×9クラス×先後2条件＝36戦の合法操作、決定性、状態検証、400操作以内の終局と、既存45組模擬対戦。class-skills408の9共有トランザクション・両席表示試験を含む。",
+    "browser": "実Chromium、オフラインimportmap・メモリ保存。累積17種類すべてをカード作成UIから別ID・別名で作成・保存・定義一致、終了コード0。別実行で1366×1024、1194×834、844×390、390×844の全9初期デッキ選択・30枚複製・横はみ出しなし、終了コード0。ページエラー・外部通信なし。",
+    "collision": "最新mainと他8クラス提案を再確認し、新規2種の名称およびpaladin_ IDの他クラス衝突なし。",
+    "unverified": "全Node回帰・全100種ブラウザ再現・全追加カード個別効果の再試験・他クラス未統合提案との組合せ・実機Safari・実Firebase・対人バランスは未確認。統合時は固定マニフェスト・カタログ数のアサーションを更新し全回帰と混在版拒否を検証。追加2種は任意入れ替え候補で初期レシピはrevision6から不変。スキル実装・採用制限・ルールの変更なし。"
   },
-  "notes": "第5・6段階：白銀の小衛士と聖誓の隊長の各2枚でscout・guard各2枚を置換。累積15種30枚のパラディン専用暫定初期デッキが成立。既存13定義を変更せず、公開済み4種維持。未統合11種類。名称・数値・全専用化・デッキ配分は暫定設計。main・固定ZIP・他ブランチ変更なし。"
+  "notes": "第7段階：v0.1.408のクラススキル対応を再検証。光陣の号令、象牙の護剣士の2種を追加、累計17種。初期デッキは専用15種各2枚の30枚を維持。追加2種は任意の入れ替え候補（試験時は白金の誓約・旭光の大聖騎士を各2枚置換）。公開済み8種、未統合9種。名称・数値は暫定。main・固定ZIP・他クラス変更なし。"
 }
