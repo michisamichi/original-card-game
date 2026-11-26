@@ -2,9 +2,78 @@
   "schema": 1,
   "classId": "priest",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "priest_mender",
+      "name": "聖泉の治癒師",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "heal",
+        "target": "friendlyChoice",
+        "amount": 3
+      }
+    },
+    {
+      "id": "priest_blessing",
+      "name": "黎明の祈祷",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "buffHealth",
+        "target": "friendlyChoice",
+        "amount": 2,
+        "followUp": {
+          "condition": "always",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "priest_sanctuary_guard",
+      "name": "聖域の番人",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 2,
+      "maxHealth": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "heal",
+        "target": "friendlyMinions",
+        "amount": 1
+      }
+    },
+    {
+      "id": "priest_dawn_wave",
+      "name": "浄光の波動",
+      "type": "spell",
+      "manaCost": 5,
+      "ability": {
+        "when": "play",
+        "operation": "heal",
+        "target": "self",
+        "amount": 3,
+        "followUp": {
+          "condition": "always",
+          "operation": "damage",
+          "target": "enemyMinions",
+          "amount": 2
+        }
+      }
+    }
+  ],
   "deck": [
     "scout",
     "scout",
@@ -12,14 +81,14 @@
     "guard",
     "knight",
     "knight",
-    "golem",
-    "golem",
-    "dragon",
-    "dragon",
+    "priest_sanctuary_guard",
+    "priest_sanctuary_guard",
+    "priest_dawn_wave",
+    "priest_dawn_wave",
     "wisp",
     "wisp",
-    "archer",
-    "archer",
+    "priest_mender",
+    "priest_mender",
     "sentinel",
     "sentinel",
     "titan",
@@ -32,15 +101,48 @@
     "sage",
     "healer",
     "healer",
-    "ward",
-    "ward",
+    "priest_blessing",
+    "priest_blessing",
     "echo",
     "echo"
   ],
-  "requests": [],
+  "requests": [
+    {
+      "id": "priest_request_attack_threshold_destroy",
+      "title": "攻撃力上限指定の単体破壊（汎用選択肢）",
+      "when": "play または summon（初期対象は使用時に選択できるタイミングのみ）",
+      "target": "enemyMinionChoice のうち実効攻撃力が指定値以下の合法対象1体。既存の対象選択・潜伏等の制限を維持",
+      "operation": "destroyAttackAtMost（仮称）。選択時・実行時の両方で実効攻撃力と合法性を確認し、既存destroyで破壊",
+      "amount": "整数1〜30の攻撃力上限。固定数値1の既存destroyとは別選択肢",
+      "followUp": "初期はなし。追加効果は自動対象のみの既存制約を維持。条件に該当するミニオンがいないスペルは使用不可。登場効果は既存の対象なし登場ルールを使用",
+      "tests": [
+        "上限3で攻撃力3を選択可、4を選択不可。強化・弱体化・一時強化後の実効値で判定",
+        "敵盤面なし・潜伏のみの場合、対象選択スペルを使用不可、ミニオン登場は既存規則に従い不発",
+        "違法・古い対象の操作を拒否し状態不変、死亡効果・挑発・聖なる盾は既存の直接破壊規則と一致",
+        "カード作成画面で数値を設定し保存・再読込・normalizeCustomCard一致。合法操作と模擬通信の両側で同じ対象を提示"
+      ],
+      "status": "requested",
+      "notes": "未実装のため今回のcards/deckには入れない。実装可否と範囲は統合役が安全性を確認して判断。"
+    }
+  ],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "passed-class-scope",
+    "baseline": "main SHAとライブラリZIPのGITHUB_BASELINE.mdが一致。内側ゲームZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad一致。src/*.js全37件、index.html、style.css、package.json、tools-*.js、database.rules.json、firebase.jsonのGit blob SHAがmainと一致。ルートcloud-config.jsはsrc版と同じSHA。作業開始・保存直前のmain SHA一致。",
+    "node": "Node v22.16.0。ローカルのみcards.jsに4定義を追加しstarter-decks.jsのpriestレシピを置換。専用試験30/30合格（定義・normalizeCustomCard・validateDeck・重複確認5、効果と境界条件7、9クラス×2席の模擬対戦18）。効果試験では合法操作・状態検証・決定性・古い操作拒否も確認。",
+    "effectTests": [
+      "治癒師: 味方のみ指定、体力上限、空盤面は対象なしで登場",
+      "祈祷: 最大・現在体力+2と1ドロー、対象なし拒否・状態不変",
+      "番人: 自陣ターン終了に自身を含む味方を1回復、上限と敵非回復",
+      "波動: 自分HP+3（上限30）の後に敵ミニオン全体2ダメージ、死亡除去、味方・敵ヒーロー無傷、敵盤面なしでも回復、満HPでもダメージ"
+    ],
+    "browser": "実Chromium 1194x834、オフラインモジュールとメモリ保存。既存カード作成UIの基本・追加効果選択肢から4/4種類を別名・別IDで作成、保存後の定義完全一致。pageerror・外部HTTPリクエストなし。",
+    "regression": "starter-decks/turn-effects/follow-conditions/effects/creation/priest-proposal の関連試験500/501。唯一の失敗はcreation.test.jsの既存カード数固定24→実際28の期待値。ローカル検証用のcreation/custom-cards/decksの3ファイルの固定値のみ28に調整し再試験270/270合格。テスト改変は提案ブランチに保存しない。統合時に固定カード数の期待値を累積採用数に合わせ、旧24定義維持を検査する必要あり。",
+    "unverified": [
+      "全Node回帰試験、全ブラウザ試験、実機Safari/iPhone/iPad、実Firebase、公開環境",
+      "他8クラスの新規提案との統合・名称衝突・対戦バランス、専用イラスト、カタログ版更新と混在版拒否は統合役で再検証",
+      "不足効果requestの実装は未検証。今回の統合候補カードには含まない。"
+    ],
+    "notes": "カード・効果・初期デッキの担当範囲の必須試験は合格。readyは統合候補であり公開済みではない。"
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "revision1: archer→priest_mender、ward→priest_blessing、golem→priest_sanctuary_guard、dragon→priest_dawn_waveを各2枚置換。旧22枚維持。15種類×2枚・30枚。回復と盤面維持を優先した暫定値。波動は回復を先にして敵盤面なしでも回復が不発にならないよう設計。ヒーローパワー、クラス採用制限、新規ルールなし。main/他クラス/固定ZIP/公開版は無変更。"
 }
