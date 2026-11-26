@@ -2,9 +2,69 @@
   "schema": 1,
   "classId": "warlock",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "warlock_ash_scribe",
+      "name": "灰契の記録者",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 1,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_hollow_vessel",
+      "name": "虚ろの器",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "summonFixed",
+        "target": "tokenWisp",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_blood_wraith",
+      "name": "血紋の亡霊",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 4,
+      "keywords": [
+        "lifesteal"
+      ]
+    },
+    {
+      "id": "warlock_soul_pact",
+      "name": "魂葬の契約",
+      "type": "spell",
+      "manaCost": 5,
+      "ability": {
+        "when": "play",
+        "operation": "destroy",
+        "target": "enemyMinionChoice",
+        "amount": 1,
+        "followUp": {
+          "condition": "killed",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    }
+  ],
   "deck": [
     "scout",
     "scout",
@@ -12,18 +72,18 @@
     "guard",
     "wolf",
     "wolf",
-    "runner",
-    "runner",
+    "warlock_hollow_vessel",
+    "warlock_hollow_vessel",
     "knight",
     "knight",
-    "dragon",
-    "dragon",
+    "warlock_soul_pact",
+    "warlock_soul_pact",
     "wisp",
     "wisp",
-    "archer",
-    "archer",
-    "beast",
-    "beast",
+    "warlock_ash_scribe",
+    "warlock_ash_scribe",
+    "warlock_blood_wraith",
+    "warlock_blood_wraith",
     "draw",
     "draw",
     "bolt",
@@ -39,8 +99,12 @@
   ],
   "requests": [],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "passed",
+    "baseline": "v0.1.405。固定ZIP v21取得、内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad 一致。main再帰ツリーの全実行ファイル・設定・package.json・toolsのblob SHAとローカルGit blob SHAを照合一致。公開用cloud-config.jsはsrcと同一、src/.gitkeepは改行のみ。公開ロックfree確認。",
+    "node": "Node 22.16.0。現行コード上で新規66件を含む関連481/481合格。新規66件はvalidateCard・別ID/別名normalizeCustomCard・重複検査・30枚validateDeck、死亡時ドロー（通常/満手札/空山札）、死亡時召喚（空き/満盤面から死亡）、同時死亡、生命奪取（HP上限/対ミニオン）、撃破後ドロー（対象制約/マナ/対象なし拒否）、9クラス×両席×3 seedの54戦（決定性・assertState・終局）を含む。",
+    "localBuiltIn": "ローカル複製でsrc/cards.jsへ4定義を追加し、src/starter-decks.jsのwarlockレシピだけを差替え、starter-decks.test.js 74/74合格（定義再現28件、45対戦、デッキ検証）。正式カタログ版変更なしの試験用複製。",
+    "browser": "Chromium実DOM、1194×834、現行UIで新規作成操作→別名/別IDで4種保存、保存内容のID/名称以外が定義と一致、ページエラー・外部リクエストなし。追加効果の条件・対象・数値および生命奪取を実操作で設定。",
+    "notVerified": "全Node回帰試験、統合時の他クラス定義との衝突・カタログ版更新・混在版拒否、実機/Safari/実Firebase/Pages配備、対人バランスは未検証。関連試験とローカル統合試験のみ。公開前に統合役が再検証すること。"
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "第1段階：死亡時手札補充、死亡時盤面維持、生命奪取、単体除去＋撃破時ドロー。archer/runner/beast/dragon各2枚を同マナ帯の新規4種各2枚に置換、残り22枚維持。数値・名前は暫定の設計判断。未実装の自傷・専用ルール・ヒーローパワーは追加していない。既存効果のみで再現可能のためrequestsなし。"
 }
