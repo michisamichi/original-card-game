@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "rogue",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 4,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -197,6 +197,89 @@
           "amount": 1
         }
       }
+    },
+    {
+      "id": "rogue_contract_runner",
+      "name": "密約の使者",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "fetchDeck",
+        "target": "deckSpell",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_veil",
+      "name": "夜幕の護符",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "grantStealth",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_ambush_saboteur",
+      "name": "暗路の妨害者",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "weakenAttack",
+        "target": "enemyRandom",
+        "amount": 2
+      }
+    },
+    {
+      "id": "rogue_reclaim",
+      "name": "古い密書",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "recoverGrave",
+        "target": "graveSpell",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "rogue_last_lunge",
+      "name": "疾走の追跡者",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "charge"
+      ]
+    },
+    {
+      "id": "rogue_sly_trap",
+      "name": "足止めの細工",
+      "type": "secret",
+      "manaCost": 2,
+      "ability": {
+        "when": "minionPlayed",
+        "operation": "weakenAttack",
+        "target": "eventMinion",
+        "amount": 2
+      }
     }
   ],
   "deck": [
@@ -222,8 +305,8 @@
     "rogue_precise_cut",
     "rogue_silent_seal",
     "rogue_silent_seal",
-    "sage",
-    "sage",
+    "rogue_contract_runner",
+    "rogue_contract_runner",
     "rogue_twinblade",
     "rogue_twinblade",
     "rogue_smoke_repel",
@@ -254,16 +337,15 @@
   ],
   "verification": {
     "status": "passed-proposal",
-    "baseline": "作業開始時v0.1.405（main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f/固定ZIP version 21）を実ファイルのGit srcツリー・ルート実行ファイル・保護設定blobで照合。保存前にmain更新を検知して停止し、v0.1.406 main 681ec179c708a222e7dbfd660bb7636f08195ac6/固定ZIP version 22を再取得。内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、実ファイルから再計算したsrcツリー87008113fadf0445f803cf6c991cf143506c8516、ルート実行ファイル・保護設定blobが一致。公開済みローグ4種類を完全一致確認し維持、他クラス定義を維持したローカルコピーに未公開10種類のみ追加、ローグレシピのみ置換。",
-    "node": "Node 22.16.0。v0.1.405で第3段階候補（11種類）3ファイル141/141、第4段階候補（14種類）11ファイル944/944合格。v0.1.406に再適用した最終候補でrogue-revision2, rogue-revision3, starter-decks, poison-stealth, zone-moves, follow-conditions, buffs, secrets, modify-cards, mana-grants-conditions, keywordsの11ファイル974/974合格、終了コード0、スキップ0。ローグ36試合と9クラス45試合の模擬対戦完走、各操作後assertState、ローグ専用試験で操作前状態不変・決定性確認。",
-    "creator": "v0.1.405およびv0.1.406候補の実Chromium offline module map・メモリ保存で最終14種類すべてを別ID別名でUIから再作成・保存しnormalizeCustomCard後に能力定義完全一致。1366x1024/1194x834/844x390/390x844で9デッキ選択・複製・30枚表示・横はみ出しなし、ページエラー・外部リクエストなし、終了コード0。",
-    "effects": "今回追加6種類：情報屋の閃光弾生成と手札上限10、沈黙による挑発・強化解除と潜伏対象拒否、死亡時1ドロー、疾風の2回攻撃と3回目拒否、ランダム1枚割引・残り手札2枚と3枚の条件境界、全体ダメージが敵潜伏ミニオンにも適用され味方・敵プレイヤーは対象外であることと低手札時ドロー。従来効果試験も継続。デッキ30枚・各2枚、1/2/3/4マナの枚数6/14/6/4、ミニオン20・スペル8・秘策2、専用12種24枚・共通3種6枚。",
+    "baseline": "v0.1.406 main 681ec179c708a222e7dbfd660bb7636f08195ac6 / 固定ZIP version 22再取得。内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。ローカルでGit blobとsrcツリー87008113fadf0445f803cf6c991cf143506c8516を再計算し一致（.gitkeepは改行のみを補完、ルートcloud-configはsrcと同じblob）。index.html/style.css/package.json/database.rules.json/firebase.json/tools-room-server.js/tools-serve.js一致。公開済み4種類を維持したclass-cards.jsとローグのstarter-decks.jsだけをローカル候補で拡張。",
+    "node": "Node 22.16.0。第5段階候補17種類：rogue-next.test.js、starter-decks.test.jsの2ファイル152/152。第6段階最終候補20種類：上記＋zone-moves/modify-cards/poison-stealth/mana-grants-conditions/secrets/buffs/follow-conditions/keywords/windfury-lifestealの11ファイル1068/1068、終了コード0、スキップ0。全20定義validateCard・normalizeCustomCard一致・デッキvalidateDeck、名称重複なし、全9クラス45模擬試合と追加カード混合の別デッキ18試合、状態検証・操作の決定性と操作前状態不変を確認。さらにclass-integration406.test.jsから共有状態模擬試合9件のみ抽出し9/9合格（終了コード0）。試験判定2件を修正：潜伏の有効性はhasStealthで確認、回収のドロー枚数は使用カードを手札に移動してから比較。修正後全件合格。",
+    "creator": "実Chromium offline module map・メモリ内保存、starter-decks-browser.pyの対象をローグ20種類に限定して実行。全20種類を別ID別名で現行UIから再現・保存し定義完全一致。1366x1024/1194x834/844x390/390x844で全9デッキ選択・複製・30枚表示・横はみ出しなし、ページエラー・外部リクエストなし、終了コード0。",
+    "effects": "追加6種類の個別効果試験：山札スペル1枚取得・個体ID維持、潜伏付与後の敵対象除外・攻撃時解除、ランダム敵弱体化の攻撃力0下限と味方不変、墓地スペル回収成功後ドロー・自分自身の回収なし・空墓地で追加ドローなし、登場ターンのプレイヤー攻撃、敵ミニオン使用後秘策発動・攻撃力低下。レシピ30枚、同名各2枚、1/2/3/4マナの枚数6/14/6/4、ミニオン20・スペル8・秘策2、専用13種26枚・共通2種4枚。",
     "untested": [
-      "最終候補の全回帰試験は未実施。統合時に全件実行する。",
-      "デッキ編集用2種類の個別効果試験は実施済み、両カードを採用した別レシピでの模擬対戦・バランスは未実施。",
-      "次回統合のカタログ版変更と旧版混在拒否・保存通信互換性、他クラスの未統合提案との競合、実機・Safari・実Firebase・Pages配備、対戦バランス、専用イラストは未確認。"
+      "最終候補全回帰は未実施。統合時にv406固定のカタログ数・統合manifest試験を更新して全件実行する。",
+      "実機・Safari・実Firebase・Pages配備、カタログ版変更・旧版混在拒否の次回統合後再試験、対人バランス、他クラス未統合提案との競合、専用イラストは未確認。"
     ],
-    "notes": "第3・第4段階を連続実行し、最新版v0.1.406再検証後の最終候補のみ一括保存。main、固定ZIP、Firebase、公開ロックは変更しない。readyは統合候補。"
+    "notes": "第5・第6段階を連続実行し最終候補を保存。main、固定ZIP、Firebase、公開ロックは未変更。readyは統合候補であり公開済みではない。"
   },
-  "notes": "第3段階：runner/wisp/draw各2枚を夜霧の運び屋・路地の情報屋・封声の刃に置換。第4段階：flame各2枚を双刃の遊撃手に置換、裏取引・針雨はデッキ編集用として追加し初期デッキ外。旧8種類を維持（v0.1.406公開済み4種類含む）。累積14種類、初期デッキ専用12種類24枚。名称・コスト・能力値暫定。コンボ要望は維持、未実装能力は採用しない。"
+  "notes": "第5段階：密約の使者・夜幕の護符・暗路の妨害者を追加し、sage各2枚を密約の使者に置換。第6段階：古い密書・疾走の追跡者・足止めの細工を追加。既存14種類の定義維持、累積20種類、初期デッキ13専用種類26枚・共通4枚、デッキ編集用7種類。名称・能力値は暫定。コンボ要望は維持し未実装能力をカードに採用しない。"
 }
