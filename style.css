@@ -1399,3 +1399,7 @@ header .brand-title{font-family:Georgia,'Times New Roman',serif;color:#f1e4c5;le
  .tabletop-arena .arena-rail>.arena-menu{width:100%}
  .tabletop-arena .arena-rail>.arena-menu>summary{width:100%}
 }
+
+/* Class skill: compact, within the existing mana area. */
+.class-skill{font-size:.75rem;line-height:1.15;min-height:32px;padding:4px 7px;white-space:normal;max-width:100%;border:1px solid #c1a56d;background:#233e50;color:#fff4dc;border-radius:8px;cursor:pointer}.class-skill:disabled{opacity:.55;cursor:default}.class-skill[aria-pressed=true]{outline:2px solid #ffe3a0}.tabletop-arena .arena-mana .class-skill{width:100%;min-width:0}.match-panel .tabletop-arena[data-target-mode=skill] :is(.board .card,.hero .hp)[data-action-state=target]{outline:3px dashed #bceeff;outline-offset:1px}
+.duel-deck-skill{grid-column:1/-1;line-height:1.45;text-align:left;color:#f4ddb0;padding:3px 4px;overflow-wrap:anywhere}

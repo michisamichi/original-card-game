@@ -1,4 +1,5 @@
 // Shared structural validation for authoritative states and seat projections.
+import {CLASS_SKILLS,ARMOR_CAP} from './class-skills.js';
 import {KEYWORD_LABELS,RULES as R} from './cards.js';
 import {FOLLOW_CONDITIONS,TIMING_LABELS} from './effects.js';
 const int=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
@@ -12,6 +13,7 @@ export function validActionShape(a){
  if(!a||typeof a.type!=='string'||typeof a.matchId!=='string'||!a.matchId||a.matchId.length>100||!Number.isSafeInteger(a.revision)||a.revision<0)return false;
  const base=['type','matchId','revision'];
  if(a.type==='end'||a.type==='concede')return exactFields(a,base);
+ if(a.type==='skill')return !Object.hasOwn(a,'target')?exactFields(a,base):exactFields(a,[...base,'target'])&&(a.target==='hero'||instanceIdOK(a.target));
  if(a.type==='play')return instanceIdOK(a.card)&&(!Object.hasOwn(a,'target')?exactFields(a,[...base,'card']):exactFields(a,[...base,'card','target'])&&(a.target==='hero'||instanceIdOK(a.target)));
  return a.type==='attack'&&exactFields(a,[...base,'attacker','target'])&&instanceIdOK(a.attacker)&&(a.target==='hero'||instanceIdOK(a.target));
 }
@@ -36,6 +38,8 @@ const named=(dict,v)=>typeof v==='string'&&Object.hasOwn(dict,v);
 const schemas={};
 function add(types,fields){for(const type of types.split(' '))schemas[type]=Object.entries(fields);}
 add('draw secretSet generate fetch attackCancelled',{seat});
+add('skill',{seat,classId:v=>named(CLASS_SKILLS,v)});
+add('armorChange',{seat,amount:n=>int(n,-ARMOR_CAP,ARMOR_CAP)});
 add('burn secretReveal abilitySkipped discard recover play',{seat,cardId});
 add('death specialSummon revive returnHand',{seat,cardId,instanceId:instanceIdOK});
 add('stealthBroken silence transform destroy poisonous',{seat,cardId,target:instanceIdOK});

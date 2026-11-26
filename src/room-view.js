@@ -1,4 +1,5 @@
 // Validate presentation snapshots before replacing the last usable view.
+import {validSkillState} from './class-skills.js';
 import {RULES as R,isGeneratedCard} from './cards.js';
 import {validBoardState,legalActions} from './engine.js';
 import {validInstanceFields,validResult,validEvents,exactFields} from './state-validation.js';
@@ -20,7 +21,8 @@ export function validateRoomView(v){
  const catalog=validateMatchCatalog(m.customCards),ids=new Set(),visibleIds=new Set();if(!validEvents(m.events,catalog))fail();for(const e of m.events)if(e.cardId)visibleIds.add(e.cardId);
  for(let i=0;i<2;i++){
   const p=m.players[i];
-  if(!exact(p,i===v.seat?[...playerKeys,'hand','secrets']:playerKeys)||!int(p.hp,0,R.hp)||!int(p.maxMana,0,R.manaCap)||!int(p.mana,0,p.maxMana)||!int(p.deckCount,0,R.deckSize)||!int(p.handCount,0,R.handCap)||!int(p.secretCount,0,R.secretCap)||!Array.isArray(p.board)||p.board.length>R.boardCap||!Array.isArray(p.grave)||p.grave.length>R.instanceCap||p.board.length+p.grave.length+p.deckCount+p.handCount+p.secretCount<R.deckSize||p.board.length+p.grave.length+p.deckCount+p.handCount+p.secretCount>R.instanceCap||Object.hasOwn(p,'deck'))fail();
+  const keys=[...playerKeys,...(p.classId?['classId','skillUsed','armor']:[]),...(i===v.seat?['hand','secrets']:[])];
+  if(!exact(p,keys)||(p.classId&&!validSkillState(p))||!int(p.hp,0,R.hp)||!int(p.maxMana,0,R.manaCap)||!int(p.mana,0,p.maxMana)||!int(p.deckCount,0,R.deckSize)||!int(p.handCount,0,R.handCap)||!int(p.secretCount,0,R.secretCap)||!Array.isArray(p.board)||p.board.length>R.boardCap||!Array.isArray(p.grave)||p.grave.length>R.instanceCap||p.board.length+p.grave.length+p.deckCount+p.handCount+p.secretCount<R.deckSize||p.board.length+p.grave.length+p.deckCount+p.handCount+p.secretCount>R.instanceCap||Object.hasOwn(p,'deck'))fail();
   if(i===v.seat){if(!Array.isArray(p.hand)||p.hand.length!==p.handCount||!Array.isArray(p.secrets)||p.secrets.length!==p.secretCount)fail();}else if(Object.hasOwn(p,'hand')||Object.hasOwn(p,'secrets'))fail();
   const initialCopies=new Map(),total=p.board.length+p.grave.length+p.deckCount+p.handCount+p.secretCount;
   for(const zone of i===v.seat?['board','grave','hand','secrets']:['board','grave'])for(const c of p[zone]){

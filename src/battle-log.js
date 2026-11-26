@@ -1,5 +1,6 @@
 import {bindSearchInput} from './search-input.js';
 // Read-only public history. Never resolve cards from either hand, deck or secrets.
+import {CLASS_SKILLS} from './class-skills.js';
 import {CATALOG,KEYWORD_LABELS} from './cards.js';
 import {TIMING_LABELS} from './effects.js';
 export function battleLogRows(match,definition,{seat}={}){
@@ -8,6 +9,8 @@ export function battleLogRows(match,definition,{seat}={}){
  const who=i=>seat===0||seat===1?(i===seat?'自分':'相手'):`P${i+1}`;
  const target=(seat,id)=>id==='hero'||id===undefined?`${who(seat)}のHP`:visible.has(id)?name(visible.get(id)):`${who(seat)}のミニオン`;
  return (match.events||[]).slice(-64).flatMap(e=>{let text;const p=who(e.seat),n=()=>name(e.cardId);switch(e.type){
+ case 'skill':text=`${p}：スキル ${CLASS_SKILLS[e.classId]?.name??''}`;break;
+ case 'armorChange':text=`${p}：装甲 ${e.amount>=0?'+':''}${e.amount}`;break;
  case 'manaChange':text=`${p}：マナ ${e.mana>=0?'+':''}${e.mana} ／ 最大マナ ${e.maxMana>=0?'+':''}${e.maxMana}`;break;
  case 'costChange':text=`${p}：手札${e.count}枚のコスト${e.direction==='down'?'減少':'増加'}`;break;
  case 'silence':text=`${n()}：沈黙`;break;

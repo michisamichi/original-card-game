@@ -28,7 +28,7 @@ function projection(room,seat){
  if(!room.state)return base;
  const s=room.state,visibleIds=new Set();
  const players=s.players.map((p,i)=>{const own=i===seat;const visible=[...p.board,...p.grave,...(own?[...p.hand,...p.secrets]:[])];for(const c of visible){visibleIds.add(c.cardId);if(c.originCardId)visibleIds.add(c.originCardId);}
- return {hp:p.hp,mana:p.mana,maxMana:p.maxMana,board:p.board,grave:p.grave,deckCount:p.deck.length,handCount:p.hand.length,secretCount:p.secrets.length,...(own?{hand:p.hand,secrets:p.secrets}:{})};});
+ return {hp:p.hp,mana:p.mana,maxMana:p.maxMana,...(p.classId?{classId:p.classId,skillUsed:p.skillUsed,armor:p.armor}:{}),board:p.board,grave:p.grave,deckCount:p.deck.length,handCount:p.hand.length,secretCount:p.secrets.length,...(own?{hand:p.hand,secrets:p.secrets}:{})};});
  // Event card IDs describe public cards only (secretSet and draw have no cardId).
  // Include the public event definitions even if the card is not otherwise visible.
  for(const e of s.events)if(e.cardId)visibleIds.add(e.cardId);
