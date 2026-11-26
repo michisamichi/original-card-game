@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "shaman",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 4,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -192,6 +192,69 @@
         "target": "tokenWisp",
         "amount": 1
       }
+    },
+    {
+      "id": "shaman_tidespring",
+      "name": "潮泉の精霊",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 4,
+      "keywords": [],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "heal",
+        "target": "friendlyMinions",
+        "amount": 1
+      }
+    },
+    {
+      "id": "shaman_windblessing",
+      "name": "双風の加護",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "grantWindfury",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "shaman_earthseal",
+      "name": "大地の封印",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "silence",
+        "target": "enemyMinionChoice",
+        "amount": 1,
+        "followUp": {
+          "condition": "outnumbered",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "shaman_rampart",
+      "name": "岩環の守陣",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "summonFixed",
+        "target": "tokenGuard",
+        "amount": 1,
+        "followUp": {
+          "condition": "wideBoard",
+          "operation": "buffAttack",
+          "target": "friendlyMinions",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -229,14 +292,13 @@
   "requests": [],
   "verification": {
     "status": "pass",
-    "baseline": "開始時v0.1.405/ZIP21の44実行・設定ファイルを照合。途中でmainがv0.1.406へ更新されたのでZIP22を取得し、mainの変更差分と照合。保管本体ZIP SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、全45実行・設定ファイル一致。公開済みシャーマン4定義は累積提案と完全一致、新規9種類は既存ID/名称と重複なし。",
-    "stages": "v0.1.405上で第3段階11種類 Node 91/91・仮統合81/81・Chromium UI 11/11合格、第4段階13種類 Node 97/97・仮統合83/83・Chromium UI 13/13合格。その後v0.1.406で最終候補を再検証。",
-    "node": "v0.1.406 Node 22.16.0: 97/97合格（13定義、デッキ1件、個別効果29件、9クラス×6シード54戦）。validateCard、別名別ID normalizeCustomCard一致、validateDeck、合法操作・決定性・状態検証・全戦終了。",
-    "browser": "v0.1.406 Chromium実DOM 1194×834、オフラインモジュール/メモリ保存で累積13種類を別名・別IDとして実際のカード作成画面から保存しnormalizeCustomCardで一致。ページエラー・外部通信なし。",
-    "integration": "v0.1.406上で未公開9種類のみclass-cards.jsに追加し、シャーマンの30枚レシピのみ仮変更。starter-decks.test.js 113/113合格（45通りの模擬対戦、旧プリセット、カード作成互換性）。class-integration406.test.jsの既存同名自作カード・旧版ルーム拒否・9通りの共有状態模擬対戦を選択実行し11/11合格。固定revision1マニフェスト照合試験は対象外。試験後にソースを復元し全45実行・設定ファイル一致を再確認。",
-    "edgeCases": "第1・2段階の効果試験を再実行。燐火の小精霊は戦闘死亡時に閃光弾を手札生成（山札消費なし）、雷紋の一撃は敵体力1/2/3と敵ヒーロー対象を試験し撃破時のみ精霊召喚、雷晶の導師は登場時に閃光弾生成し使用時に呪文ダメージ+1、疾雷の牙精霊は登場ターンに敵ミニオンのみ攻撃可・次の自ターンにヒーロー攻撃可、万象の巨石精霊は盤面0/5/6体から登場後自ターン終了時のみ空き枠内で生成・相手ターン終了時は発動なし。",
-    "regression": "旧v0.1.405で仮統合時の既存回帰試験を試行し、固定カタログ数・発動条件別件数・説明文先頭判定の不一致を確認（最初の実行は時間制限で終了コード未取得、残り18ファイルは1185/1188合格）。旧テスト6ファイルの期待件数・文字列判定のみをローカル調整して再試験し、359件中358件合格後残るdeck-cell件数の固定期待値も修正して該当ファイル28/28合格。旧テストは全て原本へ復元。最新v0.1.406での全76ファイルの回帰試験は未実施。統合役は最新カタログに固定マニフェスト等を更新し全回帰を実施すること。",
-    "unverified": "最新版の全76ファイルの回帰試験、他クラスrevision2以降との統合、実機・Safari・実Firebase・Pages、クラス間バランス・採用制限・カタログ版更新は未検証。readyは検証済みの提案であり公開済みではない。"
+    "baseline": "v0.1.406 / main 681ec179c708a222e7dbfd660bb7636f08195ac6、ライブラリZIP version22。ZIP内のゲーム本体を新規展開しSHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5 を再計算、全45実行・設定ファイルのGit blob SHAを同一コミットの取得済みSHAと照合一致。公開済み4種は不変。保存前のmain、担当HEAD、ZIP版も変化なし。",
+    "stages": "第5段階（累積15種類）：Node 120/120合格、Chromium UI 15/15再現。第6段階（累積17種類）：Node 129/129合格、Chromium UI 17/17再現。最終複合効果4条件追加後の同じ17定義で133/133合格。",
+    "node": "Node 22.16.0、最終133/133合格。17定義・別ID別名normalizeCustomCard一致、既存30枚レシピ、個別/複合効果43件、既存レシピ54戦と新カード入り交換レシピ18戦（計72戦）、合法操作、決定性、状態検証、全戦終了。",
+    "browser": "Chromium実DOM 1194×834、オフラインモジュール/メモリ保存、実カード作成UIから17種すべてを別名別IDで作成・保存しnormalizeCustomCardと定義一致。ページエラー・外部通信なし。",
+    "integration": "ローカルのclass-cards.jsへ未公開13種を仮追加、starter-decks.jsのシャーマンだけをRevision4の30枚に置換。starter-decks.test.js 113/113合格（45戦含む）。class-integration406.test.jsの保存済み同名自作カード・旧版ルーム拒否・共有状態模擬対戦9戦の選択実行11/11合格。旧固定revision1マニフェスト試験は対象外。仮変更の2ファイルを元へ復元。",
+    "edgeCases": "潮泉の精霊：自分のターン終了時のみ味方全体の回復・体力上限・相手は回復しない。双風の加護：攻撃後の2回目は可、3回目不可、重複付与でも攻撃回数増加なし、召喚酔い維持、敵への付与拒否。大地の封印：強化解除・沈黙、敵が多い時のみドロー、不正対象拒否。岩環の守陣：初期盤面0/1/2/6/7枠、3体以上かつ召喚成功時のみ強化。複合効果4件：疾風＋一時攻撃強化とターン終了解除、沈黙で石核の守護精霊の死亡召喚停止、岩環＋精霊の集いの7枠上限・満杯時追加強化なし、潮泉＋大地の癒し手のミニオン/プレイヤー回復分離。",
+    "unverified": "全76ファイルの最終候補回帰、他クラスの最新提案との統合、実機・Safari・実Firebase・Pages・対人バランス・カタログ版更新は未検証。旧固定マニフェストの『全クラスカードが初期デッキに入る』という前提は、今回の交換用4種類を含むカタログへ統合する際に、初期デッキ採用分と追加選択肢を区別する検証へ変更が必要。readyは公開済みではない。"
   },
-  "notes": "第3・4段階を一括保存。第3段階はscout・bolt・sage各2枚を燐火の小精霊・雷紋の一撃・雷晶の導師に置換、第4段階はwolf・dragon各2枚を疾雷の牙精霊・万象の巨石精霊に置換。専用13種類26枚、共通guard/wisp各2枚を序盤・精霊テーマ維持のため残す暫定30枚案。v0.1.406公開済み4種類は変更なし、未公開9種類。全て現行汎用効果のみ、新規ルール・追加要望なし。名前・数値は暫定。"
+  "notes": "第5・6段階一括保存。第5段階は潮泉の精霊・双風の加護、第6段階は大地の封印・岩環の守陣を追加。初期デッキはRevision4と同じ専用13種類26枚＋共通2種類4枚を維持。追加4種類はデッキ編集向けの交換候補であり初期デッキには含めない。累積17種類、公開済み4種不変、未公開13種。現行汎用効果のみ、追加効果の実装要望なし。名称・性能・交換候補の選定は暫定案。採用制限・ヒーローパワー・オーバーロードは追加しない。"
 }
