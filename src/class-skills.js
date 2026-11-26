@@ -1,5 +1,5 @@
-// Class identity is derived only from official class-card IDs in the initial deck.
-// Mixed or neutral decks remain classless; no existing saved deck format changes.
+// Official class cards have one owner; common/custom cards remain neutral.
+// Old single-class decks infer their class when no explicit choice was saved.
 import {CLASS_CARDS} from './class-cards.js';
 export const SKILL_COST=2,ARMOR_CAP=99;
 const entries=[
@@ -16,4 +16,12 @@ const entries=[
 export const CLASS_SKILLS=Object.freeze(Object.fromEntries(entries.map(([id,className,name,description])=>[id,Object.freeze({id,className,name,description})])));
 const owners=new Map(CLASS_CARDS.map(c=>[c.id,c.id.split('_')[0]]));
 export function inferClass(deck){const ids=new Set(deck.map(id=>owners.get(id)).filter(id=>Object.hasOwn(CLASS_SKILLS,id)));return ids.size===1?[...ids][0]:null;}
+export const cardClass=id=>owners.get(id)??null;
+export function classAllows(classId,id){const owner=cardClass(id);return owner===null||owner===classId;}
+export function validateClassDeck(deck,selected=undefined){
+ const classId=selected===undefined?inferClass(deck):selected;
+ if(classId!==null&&(typeof classId!=='string'||!Object.hasOwn(CLASS_SKILLS,classId)))throw Error('クラスが不正です');
+ if(!deck.every(id=>classAllows(classId,id)))throw Error('他クラスの専用カードを外してください');
+ return classId;
+}
 export function validSkillState(p){return Object.hasOwn(CLASS_SKILLS,p.classId)&&typeof p.skillUsed==='boolean'&&Number.isSafeInteger(p.armor)&&p.armor>=0&&p.armor<=ARMOR_CAP;}

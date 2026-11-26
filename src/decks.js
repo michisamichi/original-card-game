@@ -1,6 +1,7 @@
 // Based on legacy decks.js's separated browser-local store + count validation.
 // New namespace and strict format; never reads legacy keys or migrates old cards.
 import {CATALOG,RULES,STANDARD_DECK,EFFECT_DECK,SECRET_DECK,validateDeck} from './cards.js';
+import {validateClassDeck} from './class-skills.js';
 import {STARTER_DECKS} from './starter-decks.js';
 import {buildCatalog,normalizeCustomCards} from './custom-cards.js';
 import {normalizeTemplates} from './templates.js';
@@ -25,7 +26,7 @@ export function editCards(cards,id,delta,catalog=CATALOG){
 export function normalizeStore(raw){
  if(!raw||typeof raw!=='object'||Array.isArray(raw)||!Object.hasOwn(raw,'version')||!Object.hasOwn(raw,'decks')||Object.keys(raw).some(k=>!['version','decks','customCards','templates','art'].includes(k))||raw.version!==1||!Array.isArray(raw.decks)||raw.decks.length>MAX_SAVED_DECKS)throw Error('保存形式が不正');
  const customCards=normalizeCustomCards(raw.customCards===undefined?[]:raw.customCards),catalog=buildCatalog(customCards);
- const ids=new Set();const decks=Array.from(raw.decks,d=>{if(!exactFields(d,['id','name','cards'])||!validId(d.id)||ids.has(d.id))throw Error('デッキIDが不正');ids.add(d.id);validateDeck(d.cards,{catalog});return {id:d.id,name:cleanName(d.name),cards:[...d.cards]};});
+ const ids=new Set();const decks=Array.from(raw.decks,d=>{if(!(exactFields(d,['id','name','cards'])||exactFields(d,['id','name','cards','classId']))||!validId(d.id)||ids.has(d.id))throw Error('デッキIDが不正');ids.add(d.id);validateDeck(d.cards,{catalog});if(Object.hasOwn(d,'classId')){if(d.classId===undefined)throw Error('クラスが不正です');validateClassDeck(d.cards,d.classId);}return {id:d.id,name:cleanName(d.name),cards:[...d.cards],...(Object.hasOwn(d,'classId')?{classId:d.classId}:{})};});
  const templates=normalizeTemplates(raw.templates);
  const art=normalizeArt(raw.art,customCards);
  return {version:1,decks,...(customCards.length?{customCards}: {}),...(templates.length?{templates}: {}),...(Object.keys(art).length?{art}:{})};
@@ -33,6 +34,8 @@ export function normalizeStore(raw){
 export const emptyStore=()=>({version:1,decks:[]});
 export function readStore(storage){const raw=storage.getItem(DECK_STORE_KEY);if(raw===null)return emptyStore();if(typeof raw!=='string'||raw.length>MAX_STORE_CHARS)throw Error('保存データが不正');return normalizeStore(JSON.parse(raw));}
 export function writeStore(storage,store){const normalized=normalizeStore(store);const text=JSON.stringify(normalized);if(text.length>MAX_STORE_CHARS)throw Error('保存データの容量上限を超えています');storage.setItem(DECK_STORE_KEY,text);return normalized;}
-export function upsertDeck(store,deck){const s=normalizeStore(store);const i=s.decks.findIndex(d=>d.id===deck.id);if(i<0){if(s.decks.length>=MAX_SAVED_DECKS)throw Error('保存上限に達しました');s.decks.push(deck);}else s.decks[i]=deck;return normalizeStore(s);}
+export function upsertDeck(store,deck){const s=normalizeStore(store);validateClassDeck(deck.cards,deck.classId);const i=s.decks.findIndex(d=>d.id===deck.id);if(i<0){if(s.decks.length>=MAX_SAVED_DECKS)throw Error('保存上限に達しました');s.decks.push(deck);}else s.decks[i]=deck;return normalizeStore(s);}
 export function deleteDeck(store,id){const s=normalizeStore(store);if(!s.decks.some(d=>d.id===id))throw Error('デッキがありません');return {...s,decks:s.decks.filter(d=>d.id!==id)};}
-export function resolveDeck(store,id){const d=presets.find(d=>d.id===id)||normalizeStore(store).decks.find(d=>d.id===id);if(!d)throw Error('デッキがありません');return [...d.cards];}
+function findDeck(store,id){const d=presets.find(d=>d.id===id)||normalizeStore(store).decks.find(d=>d.id===id);if(!d)throw Error('デッキがありません');return d;}
+export function resolveDeck(store,id){return [...findDeck(store,id).cards];}
+export function resolveDeckClass(store,id){const d=findDeck(store,id);return validateClassDeck(d.cards,d.classId);}

@@ -1,5 +1,5 @@
 // Initial nine class themes. Recipes include validated declarative class cards.
-// Class names are provisional; class skills are inferred from class-card IDs, with no adoption restrictions.
+// Class names are provisional; class skills and adoption use an explicit or inferred class.
 import {CATALOG,validateDeck} from './cards.js';
 const recipes=[
  ['warrior','ウォリアー','挑発・盤面維持','scout guard wolf warrior_vanguard knight golem warrior_ironmarshal wisp archer warrior_bannerguard warrior_hammerguard warrior_veteran warrior_battlecry warrior_retaliation warrior_shieldwall'],

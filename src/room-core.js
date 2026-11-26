@@ -1,5 +1,6 @@
 // Trusted authority prototype. NEVER expose this instance or its records to remote clients.
 // Optional trusted synchronous store. Transport must authenticate and rate-limit in production.
+import {validateClassDeck} from './class-skills.js';
 import {CATALOG,CATALOG_VERSION,validateDeck} from './cards.js';
 import {normalizeCustomCards,buildCatalog} from './custom-cards.js';
 import {createGame,applyAction,legalActions,assertState} from './engine.js';
@@ -16,9 +17,9 @@ function validReceipt(r,state){
  if(!exactFields(r,['id','fingerprint','revision'])||!requestOK(r.id)||typeof r.fingerprint!=='string'||r.fingerprint.length>512||!Number.isSafeInteger(r.revision)||r.revision<1||r.revision>state.revision)return false;
  try{const a=JSON.parse(r.fingerprint);return validActionShape(a)&&a.matchId===state.matchId&&a.revision===r.revision-1&&canonical(a)===r.fingerprint;}catch{return false;}
 }
-function enrollment(deck,customCards){
+function enrollment(deck,customCards,classId){
  const cards=normalizeCustomCards(customCards??[]);validateDeck(deck,{catalog:buildCatalog(cards)});
- return {deck:[...deck],customCards:cards.filter(c=>deck.includes(c.id))};
+ const selected=validateClassDeck(deck,classId);return {deck:[...deck],customCards:cards.filter(c=>deck.includes(c.id)),...(classId!==undefined?{classId:selected}:{})};
 }
 function combine(a,b){const cards=new Map();for(const c of [...a.customCards,...b.customCards]){if(cards.has(c.id)&&canonical(cards.get(c.id))!==canonical(c))fail('自作カード定義が競合しています');cards.set(c.id,c);}return normalizeCustomCards([...cards.values()]);}
 // Projection is an explicit allowlist: never send full state, RNG, deck order, enemy hidden cards,
@@ -46,7 +47,7 @@ export function createRoomCore({randomInt,maxRooms=64,now=Date.now,waitingMs=30*
  for(const r of restored){
   if(!exactFields(r,recordKeys)||!codeOK(r.code)||rooms.has(r.code)||!Number.isSafeInteger(r.changedAt)||r.changedAt<0||!Array.isArray(r.tokens)||r.tokens.length!==(r.state?2:1)||!r.tokens.every(tokenOK)||new Set(r.tokens).size!==r.tokens.length||!Array.isArray(r.receipts)||r.receipts.length!==2)fail('保存ルーム不正');
   if(r.state){assertState(r.state);if(r.state.mode!=='standard'||r.state.matchId!=='room-'+r.code||r.roomRevision!==r.state.revision+1||r.host!==null)fail('保存対戦不整合');for(const receipt of r.receipts)if(receipt!==null&&!validReceipt(receipt,r.state))fail('保存操作不正');if(r.state.revision!==Math.max(0,...r.receipts.map(x=>x?.revision??0))||(r.receipts[0]&&r.receipts[1]&&r.receipts[0].revision===r.receipts[1].revision))fail('保存操作不整合');}
-  else{if(r.state!==null||r.roomRevision!==0||r.receipts.some(x=>x!==null))fail('保存待機不正');if(!exactFields(r.host,['deck','customCards']))fail('保存待機不正');r.host=enrollment(r.host.deck,r.host.customCards);}
+  else{if(r.state!==null||r.roomRevision!==0||r.receipts.some(x=>x!==null))fail('保存待機不正');if(!(exactFields(r.host,['deck','customCards'])||exactFields(r.host,['deck','customCards','classId'])))fail('保存待機不正');r.host=enrollment(r.host.deck,r.host.customCards,r.host.classId);}
   rooms.set(r.code,copy(r));
  }
  function commit(next){if(store)try{store.save([...next.values()]);}catch{fail('ルーム保存に失敗しました');}rooms=next;}
@@ -63,13 +64,13 @@ export function createRoomCore({randomInt,maxRooms=64,now=Date.now,waitingMs=30*
    const q=JSON.parse(encoded);
    if(!q||q.protocol!==ROOM_PROTOCOL||q.catalogVersion!==CATALOG_VERSION)fail('バージョンが一致しません');
    if(!codeOK(q.code)||!tokenOK(q.token))fail('部屋コードまたは参加資格が不正');
-   const keys={create:['deck','customCards'],join:['deck','customCards'],sync:[],close:[],act:['requestId','action']} ;
+   const keys={create:['deck','customCards','classId'],join:['deck','customCards','classId'],sync:[],close:[],act:['requestId','action']} ;
    if(typeof q.type!=='string'||!Object.hasOwn(keys,q.type)||Object.keys(q).some(k=>!['type','protocol','catalogVersion','code','token',...keys[q.type]].includes(k)))fail('通信操作不正');
    for(const code of prune())onExpire(code);let room=rooms.get(q.code);
    if(q.type==='create'){
     if(room){if(room.tokens[0]!==q.token)fail('部屋コード使用済み');return {ok:true,view:copy(projection(room,0))};}
     if(rooms.size>=maxRooms)fail('部屋数上限');
-    const entry=enrollment(q.deck,q.customCards);
+    const entry=enrollment(q.deck,q.customCards,q.classId);
     room={code:q.code,tokens:[q.token],host:entry,state:null,roomRevision:0,changedAt:now(),receipts:[null,null]};put(room);
     return {ok:true,view:copy(projection(room,0))};
    }
@@ -78,9 +79,9 @@ export function createRoomCore({randomInt,maxRooms=64,now=Date.now,waitingMs=30*
    if(q.type==='join'){
     if(seat>=0)return {ok:true,view:copy(projection(room,seat))};
     if(room.state)fail('満室です');
-    const entry=enrollment(q.deck,q.customCards),cards=combine(room.host,entry);
+    const entry=enrollment(q.deck,q.customCards,q.classId),cards=combine(room.host,entry);
     // All validation and game construction must finish before publishing either seat.
-    const state=createGame({mode:'standard',decks:[room.host.deck,entry.deck],customCards:cards,seed:randomInt(1,0x100000000),firstSeat:randomInt(0,2),matchId:'room-'+room.code});
+    const state=createGame({mode:'standard',decks:[room.host.deck,entry.deck],classIds:[validateClassDeck(room.host.deck,room.host.classId),validateClassDeck(entry.deck,entry.classId)],customCards:cards,seed:randomInt(1,0x100000000),firstSeat:randomInt(0,2),matchId:'room-'+room.code});
     room={...room,state,tokens:[...room.tokens,q.token],host:null,roomRevision:room.roomRevision+1,changedAt:now()};put(room);seat=1;
     return {ok:true,view:copy(projection(room,seat))};
    }

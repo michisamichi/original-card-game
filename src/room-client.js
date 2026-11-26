@@ -34,14 +34,14 @@ export function createRoomClient({send,code,token}){
   const newer=!current||v.roomRevision>current.roomRevision;
   if(newer||type==='act')validateRoomView(v);
   if(current&&v.roomRevision===current.roomRevision&&!sameSnapshot(current,v))throw Error('同じ更新番号の通信状態が一致しません');
-  if(newer&&current?.match&&(v.match.firstSeat!==current.match.firstSeat||v.match.turnNo<current.match.turnNo||v.match.turnNo-current.match.turnNo>v.match.revision-current.match.revision||current.match.status==='finished'))throw Error('通信対戦の進行が不整合です');
+  if(newer&&current?.match&&(v.match.firstSeat!==current.match.firstSeat||v.match.players.some((p,i)=>p.classId!==current.match.players[i].classId)||v.match.turnNo<current.match.turnNo||v.match.turnNo-current.match.turnNo>v.match.revision-current.match.revision||current.match.status==='finished'))throw Error('通信対戦の進行が不整合です');
   if(newer)current=copy(v);
   return copy(current);
  }
  async function transmit(){if(!pending||inFlight)throw Error('送信中または再送対象なし');inFlight=true;try{const v=await exchange('act',pending);pending=null;return v;}catch(e){if(e.definitive)pending=null;throw e;}finally{inFlight=false;}}
  return Object.freeze({
   acceptSync:result=>acceptResult(result,'sync'),
-  create:(deck,customCards=[])=>exchange('create',{deck,customCards}),join:(deck,customCards=[])=>exchange('join',{deck,customCards}),sync:()=>exchange('sync'),
+  create:(deck,customCards=[],classId)=>exchange('create',{deck,customCards,...(classId!==undefined?{classId}:{})}),join:(deck,customCards=[],classId)=>exchange('join',{deck,customCards,...(classId!==undefined?{classId}:{})}),sync:()=>exchange('sync'),
   close:async()=>{if(closing||pending||inFlight||current?.phase!=='waiting')throw Error('待機中のみ削除できます');closing=true;try{const r=await send({protocol:PROTOCOL,catalogVersion:CATALOG_VERSION,type:'close',code,token});if(!exactFields(r,['ok','closed'])||r.ok!==true||r.closed!==true)throw Error(rejected(r)?r.error:'削除応答不正');generation++;current=null;}finally{closing=false;}},
   revision:()=>current?.roomRevision??-1,snapshot:()=>current?copy(current):null,hasPending:()=>pending!==null,
   act:a=>{if(closing)throw Error('部屋を削除中です');if(pending)throw Error('前の操作の応答待ち');if(!current?.match||current.match.status!=='playing'||a?.matchId!==current.match.matchId||a.revision!==current.match.revision)throw Error('古い操作または対戦なし');pending={requestId:randomId(16),action:copy(a)};return transmit();},retry:transmit
