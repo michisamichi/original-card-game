@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "warlock",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -63,6 +63,72 @@
           "amount": 1
         }
       }
+    },
+    {
+      "id": "warlock_abyss_imp",
+      "name": "深淵の小鬼",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "discardHand",
+        "target": "ownHand",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_grave_archivist",
+      "name": "冥府の蔵書守",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "recoverGrave",
+        "target": "graveSpell",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_ruin_brand",
+      "name": "滅契の刻印",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 5,
+        "followUp": {
+          "condition": "always",
+          "operation": "discardHand",
+          "target": "ownHand",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warlock_dusk_ritual",
+      "name": "薄命の儀式",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1,
+        "followUp": {
+          "condition": "lowHP",
+          "operation": "heal",
+          "target": "self",
+          "amount": 3
+        }
+      }
     }
   ],
   "deck": [
@@ -78,33 +144,60 @@
     "knight",
     "warlock_soul_pact",
     "warlock_soul_pact",
-    "wisp",
-    "wisp",
+    "warlock_abyss_imp",
+    "warlock_abyss_imp",
     "warlock_ash_scribe",
     "warlock_ash_scribe",
     "warlock_blood_wraith",
     "warlock_blood_wraith",
-    "draw",
-    "draw",
+    "warlock_dusk_ritual",
+    "warlock_dusk_ritual",
     "bolt",
     "bolt",
-    "sage",
-    "sage",
-    "flame",
-    "flame",
+    "warlock_grave_archivist",
+    "warlock_grave_archivist",
+    "warlock_ruin_brand",
+    "warlock_ruin_brand",
     "healer",
     "healer",
     "ember",
     "ember"
   ],
-  "requests": [],
+  "requests": [
+    {
+      "id": "self_damage",
+      "title": "自分のプレイヤーへの固定ダメージ（汎用効果の追加提案）",
+      "when": [
+        "play",
+        "summon"
+      ],
+      "target": "self",
+      "operation": "selfDamage",
+      "amount": {
+        "min": 1,
+        "max": 30
+      },
+      "followUp": {
+        "condition": "always",
+        "operation": "draw",
+        "target": "self",
+        "amount": 2
+      },
+      "description": "候補：2マナのスペルで自分に3ダメージを与え、生存していれば2枚ドロー。追加効果にも同操作を選択可能にする案。通常のダメージ・勝敗処理を再利用し、固定の自傷値には呪文ダメージ加算や生命奪取を適用しない案。実装・名称・数値は統合役の判断。未実装なのでカード・デッキに入れない。",
+      "tests": [
+        "HP4→1で2枚ドロー、HP3以下では敗北して追加効果なし",
+        "手札上限・空山札・呪文ダメージ持ち・生命奪取持ち・乱数不使用",
+        "カード作成UIの選択肢・定義正規化・バックアップ・通信投影・混在版拒否・決定性"
+      ]
+    }
+  ],
   "verification": {
     "status": "passed",
-    "baseline": "v0.1.405。固定ZIP v21取得、内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad 一致。main再帰ツリーの全実行ファイル・設定・package.json・toolsのblob SHAとローカルGit blob SHAを照合一致。公開用cloud-config.jsはsrcと同一、src/.gitkeepは改行のみ。公開ロックfree確認。",
-    "node": "Node 22.16.0。現行コード上で新規66件を含む関連481/481合格。新規66件はvalidateCard・別ID/別名normalizeCustomCard・重複検査・30枚validateDeck、死亡時ドロー（通常/満手札/空山札）、死亡時召喚（空き/満盤面から死亡）、同時死亡、生命奪取（HP上限/対ミニオン）、撃破後ドロー（対象制約/マナ/対象なし拒否）、9クラス×両席×3 seedの54戦（決定性・assertState・終局）を含む。",
-    "localBuiltIn": "ローカル複製でsrc/cards.jsへ4定義を追加し、src/starter-decks.jsのwarlockレシピだけを差替え、starter-decks.test.js 74/74合格（定義再現28件、45対戦、デッキ検証）。正式カタログ版変更なしの試験用複製。",
-    "browser": "Chromium実DOM、1194×834、現行UIで新規作成操作→別名/別IDで4種保存、保存内容のID/名称以外が定義と一致、ページエラー・外部リクエストなし。追加効果の条件・対象・数値および生命奪取を実操作で設定。",
-    "notVerified": "全Node回帰試験、統合時の他クラス定義との衝突・カタログ版更新・混在版拒否、実機/Safari/実Firebase/Pages配備、対人バランスは未検証。関連試験とローカル統合試験のみ。公開前に統合役が再検証すること。"
+    "baseline": "main 4a6409e3、v0.1.405、ライブラリZIP version_id 21・19,733,950 bytes（前回取得済みの同一版を再展開）。内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、src tree 9bb1874d76febe66e08bfca53fdf4a9d28f54136一致。ルート実行/保護ファイルのblob照合一致。公開ロックfree。保存直前main/branch HEAD確認。",
+    "node": "Node 22.16.0、関連6ファイル616/616合格。専用79件（累計8定義のvalidateCard・別ID別名normalizeCustomCard・デッキ30枚、前回の境界条件、今回13追加条件、9クラス×両席×3seedの54戦決定性・状態検証・終局）。手札破棄0枚/1枚・破棄時死亡効果なし、死亡時墓地回収の対象有無と手札満杯、5ダメージの撃破/盾/対象不在/手札なし、HP15/16/1の分岐と空山札敗北を確認。初回テスト補助関数がtarget:undefinedを含む不正操作を作成したため6件失敗、補助関数のみ修正し再実行全合格。ゲームソース修正なし。",
+    "localBuiltIn": "試験用ローカル複製に累計8定義とウォーロック30枚レシピのみ反映しstarter-decks.test.js 78/78合格（全9デッキ45模擬対戦を含む）。正式カタログ版変更なし。",
+    "browser": "Chromium実DOM 1194×834、累計8種類を既存カード作成UIから別名/別IDで再現して保存し全定義一致。外部リクエストとページエラーなし。",
+    "notVerified": "全Node回帰試験、他クラス同時統合後の衝突・カタログ版更新・混在版拒否、実機/Safari/実Firebase/Pages配備、対人バランス、自傷追加要望は未検証。統合役で再検証必須。"
   },
-  "notes": "第1段階：死亡時手札補充、死亡時盤面維持、生命奪取、単体除去＋撃破時ドロー。archer/runner/beast/dragon各2枚を同マナ帯の新規4種各2枚に置換、残り22枚維持。数値・名前は暫定の設計判断。未実装の自傷・専用ルール・ヒーローパワーは追加していない。既存効果のみで再現可能のためrequestsなし。"
+  "notes": "第2段階：前回4定義を維持し4種類追加。wisp/sage/flame/draw各2枚を新規4種に置換、累計専用8種類16枚と既存7種類14枚。手札破棄は支払い条件ではなく効果で、空手札なら不発でも登場・ダメージ処理は成立（仕様・バランス留意点）。名前/数値暫定。自傷は汎用追加要望のみ。"
 }
