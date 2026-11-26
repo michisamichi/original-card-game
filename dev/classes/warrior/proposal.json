@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "warrior",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "revision": 3,
   "status": "ready",
   "cards": [
     {
@@ -94,6 +94,41 @@
         "target": "enemyMinionChoice",
         "amount": 2
       }
+    },
+    {
+      "id": "warrior_shieldwall",
+      "name": "鋼壁の戦列",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "grantTaunt",
+        "target": "friendlyChoice",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "buffHealth",
+          "target": "friendlyMinions",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warrior_veteran",
+      "name": "戦線の老将",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 4,
+      "maxHealth": 4,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "death",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -119,26 +154,26 @@
     "warrior_bannerguard",
     "warrior_hammerguard",
     "warrior_hammerguard",
-    "titan",
-    "titan",
+    "warrior_veteran",
+    "warrior_veteran",
     "warrior_battlecry",
     "warrior_battlecry",
     "warrior_retaliation",
     "warrior_retaliation",
-    "ward",
-    "ward"
+    "warrior_shieldwall",
+    "warrior_shieldwall"
   ],
   "requests": [],
   "verification": {
     "status": "passed",
-    "baseline": "main HEAD unchanged at 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f, fixed library version 21 re-materialized; inner ZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad; all 44 executable/config files byte-identical to previous verified checkout.",
-    "node": "Node 22.16.0: 49/49 passed; all 6 definitions and creator normalization, 30-card deck, 36 simulated games, previous 4 effects plus temporary attack expires on end turn and wrong target rejected; hammerguard enemy-only damage and targetless summon.",
-    "browser": "Chromium 1194×834: recreated and saved all 6 cards through current creator; definitions match, no page errors or external network.",
+    "baseline": "main HEAD 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f unchanged; fixed ZIP re-materialized and SHA256 identical to previous verified checkout; inner ZIP a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad.",
+    "node": "Node 22.16.0 53/53 (36 simulated games included); all 8 definitions and normalization, 30-card deck, shieldwall enemy target rejection, friendly health and taunt, veteran death draw.",
+    "browser": "Chromium 1194x834: 8/8 through actual creator controls, saved definitions match; no page errors or external requests. Fixed amount controls absent as intended.",
     "notRun": [
       "正式カタログ組込み後の全回帰・通信互換性試験",
       "Safari・実機・実Firebase・Pages",
       "対人バランス"
     ]
   },
-  "notes": "第2段階：戦意の号令、鋼槌の制圧兵を各2枚追加しspark/beastを置換。専用6種類12枚、共通18枚。名称・数値は暫定。クラス採用制限・ヒーローパワー未追加。readyは統合候補。"
+  "notes": "第3段階：鋼壁の戦列と戦線の老将を各2枚、ward/titanを置換。専用8種類16枚、共通14枚。数値・名称暫定。既存汎用効果のみ。readyは統合候補。"
 }
