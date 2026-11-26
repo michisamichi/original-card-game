@@ -1378,3 +1378,24 @@ header .brand-title{font-family:Georgia,'Times New Roman',serif;color:#f1e4c5;le
  .tabletop-arena .arena-zones .arena-grave-inspect{min-height:36px}
  .tabletop-arena .arena-mana .mana{font-size:1rem;font-variant-numeric:tabular-nums}
 }
+
+/* v0.1.404 — no toolbar above an active battle. Recovery and surrender
+   share a native disclosure inside the battlefield, with a bounded panel. */
+.match-panel:has(.arena-menu){margin:0;padding:0;border:0;background:none;box-shadow:none;display:block}
+.match-panel:has(.arena-menu)>.tabletop-arena{margin:0;grid-area:auto}
+.match-panel .arena-rail>.arena-menu{margin:0;max-width:100%;min-width:0}
+.arena-menu>summary{cursor:pointer;list-style:none;text-align:center;min-height:38px;display:flex;align-items:center;justify-content:center;padding:5px 6px;font-size:.76rem}
+.arena-menu>summary::-webkit-details-marker{display:none}
+.arena-menu>summary:focus-visible{outline:2px solid #ffe4aa;outline-offset:2px}
+.arena-menu-pane{position:fixed;z-index:11;top:50%;left:50%;transform:translate(-50%,-50%);width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 28px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto;overscroll-behavior:contain;background:linear-gradient(145deg,#213953,#0b182b 60%);border:1px solid #c5a878;border-radius:12px;padding:14px;color:#eef3fa;box-shadow:0 10px 45px #000b;text-align:left}
+.arena-menu:not([open])>.arena-menu-pane{display:none}
+.arena-menu-pane>button{float:right;min-height:44px}
+.arena-menu-pane>h3{margin:0 0 12px;min-height:44px;display:flex;align-items:center}
+.arena-menu-pane .toolbar{justify-content:flex-start;gap:6px}
+.arena-menu-pane .toolbar .action{min-height:44px}
+@media (orientation:landscape) and (min-width:900px) and (min-height:650px){
+ #app:is(.view-cloud,.view-online):has(.arena-menu){padding-block:max(5px,env(safe-area-inset-top)) max(5px,env(safe-area-inset-bottom))}
+ .match-panel:has(.arena-menu)>.tabletop-arena{min-height:calc(100dvh - max(5px,env(safe-area-inset-top)) - max(5px,env(safe-area-inset-bottom)))}
+ .tabletop-arena .arena-rail>.arena-menu{width:100%}
+ .tabletop-arena .arena-rail>.arena-menu>summary{width:100%}
+}
