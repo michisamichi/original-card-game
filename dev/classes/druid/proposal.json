@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "druid",
   "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
-  "revision": 11,
+  "revision": 12,
   "status": "draft",
   "cards": [
     {
@@ -313,6 +313,39 @@
           "amount": 1
         }
       }
+    },
+    {
+      "id": "druid_rootwell_keeper",
+      "name": "根脈の守樹",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "gainMana",
+        "target": "self",
+        "amount": 1
+      }
+    },
+    {
+      "id": "druid_bark_shield",
+      "name": "岩葉の護り",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "buffHealth",
+        "target": "friendlyChoice",
+        "amount": 2,
+        "followUp": {
+          "condition": "highMaxMana",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -352,209 +385,15 @@
     "status": "partial",
     "base": "v0.1.410 / 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
     "baseline": "固定ZIP version26、外側SHA-256 70bfdcc53889714573134e67479543c56c59dba0a846c454bbd342b86dbfc8d9、内側SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。基準main SHA・実行/設定47 Git blob SHA一致（一時取得エラーのdiagnostics.jsも再取得一致）。",
-    "cardValidation": "累積20種の定義一致・最小DOMで再現保存・初期デッキ30枚・クラス制限・保存復元合格。公開済み14種と他クラス定義を維持。",
-    "node": "Node 24.22.3。同一実装の前回専用266/266・関連回帰430/430・今回は対称比較5/5（288戦完走）、最小DOM2/2。9クラス×両席×4 seed、同一条件・同一操作優先順位。公開済み初期構成56/72勝、現提案62/72、絡め根＋地鳴り・巨像構成60/72、導き手・守護獣構成64/72。いずれも各72戦、前後攻各36。相手はmainの初期デッキ固定。実対人バランスとは異なる。",
-    "browser": "実app.jsの最小DOMハーネスで20/20を別ID/名で保存しnormalizeCustomCard一致、採用制限と保存復元合格。Chromium実体不在、実ブラウザ試験ではない。",
+    "cardValidation": "累積22種の定義一致・最小DOMで再現保存・初期デッキ30枚・クラス制限・保存復元合格。公開済み14種と他クラス定義を維持。",
+    "node": "Node 24.22.3。第12段階の定義・採用制限・マナ上限4/9/10・沈黙で停止・強化の対象と最大マナ2/6/7/10・対象なし・新規2種を含む代替54戦・全5構成の共有状態模擬対戦5戦を含む87/87、最小DOM2/2、終了コード0。比較の第11段階288戦は前revisionに記録。全回帰は最終候補で実施中。",
+    "browser": "実app.jsの最小DOMハーネスで22/22を別ID/名で保存しnormalizeCustomCard一致、採用制限と保存復元合格。Chromium実体不在、実ブラウザ試験ではない。",
     "notTested": [
       "実Chromium/Safari/実機",
       "Node22での全回帰と対人バランス",
       "実Firebase通信、Pages配備、他クラス未統合提案との組合せ"
     ],
-    "notes": "仮統合の実行差分はsrc/class-cards.jsとsrc/starter-decks.js。main、固定ZIP、公開ロック未変更。",
-    "symmetricComparison": {
-      "published": {
-        "games": 72,
-        "wins": 56,
-        "draws": 0,
-        "actions": 7404,
-        "first": 36,
-        "second": 36,
-        "firstWins": 29,
-        "secondWins": 27,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 7
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 4
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 6
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 6
-          },
-          "druid": {
-            "games": 8,
-            "wins": 4
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 7
-          },
-          "mage": {
-            "games": 8,
-            "wins": 6
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "starter": {
-        "games": 72,
-        "wins": 62,
-        "draws": 0,
-        "actions": 6861,
-        "first": 36,
-        "second": 36,
-        "firstWins": 32,
-        "secondWins": 30,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 5
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 7
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 7
-          },
-          "druid": {
-            "games": 8,
-            "wins": 4
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 7
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "control": {
-        "games": 72,
-        "wins": 60,
-        "draws": 0,
-        "actions": 7074,
-        "first": 36,
-        "second": 36,
-        "firstWins": 31,
-        "secondWins": 29,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 6
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 6
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 7
-          },
-          "druid": {
-            "games": 8,
-            "wins": 5
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 4
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "guardian": {
-        "games": 72,
-        "wins": 64,
-        "draws": 0,
-        "actions": 7386,
-        "first": 36,
-        "second": 36,
-        "firstWins": 33,
-        "secondWins": 31,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 7
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 5
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 8
-          },
-          "druid": {
-            "games": 8,
-            "wins": 5
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 7
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      }
-    }
+    "notes": "仮統合の実行差分はsrc/class-cards.jsとsrc/starter-decks.js。main、固定ZIP、公開ロック未変更。"
   },
-  "notes": "第11段階：第10段階と仮統合実行コード同一（class-cards.js/starter-decks.js SHA256一致）。対称方針の比較を追加し、現行候補の強さは上がる傾向だが人間同士の優劣を示さないため30枚は維持。 実Chromium未検証、数値は暫定。revision7のready候補はb44bfedabde8fad4194104af6b761dbea38bf623に保持。"
+  "notes": "第12段階：根脈の守樹（4マナ2/3、ターン終了時に最大マナ・現在マナ1増加、上限10）と岩葉の護り（2マナ、選択した味方1体の最大・現在体力+2、成功後最大マナ7以上なら1ドロー）を追加。初期デッキは維持、新規2種は編集用。累積22種。 実Chromium未検証、数値は暫定。revision7のready候補はb44bfedabde8fad4194104af6b761dbea38bf623に保持。"
 }
