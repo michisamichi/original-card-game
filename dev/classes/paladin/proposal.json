@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "paladin",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 4,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -182,13 +182,39 @@
         "target": "self",
         "amount": 4
       }
+    },
+    {
+      "id": "paladin_little_watch",
+      "name": "白銀の小衛士",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [
+        "taunt"
+      ]
+    },
+    {
+      "id": "paladin_oath_captain",
+      "name": "聖誓の隊長",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "grantTaunt",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
-    "guard",
-    "guard",
+    "paladin_little_watch",
+    "paladin_little_watch",
+    "paladin_oath_captain",
+    "paladin_oath_captain",
     "paladin_dawn_squire",
     "paladin_dawn_squire",
     "paladin_edict_of_mercy",
@@ -219,10 +245,12 @@
   "requests": [],
   "verification": {
     "status": "pass",
-    "baseline": "v0.1.406 main 681ec179c708a222e7dbfd660bb7636f08195ac6、root tree aedb84f8f4d59216ce06808cd34955f50a1ccd3f、src tree 87008113fadf0445f803cf6c991cf143506c8516、固定ZIP version 22、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。実行ファイル・設定のGit tree/blob一致。公開済みpaladin4定義と累積提案の一致を確認し重複追加せず、他クラス維持。",
-    "node": "Node 22.16.0。第3段階849/849、第4段階853/853合格。paladin、starter-decks、keywords、buffs、grant-keywords、modify-cards、follow-conditions、secrets、creation の9ファイル。creationのカタログ数固定アサーションを候補数65/67に更新したローカル試験。旧版の対戦テスト用固定相手デッキを共通カード構成に変更し再実行。全13種validateCard、normalizeCustomCard、validateDeck、専用効果13件、各段階9クラス×4seedの36戦の決定性・状態検証・終局、45組初期デッキ模擬対戦を確認。生成上限、盾付与、生命奪取、秘策不発、追加効果HP閾値、山札切れ、死亡回復を個別検証。",
-    "browser": "Chromium・オフラインimportmap・メモリ保存。第3段階65種類再現保存、4画面サイズ9デッキ選択・複製・横はみ出しなし完了。第4段階67種類の個別PASSと全4画面PASSをログ確認したが実行ツールは終了時タイムアウト、最終2カードのみ再試験し終了コード0、ページエラー・外部通信なし。",
-    "unverified": "全Node回帰、最終全67種類ブラウザ試験の終了コード、Safari・iPhone/iPad実機、実Firebase通信、対人バランス、未統合他クラスとの統合は未確認。統合時に新カタログ版・混在版拒否と全回帰を再検証。カード固有処理・新ルール・専用画像は追加なし。"
+    "baseline": "v0.1.406 / main 681ec179c708a222e7dbfd660bb7636f08195ac6 / root tree aedb84f8f4d59216ce06808cd34955f50a1ccd3f。固定ZIP version 22を再取得・展開、内側ゲームZIP SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、src tree 87008113fadf0445f803cf6c991cf143506c8516、全ルート実行ファイルと設定のblob SHA一致。公開済み4定義と累積提案の一致確認。公開ロックfree。",
+    "node": "Node 22.16.0。第5段階855/855、第6段階857/857合格、各終了コード0。paladin、starter-decks、keywords、buffs、grant-keywords、modify-cards、follow-conditions、secrets、creationの9ファイル。creationのカタログ総数のみ68/69へ更新、既存13カードの個別試験はrevision4の共通カードを含む固定レシピで継続し、新規2種と模擬対戦は最新レシピで実行。累積15種のvalidateCard・normalizeCustomCard一致、validateDeck、専用効果15件、各段階36戦（決定性・状態検証・終局）と45組の初期デッキ模擬対戦を確認。1マナ消費・挑発による攻撃対象制限、味方のみ選択可、対象不在でも召喚可、聖なる盾と付与挑発の組合せを個別検証。",
+    "browser": "実Chromium・オフラインimportmap・メモリ保存。第5段階14種類、第6段階15種類すべてを別名・別IDで実カード作成UIから再現保存し定義一致、両方終了コード0。最終候補で1366×1024、1194×834、844×390、390×844の全9初期デッキ選択・30枚複製・横はみ出しなし。ページエラー・外部通信なし。",
+    "shared": "最終候補でclass-integration406.test.jsのclass mixed shared simulation 9件を選択実行、9/9合格・終了コード0。共有状態遷移とローカル結果の一致・両席の表示検証・非公開手札の非露出を確認。実Firebaseではない。",
+    "deck": "15種各2枚、ミニオン20・スペル8・秘策2。マナ1:4枚、2:14枚、3:6枚、4:4枚、6:2枚、平均2.6。既存の汎用能力のみ。新規2種のID・名称は他8クラス最新提案と重複なし。",
+    "unverified": "全Node回帰（revision1固定統合マニフェストの件数・レシピ検査を含む）、他クラス未統合提案との組合せ、実機・Safari・実Firebase・対人勝率、最終全69種のブラウザ再現は未検証。統合時はマニフェスト更新・全回帰・新カタログ版・混在版拒否を再検証。専用画像・クラス採用制限・ヒーローパワーなし。"
   },
-  "notes": "第3・4段階をまとめて保存。新規5種10枚。wisp、golem、ward、sage、dragonを各2枚置換。累積13種26枚＋共通scout/guard各2枚＝30枚。v0.1.406の公開済み4種を維持。前回未統合4種と今回5種の計9種が統合候補。名称・数値・デッキ配分は暫定。main・固定ZIP・他ブランチ変更なし。"
+  "notes": "第5・6段階：白銀の小衛士と聖誓の隊長の各2枚でscout・guard各2枚を置換。累積15種30枚のパラディン専用暫定初期デッキが成立。既存13定義を変更せず、公開済み4種維持。未統合11種類。名称・数値・全専用化・デッキ配分は暫定設計。main・固定ZIP・他ブランチ変更なし。"
 }
