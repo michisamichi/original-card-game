@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "classId": "rogue",
-  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
-  "revision": 7,
-  "status": "ready",
+  "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
+  "revision": 8,
+  "status": "draft",
   "cards": [
     {
       "id": "rogue_duskblade",
@@ -331,11 +331,103 @@
         "target": "enemyHandRandom",
         "amount": 1
       }
+    },
+    {
+      "id": "rogue_mistwatch",
+      "name": "霞路の見張り",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [
+        "stealth"
+      ]
+    },
+    {
+      "id": "rogue_venom_ambusher",
+      "name": "毒牙の奇襲者",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 1,
+      "maxHealth": 3,
+      "keywords": [
+        "rush",
+        "poisonous"
+      ]
+    },
+    {
+      "id": "rogue_moonlit_cut",
+      "name": "月隠れの斬撃",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 3,
+        "followUp": {
+          "condition": "killed",
+          "operation": "grantStealth",
+          "target": "friendlyRandom",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "rogue_backstreet_signal",
+      "name": "逃げ足の合図",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "returnHand",
+        "target": "friendlyChoice",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "discountHand",
+          "target": "ownHandRandom",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "rogue_ledger_smuggler",
+      "name": "帳簿の密輸人",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "discountHand",
+        "target": "ownHandRandom",
+        "amount": 1,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "rogue_false_alarm",
+      "name": "偽装の警鐘",
+      "type": "secret",
+      "manaCost": 1,
+      "ability": {
+        "when": "spellPlayed",
+        "operation": "generateFixed",
+        "target": "tokenSpark",
+        "amount": 1
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
+    "rogue_mistwatch",
+    "rogue_mistwatch",
     "rogue_venom_needle",
     "rogue_venom_needle",
     "rogue_night_courier",
@@ -387,16 +479,17 @@
     }
   ],
   "verification": {
-    "status": "passed-proposal",
-    "baseline": "v0.1.408 main 349d286492840c58a661e6cdc2605cffa5cbf868 / 固定ZIP version 24。内側ZIP SHA256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12。srcツリー5241d101991d14a2f92dc95c27f61bfeefdbe965をGit write-treeで再計算し一致、ルート実行ファイル・package.json・Firebase保護設定のblob一致、ルートcloud-configはsrcと同じblob。公開済み8カードを維持。ローカル候補に未公開16種類を追加しローグレシピのみ変更。カード配列・デッキの正規化FNV-1a照合値9450d9efが保存候補と一致。",
-    "node": "Node 22.16.0。最終候補のrogue408, starter-decks, class-skills408, zone-moves, modify-cards, poison-stealth, mana-grants-conditions, secrets, buffs, follow-conditions, keywords, windfury-lifesteal, grant-keywordsの13ファイル1254/1254合格、終了コード0、スキップ0。新規専用試験66件（24カードvalidateCard・normalizeCustomCard一致、デッキ1、個別効果4、スキル併用1、模擬対戦36）。全9クラス45模擬試合を含む。専用模擬対戦では毎操作の決定性・元状態不変・assertStateを確認。class-skills408の共有状態スキル試験9件も合格。初回の執行者テストのeffectiveAttack引数を誤っていたため定義を渡すようテストを修正し再実行。ゲームエンジン変更なし。",
-    "creator": "実Chromium offline module map・メモリ内保存。全24種類の別名別IDカードを現行作成画面から再現して保存し定義完全一致。1366x1024/1194x834/844x390/390x844で全9初期デッキ選択・複製・30枚表示・横はみ出しなし。ページエラー・外部HTTPリクエストなし。終了コード0。",
-    "effects": "黒街の執行者の敵選択弱体化・体力維持、抹消の刻印の敵破壊、疾風の足運びの登場ターン敵ミニオン限定攻撃、裏路地の通行料で相手手札1枚のみコスト増加、刃の舞と瞬刃の構えの累積+4とターン終了時解除・同ターン再使用拒否。レシピ30枚・各2枚・専用14種28枚と共通scout2枚。専用24種類うち10種類はデッキ編集用。",
+    "status": "passed-node-await-browser",
+    "baseline": "v0.1.410 main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b / 固定ZIP version 26、file_00000000f8c0821198b8659ca1300c2d。内側ZIP SHA256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。srcツリー7693a84d4bd316bcc8cdd9b6b96981af40650527をGit write-treeで再計算し一致、実行ファイル・package.json・Firebase保護設定のblob一致、ルートcloud-configはsrcと同一blob。公開済み20種類と他クラス全定義・全レシピを維持。未統合4種類を含む10種類を候補に追加。カード・デッキの正規化FNV-1a照合値571d57fd。",
+    "node": "Node 24.22.3。最終候補一括 npm test 82ファイル3227/3227合格、終了コード0、スキップ0。専用2試験ファイル110件（公開定義維持・クラス採用・デッキ1、30定義、旧自作名互換10、個別効果/スキル11、全9クラス54ローカル模擬試合、共有状態3試合、実カード作成UI配線1）。既存全9クラス45戦×2種類、共有9戦も含む。公開済みのmanifestは書き換えず、ローカル候補試験でのみcatalog 177、class 153、秘策13、1マナ25等とローグ候補デッキの期待値を更新。初回3件は件数期待値のみ不一致、修正後3ファイル173/173、最終一括再実行。ゲームコードの変更はローカルのclass-cards.js/starter-decks.jsのみ。",
+    "creator": "既存Node最小DOMハーネスを用いてsrc/app.jsの実際のカード作成画面を操作。全30種類の別名別ID入力、効果・追加効果・キーワード選択、保存、normalizeCustomCardで元定義完全一致。Chromium起動は実行ファイル欠落（/usr/lib/chromium/chromium）で失敗、別ブラウザからのローカル候補アクセス不可。実Chromium・iPad/iPhoneレイアウト再確認は未実施、UI結線の検証と区別。",
+    "effects": "黒街の執行者の敵選択弱体化、抹消の刻印の除去、疾風の足運びの急襲のみ、裏路地の通行料のランダムコスト増加と非公開ログ、霞路の見張りの潜伏解除、毒牙の奇襲者の急襲＋猛毒と盾による阻止、月隠れの斬撃の撃破時潜伏・非撃破/盾/味方不在、逃げ足の合図の満杯手札時の回収と個体リセット・ランダム1枚割引・再登場、帳簿の密輸人の手札2/3境界と空手札時は割引不成立のため追加ドローも不発、偽装の警鐘の敵スペル後・満杯時温存・致死時不発、刃の舞＋瞬刃の構えを双刃の遊撃手に重ねて2回攻撃・終了時解除。全ローグ模擬対戦で決定性・元状態不変・古い操作拒否・状態検証。共有状態3戦は決定性、個別投影、再送重複拒否を確認。",
+    "deck": "30枚、15種×2、専用100%。ミニオン20/スペル8/秘策2、マナ分布1:6枚、2:14枚、3:6枚、4:4枚、平均2.27。mainのbeast各2枚→黒街の執行者、scout各2枚→霞路の見張り。残り26枚を保持。デッキ編集用15種類。",
     "untested": [
-      "候補全回帰試験は未実施。統合時に固定カタログ数・manifestの試験を拡張し全件実行する。",
-      "実機・Safari・実Firebase・Pages配備、対人バランス、専用イラスト、次回カタログ版更新と旧版混在拒否は未検証。共有状態スキル試験は実Firebaseではない。"
+      "実Chromiumで新規6種類を含む30種類の再現保存および4サイズの表示は未検証。Node模擬DOMの合格と区別しdraft。実機・Safari・実Firebase・Pages配備・対人バランス・専用イラストは未確認。",
+      "Node 22での再実行と次の正式カタログ版更新・混在版拒否は統合担当が実施する。Node共有状態模擬は実Firebaseではない。"
     ],
-    "notes": "main、固定ZIP、Firebase、公開ロックは変更なし。readyは統合候補であり未公開。"
+    "notes": "main、固定ZIP、Firebase、ロックは変更なし。今回の6種追加は未公開、draftは実ブラウザ検証待ち。"
   },
-  "notes": "第7段階：黒街の執行者をbeast各2枚と置換、抹消の刻印・疾風の足運び・裏路地の通行料をデッキ編集用に追加。既存20種類を維持、累積24種類。初期デッキは14専用種類28枚、共通斥候2枚を維持。名称・マナ・能力値暫定。v408暫定スキル刃の舞との併用を検証。コンボ要望は未実装のまま維持。"
+  "notes": "第8段階：v0.1.410へ基準更新。前半は霞路の見張り・毒牙の奇襲者・月隠れの斬撃、後半は逃げ足の合図・帳簿の密輸人・偽装の警鐘を追加。既存24種類を維持し累積30種類（公開済み20・未統合10）。初期デッキは専用15種×2で完成候補、数値・名称暫定。共通の先行カード使用条件は未実装につきrequestsのみ。実ブラウザ未確認のためdraft。"
 }
