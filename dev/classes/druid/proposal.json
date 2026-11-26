@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "druid",
-  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 6,
+  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
+  "revision": 7,
   "status": "ready",
   "cards": [
     {
@@ -209,6 +209,36 @@
         "target": "deckMinion",
         "amount": 1
       }
+    },
+    {
+      "id": "druid_entangling_roots",
+      "name": "深緑の絡め根",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 2,
+        "followUp": {
+          "condition": "highMaxMana",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "druid_earth_tremor",
+      "name": "大地の地鳴り",
+      "type": "spell",
+      "manaCost": 4,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinions",
+        "amount": 2
+      }
     }
   ],
   "deck": [
@@ -246,18 +276,17 @@
   "requests": [],
   "verification": {
     "status": "passed",
-    "base": "v0.1.406 / 681ec179c708a222e7dbfd660bb7636f08195ac6",
-    "baseline": "固定ZIP version22を再取得・展開。外側SHA-256 a2b094ec70b809310be8810ad7407a4b321234e17598888cbbb383cceeb3585d、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。前回照合済み基準のsrc全件・index.html・style.css・package.json・tools2件・Firebase設定2件とバイト一致、main SHA不変。",
-    "cardValidation": "累積14/14 validateCard、別ID・別名normalizeCustomCard一致、公開済み3定義一致、ID・名称衝突なし、validateDeck合格（15種類×2枚、専用13種、共通2種、追加選択肢1種は不採用）。",
-    "browser": "実Chromium（1194×834、オフラインmodule map、メモリ内storage）で第5段階12/12、最終仮統合版14/14を実カード作成UIから別ID・別名で作成・保存・正規化し定義一致。ページエラー・外部通信なし。",
-    "node": "Node 22.16.0。第5段階92/92、第6段階99/99、最終仮統合版213/213（専用試験99＋starter-decks試験114）。合計404/404、模擬対戦207戦（54×3＋45）。専用試験は合法操作・状態検証・同一入力決定性・600手以内完走。新規13件：死亡時ドロー通常/手札満杯/山札切れ敗北、現在マナ回復2/5/10、追加回復条件の最大マナ3/6/7/10、山札からの特殊召喚通常/候補なし/6体占有で登場後満杯。最初の試験で山札切れを疲労ダメージと誤って期待したため、現行即時敗北ルールを確認して試験期待値のみ修正、再実行で全件合格。",
+    "base": "v0.1.408 / 349d286492840c58a661e6cdc2605cffa5cbf868",
+    "baseline": "固定ZIP version24を取得・展開。外側SHA-256 9521757a9f43448350fb3e5406cb05724698303cfcc40c8f8548da7fe619c211、内側SHA-256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12（基準記録一致）。v0.1.406から変更された実行ファイル14件のGit blob SHAを全件照合、その他はversion22からバイト一致、合計46件。",
+    "cardValidation": "累積16種をvalidateCard、別ID・別名normalizeCustomCard一致、ローカル仮統合カタログの定義一致。公開済み6種を維持。初期デッキ・代替デッキともvalidateDeck合格、inferClass=druid。",
+    "browser": "Chromium実カード作成画面1194×834、オフラインmodule map、メモリ内storageで16/16を別ID・別名入力保存、normalizeCustomCard後一致。ページエラー・外部通信なし。終了コード0。",
+    "node": "Node 22.16.0。最終仮統合候補の専用試験138/138、既存starter-decks.test.jsとclass-skills408.test.js 167/167（合計305/305、両方終了コード0）。専用試験は16定義、デッキ1、個別12、模擬対戦108、カバレッジ1。個別試験：絡め根の最大マナ2/6/7/10・対象なし・聖なる盾、大地の地鳴りの敵盤面0/1/7・味方/ヒーロー非対象、世界樹の巨像の盤面0/6・山札候補なし。模擬対戦は初期デッキと代替デッキの各54戦（9クラス×両席×3 seed）、合法操作・状態検証・同一入力決定性・600手以内完走。代替デッキはguard→絡め根、森羅の祝福→地鳴り、嶺渡りの巨獣→世界樹の巨像（各2枚）。専用試験中のドルイドスキル845回、世界樹の巨像90回、絡め根84回、地鳴り81回。既存試験の45模擬対戦と全9スキルの共有状態試験も合格。",
     "notTested": [
-      "全Node回帰試験、他クラス未統合提案との組合せ",
-      "世界樹の巨像を採用したデッキの通し模擬対戦（個別効果検証済み）",
+      "全Node回帰試験、他クラスの未統合提案との組合せ",
       "実機・Safari・実Firebase通信・公開Pages",
-      "対人バランス・正式クラス採用制限・ヒーローパワー"
+      "対人バランス・正式クラス採用制限"
     ],
-    "notes": "仮統合後にsrc/class-cards.js・src/starter-decks.jsを元のblob SHAへ復元。基準版の実行/保護ファイルと一致を確認。main・固定ZIP・公開ロックは変更なし。"
+    "notes": "仮統合のsrc/class-cards.js・src/starter-decks.jsを復元し、基準ZIPの実行/保護ファイル46件と完全一致を確認。main、固定ZIP、公開ロック未変更。"
   },
-  "notes": "第5段階：春芽の小精霊・泉脈の守り人を追加し灯火の精霊・星読みの賢者を各2枚置換。第6段階：四季の叡智・世界樹の巨像を追加し星の導きを四季の叡智で2枚置換。世界樹の巨像は高マナ偏重回避のため初期デッキには入れず編集用カード。累積専用14種類、初期デッキ専用13種類26枚＋共通2種類4枚。マナ別1/2/3/4/5/6/7＝4/8/8/2/4/2/2枚。現行効果のみ、数値は暫定案、特殊召喚で登場効果は発動しない。公開済み3種は変更せず、未統合11種を累積提案として保存。"
+  "notes": "第7段階：深緑の絡め根・大地の地鳴りを追加。初期デッキの専用13種26枚・共通2種4枚は維持し、新規2種と世界樹の巨像は編集用の追加選択肢として検証。累積16種類、v0.1.408で公開済み6種類は維持し未統合10種類。固有スキルを含めて初期・代替デッキを通し試験。数値は暫定。共通効果追加なし。"
 }
