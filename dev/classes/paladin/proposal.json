@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "classId": "paladin",
-  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
-  "revision": 7,
-  "status": "ready",
+  "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
+  "revision": 8,
+  "status": "draft",
   "cards": [
     {
       "id": "paladin_dawn_squire",
@@ -241,6 +241,42 @@
         "target": "friendlyChoice",
         "amount": 1
       }
+    },
+    {
+      "id": "paladin_twilight_refuge",
+      "name": "黄昏の避難所",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "heal",
+        "target": "self",
+        "amount": 3,
+        "followUp": {
+          "condition": "outnumbered",
+          "operation": "summonFixed",
+          "target": "tokenGuard",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "paladin_white_verdict",
+      "name": "白閃の裁定",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 3,
+        "followUp": {
+          "condition": "killed",
+          "operation": "heal",
+          "target": "self",
+          "amount": 2
+        }
+      }
     }
   ],
   "deck": [
@@ -277,12 +313,12 @@
   ],
   "requests": [],
   "verification": {
-    "status": "pass",
-    "baseline": "v0.1.408 main 349d286492840c58a661e6cdc2605cffa5cbf868、root tree 753d35dddd68dd7e97a3e79ee0ed3d8727a9502a、src tree 5241d101991d14a2f92dc95c27f61bfeefdbe965、固定ZIP version 24、内側ゲームZIP SHA-256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12。ローカルgit write-treeによるsrcツリー照合（.gitkeep補完）、ルート実行ファイル・設定のblob SHA一致。公開済み8種維持。",
-    "node": "Node 22.16.0。ローカルで累積17種を追加済みカタログと照合し不足9種のみ追加、15種30枚の初期レシピを適用。node --test tests/paladin408.test.js tests/starter-decks.test.js tests/class-skills408.test.js、227/227合格、失敗0、2.91秒。17種validateCard・normalizeCustomCard別ID/名で一致、初期レシピと代替レシピvalidateDeck、クラス自動判定、光の従者の2マナ消費・ターン制限・満盤面拒否・結束の聖旗との組合せ、光陣の号令の3体閾値の両側・盾付与、象牙の護剣士の盾付与・対象不在での召喚を確認。初期レシピおよび追加2種を各2枚代替採用する試験レシピ×9クラス×先後2条件＝36戦の合法操作、決定性、状態検証、400操作以内の終局と、既存45組模擬対戦。class-skills408の9共有トランザクション・両席表示試験を含む。",
-    "browser": "実Chromium、オフラインimportmap・メモリ保存。累積17種類すべてをカード作成UIから別ID・別名で作成・保存・定義一致、終了コード0。別実行で1366×1024、1194×834、844×390、390×844の全9初期デッキ選択・30枚複製・横はみ出しなし、終了コード0。ページエラー・外部通信なし。",
-    "collision": "最新mainと他8クラス提案を再確認し、新規2種の名称およびpaladin_ IDの他クラス衝突なし。",
-    "unverified": "全Node回帰・全100種ブラウザ再現・全追加カード個別効果の再試験・他クラス未統合提案との組合せ・実機Safari・実Firebase・対人バランスは未確認。統合時は固定マニフェスト・カタログ数のアサーションを更新し全回帰と混在版拒否を検証。追加2種は任意入れ替え候補で初期レシピはrevision6から不変。スキル実装・採用制限・ルールの変更なし。"
+    "status": "partial",
+    "baseline": "v0.1.410 main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b、root tree 6fcb06c358c4ee4c8a8d300ac8e45f63fd0bfe35、src tree 7693a84d4bd316bcc8cdd9b6b96981af40650527、固定ZIP version 26、内側ゲームZIP SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。ZIPのsrc treeとルート実行ファイル・設定のGit SHA一致、統合済15種の定義と初期30枚不変。",
+    "node": "Node 24.22.3。node --test tests/paladin410.test.js tests/starter-decks.test.js tests/class-skills408.test.js tests/class-selection409.test.js、412/412合格（12.73秒）。累積19種のvalidateCard、normalizeCustomCard別ID/別名一致、クラス所有・他クラス採用拒否、初期レシピと代替2レシピvalidateDeck、回復上限・劣勢条件の境界と生成上限、3点ダメージの撃破条件/聖なる盾/潜伏/対象なし、光の従者との3体条件・盾付与対象有無を確認。3レシピ×9クラス×先後×3 seed=162戦、全終局・状態検証・決定性・旧操作拒否。既存45模擬戦・9共有状態スキル試験含む。模擬勝敗は基本42-12、立て直し型38-16、盾型36-18（同一乱数ポリシー・各54戦、対人勝率とは異なる）。初期レシピ維持。",
+    "browser": "今回の実Chromium起動は実行ファイル欠落のため失敗。別ブラウザもローカル候補版へ接続できず。現行カード作成UIでの再現保存は未検証のためdraftとする。前回rev7のUI検証結果は今回の代用としない。",
+    "collision": "最新main全167定義と他8クラス提案を照合し、追加4種のID・名前衝突なし。",
+    "unverified": "今回の実ブラウザ、全Node回帰（固定件数・統合マニフェストは未更新）、実機Safari・実Firebase・対人バランス。統合時にUI再現・全回帰・混在版拒否を再検証する。"
   },
-  "notes": "第7段階：v0.1.408のクラススキル対応を再検証。光陣の号令、象牙の護剣士の2種を追加、累計17種。初期デッキは専用15種各2枚の30枚を維持。追加2種は任意の入れ替え候補（試験時は白金の誓約・旭光の大聖騎士を各2枚置換）。公開済み8種、未統合9種。名称・数値は暫定。main・固定ZIP・他クラス変更なし。"
+  "notes": "第8段階：v0.1.410本体15種統合済みを確認し、未統合2種に黄昏の避難所（回復＋劣勢時衛兵）・白閃の裁定（単体ダメージ＋撃破時回復）を追加。累積19種・未統合4種。初期15種30枚は変更せず。代替試験は白金の誓約→白閃の裁定、光輝の印章→黄昏の避難所を各2枚。数値は暫定。実ブラウザ未確認なのでdraft。main・固定ZIP・他クラスには書き込まない。"
 }
