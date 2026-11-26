@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "hunter",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 3,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 4,
   "status": "ready",
   "cards": [
     {
@@ -135,6 +135,54 @@
         "target": "tokenScout",
         "amount": 1
       }
+    },
+    {
+      "id": "hunter_twilight_hunter",
+      "name": "薄暮の狩人",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "turnEnd",
+        "operation": "damage",
+        "target": "enemyHero",
+        "amount": 1
+      }
+    },
+    {
+      "id": "hunter_needle_spider",
+      "name": "針棘の蜘蛛",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "damage",
+        "target": "enemyRandom",
+        "amount": 2
+      }
+    },
+    {
+      "id": "hunter_execution_snare",
+      "name": "狩獲の仕掛け罠",
+      "type": "secret",
+      "manaCost": 3,
+      "ability": {
+        "when": "attack",
+        "operation": "damage",
+        "target": "eventMinion",
+        "amount": 3,
+        "followUp": {
+          "condition": "killed",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -158,12 +206,12 @@
     "hunter_finishing_arrow",
     "bolt",
     "bolt",
-    "flame",
-    "flame",
-    "ember",
-    "ember",
-    "thorn",
-    "thorn",
+    "hunter_twilight_hunter",
+    "hunter_twilight_hunter",
+    "hunter_needle_spider",
+    "hunter_needle_spider",
+    "hunter_execution_snare",
+    "hunter_execution_snare",
     "hunter_repel_snare",
     "hunter_repel_snare",
     "hunter_scatter_snare",
@@ -172,14 +220,14 @@
   "requests": [],
   "verification": {
     "status": "passed",
-    "baseline": "v0.1.405 / main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / ライブラリZIP v21。ゲームZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。今回取得したZIP実体から44実行・設定ファイルのGit blob SHA算出、同一mainの既知の値と照合一致。ルートcloud-configはsrcの重複、.gitkeep管理例外。",
-    "node": "Node 22.16.0、専用試験69/69。累積10種のvalidateCard・normalizeCustomCard一致、validateDeck、効果試験（猛毒の大型破壊と対ヒーロー通常ダメージ、速攻の登場ターン攻撃、死亡時の固定トークン特殊召喚と召喚ターン）。54模擬戦5854操作、全試合終了・状態検証・決定性・入力非破壊、全10カードのイベント確認。関連既存回帰591/591（starter-decks/secrets/custom-cards/zone-moves/keywords/creation）。カタログ件数固定24の2テストをローカルで34に修正して再試験。統合時の対応が必要。",
-    "browser": "実Chromium、オフラインモジュール＋メモリ保存。1194x834、390x844で全9デッキ選択・複製、30枚、横はみ出しなし。ハンター15種全てを別ID・別名で作成保存し定義一致、ページエラー・外部通信なし。",
+    "baseline": "v0.1.406 / main 681ec179c708a222e7dbfd660bb7636f08195ac6 / ライブラリZIP v22。ゲームZIP SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。全実行・設定ファイルのGit blob SHA照合一致（ルートcloud-configはsrc重複、.gitkeepは管理例外）。v0.1.405で第3段階を保存後、main統合更新を検知したためv0.1.406を再取得して最終候補を再構築。公開済みハンター4定義は完全一致、追加9定義のみをローカルclass-cards.jsへ追加、hunterレシピのみ変更。",
+    "node": "Node 22.16.0。第3段階（v0.1.405）専用69/69・関連591/591・54模擬戦5854操作・Chromium合格。第4段階（v0.1.405）専用72/72・関連707/707・54模擬戦5606操作・Chromium合格。最終v0.1.406再検証：専用72/72（累積13種validateCard・normalizeCustomCard一致、validateDeck、名称衝突なし、猛毒/速攻/死亡時特殊召喚/自ターン終了時のみ対ヒーローダメージ/死亡時ランダム単体ダメージ・空盤面/攻撃秘策の撃破/非撃破時ドローと攻撃中断/継続を含む）、9クラス×6模擬戦54試合5934操作、全試合終了・状態検証・決定性・入力非破壊・全13カードのイベント確認。関連回帰736/736（starter-decks/secrets/custom-cards/zone-moves/keywords/creation/turn-effects）。カタログ件数固定58の2テストをローカルで67に修正。統合時はカタログ件数・旧revision固定の統合試験等を更新して全回帰実施要。",
+    "browser": "第3・第4段階およびv0.1.406最終再検証で実Chromium DOM（オフラインモジュール＋メモリ保存）1194x834・390x844全9デッキ選択/複製・30枚表示・横はみ出しなし。ハンター15種全てを現行作成UIで別名・別IDで保存し定義一致、ページエラー・外部通信なし。",
     "unverified": [
-      "全Node回帰試験",
+      "全Node回帰試験および既存統合テストの更新（統合時に実施）",
       "実機・Safari・実Firebase・Pages公開",
-      "9クラス統合後のバランス・通信カタログ版互換性"
+      "他クラスrevision2以降の統合後の対戦バランス・通信カタログ版互換性"
     ]
   },
-  "notes": "第3段階：wolf/runner/beastを専用3種各2枚に交換。累積10種20枚、共通10枚、30枚維持。既存カード定義を維持。名称・コスト・数値暫定。"
+  "notes": "第3・4段階：wolf/runner/beast、flame/ember/thornを専用6種各2枚に交換。累積13種類26枚、共通scout/bolt各2枚、計30枚。速攻・秘策を強めつつ共通の基礎カードを残した暫定構成。全追加カードは既存の汎用効果のみ。公開済み4定義を維持。名称・コスト・数値は暫定。採用制限・ヒーローパワー未追加。"
 }
