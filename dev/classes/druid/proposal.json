@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "druid",
   "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
-  "revision": 9,
+  "revision": 10,
   "status": "draft",
   "cards": [
     {
@@ -277,6 +277,42 @@
         "target": "tokenGuard",
         "amount": 2
       }
+    },
+    {
+      "id": "druid_moss_renewal",
+      "name": "苔森の再生",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "heal",
+        "target": "self",
+        "amount": 4,
+        "followUp": {
+          "condition": "highMaxMana",
+          "operation": "summonFixed",
+          "target": "tokenGuard",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "druid_verdant_surgewave",
+      "name": "緑潮の息吹",
+      "type": "spell",
+      "manaCost": 6,
+      "ability": {
+        "when": "play",
+        "operation": "summonFixed",
+        "target": "tokenScout",
+        "amount": 3,
+        "followUp": {
+          "condition": "wideBoard",
+          "operation": "buffHealth",
+          "target": "friendlyMinions",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -316,29 +352,31 @@
     "status": "partial",
     "base": "v0.1.410 / 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
     "baseline": "固定ZIP version26、外側SHA-256 70bfdcc53889714573134e67479543c56c59dba0a846c454bbd342b86dbfc8d9、内側SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。基準記録・候補main SHA一致。46実ファイルと公開用root cloud-config.js（計47 Git blob SHA）全件一致、src/.gitkeepは空行のみ。仮統合はsrc/class-cards.js・src/starter-decks.jsのみ変更、保護対象無変更。",
-    "cardValidation": "累積18種をvalidateCard・normalizeCustomCard・cardClassで確認。公開済み全クラス定義、他8クラス初期デッキ無変更。全3構成でvalidateDeck・validateClassDeck・inferClass、明示クラス付き保存→バックアップ復元と別クラス採用拒否合格。",
-    "node": "Node v24.22.3（Node22未提供）。専用試験202/202、UI最小DOMハーネス2/2、いずれも終了コード0。第8段階に加え導き手の最大マナ4/6/7/10、山札にミニオンなし（追加効果不発）、非公開サーチイベントのcardId非露出。守護獣の死亡前盤面1/6/7、死亡除去後の生成上限。 第8段階2構成に、樹冠の導師→年輪の導き手・嶺渡りの巨獣→岩根の守護獣（各2枚）を追加。 各54戦（9クラス×両席×3 seed）、合計162戦・11385手で完走、全手の合法性・状態検証・同一操作決定性・古い操作拒否、ドルイドスキル227回使用、累積全専用カード使用確認。優先操作対ランダム操作なので勝率はバランス指標ではない。模擬SDK共有状態は別途3戦完走、全操作で状態一致・両席投影・相手手札非露出・重複再送拒否を確認。",
+    "cardValidation": "累積20種をvalidateCard・normalizeCustomCard・cardClassで確認。公開済み全クラス定義、他8クラス初期デッキ無変更。全4構成でvalidateDeck・validateClassDeck・inferClass、明示クラス付き保存→バックアップ復元と別クラス採用拒否合格。",
+    "node": "Node v24.22.3（Node22未提供）。専用試験266/266、UI最小DOMハーネス2/2、いずれも終了コード0。第9段階までの試験に加え、苔森の再生の最大マナ3/6/7/10・HP回復・召喚、緑潮の息吹の盤面0/4/6/7・生成上限・全体強化・満杯時強化不発を確認。 第9段階3構成に、年輪の導き手・岩根の守護獣入りの構成から木霊の集い→緑潮の息吹、四季の叡智→苔森の再生（各2枚）を追加。 各54戦（9クラス×両席×3 seed）、合計216戦・15175手で完走、全手の合法性・状態検証・同一操作決定性・古い操作拒否、ドルイドスキル340回使用、累積全専用カード使用確認。優先操作対ランダム操作なので勝率はバランス指標ではない。模擬SDK共有状態は別途4戦完走、全操作で状態一致・両席投影・相手手札非露出・重複再送拒否を確認。対象既存6ファイル（starter-decks、class-skills408、class-selection409、follow-conditions、mana-grants-conditions、zone-moves）430/430合格、終了コード0（うち初期デッキ45戦）。",
     "playedCounts": {
-      "druid_deep_roots": 187,
+      "druid_deep_roots": 243,
       "druid_grove_call": 165,
-      "druid_ancient_bastion": 187,
-      "druid_forest_blessing": 117,
-      "druid_giant_awakening": 164,
+      "druid_ancient_bastion": 239,
+      "druid_forest_blessing": 168,
+      "druid_giant_awakening": 222,
       "druid_woodland_oracle": 102,
-      "druid_briar_stalker": 124,
-      "druid_seed_keeper": 157,
-      "druid_canopy_warden": 184,
+      "druid_briar_stalker": 153,
+      "druid_seed_keeper": 206,
+      "druid_canopy_warden": 231,
       "druid_mountain_beast": 59,
-      "druid_spring_sprout": 162,
-      "druid_stream_keeper": 118,
+      "druid_spring_sprout": 211,
+      "druid_stream_keeper": 160,
       "druid_seasonal_wisdom": 160,
       "druid_worldroot_colossus": 56,
-      "druid_entangling_roots": 134,
+      "druid_entangling_roots": 174,
       "druid_earth_tremor": 60,
-      "druid_ring_guide": 64,
-      "druid_stonewood_warden": 70
+      "druid_ring_guide": 104,
+      "druid_stonewood_warden": 122,
+      "druid_moss_renewal": 45,
+      "druid_verdant_surgewave": 50
     },
-    "browser": "実app.jsのカード作成フォームを既存最小DOMハーネスで操作し、別ID・別名として保存した18/18種をnormalizeCustomCard後に定義一致確認。初期デッキのクラス選択・他クラス採用時保存拒否・保存復元合格。Chromium起動は実体不在、代替環境へのローカル接続も拒否。実ブラウザ試験ではないためdraft。",
+    "browser": "実app.jsのカード作成フォームを既存最小DOMハーネスで操作し、別ID・別名として保存した20/20種をnormalizeCustomCard後に定義一致確認。初期デッキのクラス選択・他クラス採用時保存拒否・保存復元合格。Chromium起動は実体不在、代替環境へのローカル接続も拒否。実ブラウザ試験ではないためdraft。",
     "notTested": [
       "実Chromium・Safari・実機のカード作成画面再現・レイアウト",
       "Node22での全Node回帰試験、他クラスの未統合提案との組合せ",
@@ -346,5 +384,5 @@
     ],
     "notes": "担当ブランチのproposal.jsonのみ更新。main、固定ZIP、公開ロック、旧ゲーム未変更。追加の共通効果要望なし。"
   },
-  "notes": "第9段階：年輪の導き手（4マナ2/4・登場時に山札のランダムなミニオン1枚を手札へ、成功後に最大マナ7以上なら現在マナ1回復）、岩根の守護獣（6マナ4/6挑発・死亡時に盾の衛兵2体を特殊召喚）を追加。初期デッキは第8段階維持、追加選択肢。 カード名・数値は暫定。実ブラウザで未検証のためdraft。前回readyのrevision7はコミットb44bfedabde8fad4194104af6b761dbea38bf623に保持。"
+  "notes": "第10段階：苔森の再生（3マナ、自分のHP4回復、最大マナ7以上なら盾の衛兵1体特殊召喚）、緑潮の息吹（6マナ、風の斥候3体特殊召喚、実行後味方3体以上なら味方全員の最大・現在体力+1）を追加。初期デッキは第8段階の構成を維持し、追加4種と大地の地鳴り・世界樹の巨像は編集候補とする。累積20種類。 カード名・数値は暫定。実ブラウザで未検証のためdraft。前回readyのrevision7はコミットb44bfedabde8fad4194104af6b761dbea38bf623に保持。"
 }
