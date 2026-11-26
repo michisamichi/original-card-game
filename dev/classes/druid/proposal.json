@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "druid",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 4,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -146,6 +146,69 @@
         "target": "enemyMinionChoice",
         "amount": 3
       }
+    },
+    {
+      "id": "druid_spring_sprout",
+      "name": "春芽の小精霊",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 1,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1
+      }
+    },
+    {
+      "id": "druid_stream_keeper",
+      "name": "泉脈の守り人",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "restoreMana",
+        "target": "self",
+        "amount": 1
+      }
+    },
+    {
+      "id": "druid_seasonal_wisdom",
+      "name": "四季の叡智",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "draw",
+        "target": "self",
+        "amount": 2,
+        "followUp": {
+          "condition": "highMaxMana",
+          "operation": "heal",
+          "target": "self",
+          "amount": 3
+        }
+      }
+    },
+    {
+      "id": "druid_worldroot_colossus",
+      "name": "世界樹の巨像",
+      "type": "minion",
+      "manaCost": 8,
+      "attack": 6,
+      "maxHealth": 8,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "summonDeck",
+        "target": "deckMinion",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -161,8 +224,8 @@
     "druid_ancient_bastion",
     "druid_canopy_warden",
     "druid_canopy_warden",
-    "wisp",
-    "wisp",
+    "druid_spring_sprout",
+    "druid_spring_sprout",
     "druid_grove_call",
     "druid_grove_call",
     "druid_seed_keeper",
@@ -171,12 +234,12 @@
     "druid_woodland_oracle",
     "druid_mountain_beast",
     "druid_mountain_beast",
-    "draw",
-    "draw",
+    "druid_seasonal_wisdom",
+    "druid_seasonal_wisdom",
     "druid_giant_awakening",
     "druid_giant_awakening",
-    "sage",
-    "sage",
+    "druid_stream_keeper",
+    "druid_stream_keeper",
     "druid_deep_roots",
     "druid_deep_roots"
   ],
@@ -184,16 +247,17 @@
   "verification": {
     "status": "passed",
     "base": "v0.1.406 / 681ec179c708a222e7dbfd660bb7636f08195ac6",
-    "baseline": "開始時v0.1.405の固定ZIP version21再取得・SHA-256一致、全実行/保護ファイル前回照合済み版と一致。保存直前にmainがv0.1.406へ進んだため再取得、固定ZIP version22外側SHA-256 a2b094ec70b809310be8810ad7407a4b321234e17598888cbbb383cceeb3585d、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5 はGITHUB_BASELINE.md記録と一致。main比較の変更実行7件のGit blob SHAを全件照合、残り実行・保護ファイルはv0.1.405とバイト一致。",
-    "cardValidation": "累積10/10 validateCard、別ID・別名normalizeCustomCard一致、公開済み3定義と完全一致、残り7定義の既存ID・名称衝突なし、validateDeck合格（15種類×2枚）。",
-    "browser": "実Chromium（1194×834、オフラインmodule map、メモリ内storage）。v0.1.405第3段階8/8、第4段階10/10、最新v0.1.406累積10/10をカード作成UIから別名で作成・保存・正規化し定義一致。ページエラー・外部通信なし。",
-    "node": "Node 22.16.0。v0.1.405第3段階自作カード版80/80、第4段階自作カード版86/86、仮統合版166/166（専用試験86＋starter-decks試験80）。最新v0.1.406で公開済み3種＋自作7種版86/86、専用7種追加したローカル仮統合版197/197（専用試験86＋starter-decks試験111）。最新基準283/283、模擬対戦153戦（54×2＋45）、全段階615/615・360戦。専用試験は合法操作、状態検証、決定性、600手以内完走を確認。新規11個別効果試験：急襲の召喚ターン制約・挑発、死亡時の空き枠と満杯盤面からトークン展開、ターン終了時強化（1/3/7体、相手ターン非発動）、登場時ダメージ（対象なし・撃破・生存）。",
+    "baseline": "固定ZIP version22を再取得・展開。外側SHA-256 a2b094ec70b809310be8810ad7407a4b321234e17598888cbbb383cceeb3585d、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。前回照合済み基準のsrc全件・index.html・style.css・package.json・tools2件・Firebase設定2件とバイト一致、main SHA不変。",
+    "cardValidation": "累積14/14 validateCard、別ID・別名normalizeCustomCard一致、公開済み3定義一致、ID・名称衝突なし、validateDeck合格（15種類×2枚、専用13種、共通2種、追加選択肢1種は不採用）。",
+    "browser": "実Chromium（1194×834、オフラインmodule map、メモリ内storage）で第5段階12/12、最終仮統合版14/14を実カード作成UIから別ID・別名で作成・保存・正規化し定義一致。ページエラー・外部通信なし。",
+    "node": "Node 22.16.0。第5段階92/92、第6段階99/99、最終仮統合版213/213（専用試験99＋starter-decks試験114）。合計404/404、模擬対戦207戦（54×3＋45）。専用試験は合法操作・状態検証・同一入力決定性・600手以内完走。新規13件：死亡時ドロー通常/手札満杯/山札切れ敗北、現在マナ回復2/5/10、追加回復条件の最大マナ3/6/7/10、山札からの特殊召喚通常/候補なし/6体占有で登場後満杯。最初の試験で山札切れを疲労ダメージと誤って期待したため、現行即時敗北ルールを確認して試験期待値のみ修正、再実行で全件合格。",
     "notTested": [
-      "全Node回帰試験、他クラスrevision 2以降の未統合提案との組合せ",
+      "全Node回帰試験、他クラス未統合提案との組合せ",
+      "世界樹の巨像を採用したデッキの通し模擬対戦（個別効果検証済み）",
       "実機・Safari・実Firebase通信・公開Pages",
       "対人バランス・正式クラス採用制限・ヒーローパワー"
     ],
-    "notes": "v0.1.406で公開済み3種を維持。ローカル仮統合のsrc/class-cards.js・src/starter-decks.jsを基準blob SHAへ復元。main・固定ZIP・公開ロックは変更なし。"
+    "notes": "仮統合後にsrc/class-cards.js・src/starter-decks.jsを元のblob SHAへ復元。基準版の実行/保護ファイルと一致を確認。main・固定ZIP・公開ロックは変更なし。"
   },
-  "notes": "第3段階：茨森の猟獣と種火の守り手を追加し灰牙の狼・銀嶺の守護者を各2枚置換。第4段階：翠冠の大樹と嶺渡りの巨獣を追加し暁の竜・雷鳴の巨人を各2枚置換。累積専用10種類20枚、共通5種類10枚。マナ別1/2/3/4/5/6/7＝4/10/6/2/4/2/2枚。数値は暫定案、現行効果のみ、共通機能追加なし。2段階をまとめてrevision 4保存。v0.1.406に公開済みのrevision1の3種は変更せず、未統合7種類を最新基準で検証。"
+  "notes": "第5段階：春芽の小精霊・泉脈の守り人を追加し灯火の精霊・星読みの賢者を各2枚置換。第6段階：四季の叡智・世界樹の巨像を追加し星の導きを四季の叡智で2枚置換。世界樹の巨像は高マナ偏重回避のため初期デッキには入れず編集用カード。累積専用14種類、初期デッキ専用13種類26枚＋共通2種類4枚。マナ別1/2/3/4/5/6/7＝4/8/8/2/4/2/2枚。現行効果のみ、数値は暫定案、特殊召喚で登場効果は発動しない。公開済み3種は変更せず、未統合11種を累積提案として保存。"
 }
