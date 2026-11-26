@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "paladin",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -54,6 +54,57 @@
         "taunt",
         "divineShield"
       ]
+    },
+    {
+      "id": "paladin_luminous_seal",
+      "name": "光輝の印章",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "grantShield",
+        "target": "friendlyChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "paladin_chapel_aide",
+      "name": "礼拝堂の助祭",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "heal",
+        "target": "friendlyChoice",
+        "amount": 2
+      }
+    },
+    {
+      "id": "paladin_banner_of_unity",
+      "name": "結束の聖旗",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "buffBoth",
+        "target": "friendlyMinions",
+        "amount": 1
+      }
+    },
+    {
+      "id": "paladin_edict_of_mercy",
+      "name": "慈悲の勅令",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "setAttack",
+        "target": "enemyMinionChoice",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -63,22 +114,22 @@
     "guard",
     "paladin_dawn_squire",
     "paladin_dawn_squire",
-    "knight",
-    "knight",
+    "paladin_edict_of_mercy",
+    "paladin_edict_of_mercy",
     "golem",
     "golem",
     "dragon",
     "dragon",
     "wisp",
     "wisp",
-    "archer",
-    "archer",
-    "sentinel",
-    "sentinel",
+    "paladin_chapel_aide",
+    "paladin_chapel_aide",
+    "paladin_banner_of_unity",
+    "paladin_banner_of_unity",
     "paladin_aegis_guard",
     "paladin_aegis_guard",
-    "heal",
-    "heal",
+    "paladin_luminous_seal",
+    "paladin_luminous_seal",
     "paladin_sanctuary_medic",
     "paladin_sanctuary_medic",
     "sage",
@@ -91,10 +142,11 @@
   "requests": [],
   "verification": {
     "status": "pass",
-    "baseline": "v0.1.405: main HEAD・root tree・全実行ファイルと設定のGit blob SHA、内側ゲームZIPのSHA-256が一致。ロックfree確認。",
-    "node": "Node 22.16.0、ローカル候補に4定義と当クラスのレシピだけを追加。paladin.test.js相当41件（定義/デッキ/normalizeCustomCard一致1、盾の戦闘・消費、回復上限、選択強化、挑発+盾の4件、9クラス×4seedの36模擬対戦）、starter-decks.test.js 74件、keywords/buffs/grant-keywords 335件、合計450/450合格。模擬対戦では全操作の状態検証・決定性・終局を確認（決定性確認は専用36戦）。",
-    "browser": "実Chromium、オフラインimportmap・メモリ保存。1366×1024、1194×834、844×390、390×844で9初期デッキの選択と30枚複製・横はみ出しなし。カード作成UIから全28定義を別名・別IDで再現保存し一致（新規4種含む）。ページエラー・外部通信なし。",
-    "unverified": "全Node回帰、実Firebase・Safari・実機、採用制限・対戦勝率、他クラス提案との統合は未検証。統合役は旧24種固定のテストを新カタログに対応させ、カタログ版・混在版拒否と全回帰を確認すること。専用イラストなし。"
+    "baseline": "main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / tree 023c1cd16b0f78684621bf7caf08e1fd70d7da9f、v0.1.405の固定ZIP version 21、内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、全src実行JS・ルート実行ファイル・設定のGit blob SHA一致。公開ロックfree。",
+    "node": "Node 22.16.0、ローカルの累積8定義と当クラス30枚レシピを対象にpaladin.test.js、starter-decks.test.js、keywords.test.js、buffs.test.js、grant-keywords.test.js、modify-cards.test.jsを実行、529/529合格。全8種validateCard・normalizeCustomCard一致・validateDeck、専用効果8件（盾再付与・対象制限・回復上限・全体強化・攻撃力設定等）、9クラス×4seedの36戦で合法操作・状態検証・決定性・終局、全初期デッキ45組模擬対戦を確認。",
+    "browser": "実Chromium・オフラインimportmap・メモリ保存で1366×1024、1194×834、844×390、390×844の9初期デッキ選択・30枚複製・横はみ出しなし。全32定義を別名・別IDでカード作成UIから保存、定義一致。ページエラー・外部通信なし。",
+    "collision": "最新取得時点の他8クラス提案名称と衝突なし、既存カタログ名称・ID重複なし。",
+    "unverified": "全Node回帰、実Firebase、Safari、実機、勝率・バランス、他クラス提案との統合は未検証。統合時は全回帰と新カタログ版・混在版拒否を再検証。専用イラストなし。"
   },
-  "notes": "第1段階：守護・回復を軸に専用カード4種8枚を暫定初期デッキに採用。runner、healer、rune、beastの各2枚を置換。能力・マナ・ステータス・名称は暫定調整値。既存の汎用効果のみ、固有処理や正式ルールの追加なし。main・固定ZIPは変更しない。"
+  "notes": "第2段階：盾付与、味方回復、全体強化、敵攻撃力設定の4種8枚を追加。heal、archer、sentinel、knightの各2枚を置換。前回4種を保持。専用カード累計8種16枚、共通14枚。名称・数値は暫定。専用処理・新規ルールなし。main・固定ZIP変更なし。"
 }
