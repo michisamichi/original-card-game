@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "rogue",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 4,
   "status": "ready",
   "cards": [
     {
@@ -106,6 +106,97 @@
         "target": "eventMinion",
         "amount": 1
       }
+    },
+    {
+      "id": "rogue_street_informant",
+      "name": "路地の情報屋",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 1,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "generateFixed",
+        "target": "tokenSpark",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_silent_seal",
+      "name": "封声の刃",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "silence",
+        "target": "enemyMinionChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_night_courier",
+      "name": "夜霧の運び屋",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [
+        "stealth"
+      ],
+      "ability": {
+        "when": "death",
+        "operation": "draw",
+        "target": "self",
+        "amount": 1
+      }
+    },
+    {
+      "id": "rogue_twinblade",
+      "name": "双刃の遊撃手",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [
+        "windfury"
+      ]
+    },
+    {
+      "id": "rogue_hidden_bargain",
+      "name": "裏取引",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "discountHand",
+        "target": "ownHandRandom",
+        "amount": 2,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "rogue_needle_rain",
+      "name": "針雨",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinions",
+        "amount": 1,
+        "followUp": {
+          "condition": "lowHand",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -113,14 +204,14 @@
     "scout",
     "rogue_venom_needle",
     "rogue_venom_needle",
-    "runner",
-    "runner",
+    "rogue_night_courier",
+    "rogue_night_courier",
     "rogue_alley_duelist",
     "rogue_alley_duelist",
     "rogue_shadow_rescuer",
     "rogue_shadow_rescuer",
-    "wisp",
-    "wisp",
+    "rogue_street_informant",
+    "rogue_street_informant",
     "rogue_duskblade",
     "rogue_duskblade",
     "beast",
@@ -129,12 +220,12 @@
     "rogue_flash_blade",
     "rogue_precise_cut",
     "rogue_precise_cut",
-    "draw",
-    "draw",
+    "rogue_silent_seal",
+    "rogue_silent_seal",
     "sage",
     "sage",
-    "flame",
-    "flame",
+    "rogue_twinblade",
+    "rogue_twinblade",
     "rogue_smoke_repel",
     "rogue_smoke_repel",
     "rogue_mirror_escape",
@@ -163,15 +254,16 @@
   ],
   "verification": {
     "status": "passed-proposal",
-    "baseline": "main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / v0.1.405 / ライブラリversion 21再取得。内部ゲームZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad、srcツリー9bb1874d76febe66e08bfca53fdf4a9d28f54136、ルート実行ファイル・保護設定の全blob一致（ルートcloud-configはsrc同一、.gitkeepは空行）。",
-    "node": "Node 22.16.0。ローカル候補に累積8カードとローグデッキを挿入。rogue-revision2, starter-decks, poison-stealth, zone-moves, follow-conditions, buffs, secretsの7ファイル667/667合格、終了コード0。専用試験52件（8定義、1デッキ、7効果、36模擬対戦）、starter-decks 78件（45模擬対戦含む）。操作前状態の不変性、決定性、各操作後assertState、対戦完走を確認。",
-    "creator": "実ChromiumオフラインDOM・メモリ内保存で8カードを別ID別名で選択肢から作成・保存しnormalizeCustomCard後の定義完全一致。1366x1024/1194x834/844x390/390x844で9初期デッキ選択・複製・30枚表示・横はみ出しなし、ページエラー・外部リクエストなし。",
-    "effects": "猛毒の高体力相手との相打ち、一時強化の味方限定とターン終了時解除、登場時に味方の損傷・強化を解除して手札へ戻し再使用で登場効果再発動、味方不在時は登場可能で効果不発。秘策はヒーローへの攻撃だけを中断し攻撃者を手札に戻す、ミニオン同士の攻撃は反応せず、手札10枚なら温存し通常攻撃を処理。",
+    "baseline": "作業開始時v0.1.405（main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f/固定ZIP version 21）を実ファイルのGit srcツリー・ルート実行ファイル・保護設定blobで照合。保存前にmain更新を検知して停止し、v0.1.406 main 681ec179c708a222e7dbfd660bb7636f08195ac6/固定ZIP version 22を再取得。内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5、実ファイルから再計算したsrcツリー87008113fadf0445f803cf6c991cf143506c8516、ルート実行ファイル・保護設定blobが一致。公開済みローグ4種類を完全一致確認し維持、他クラス定義を維持したローカルコピーに未公開10種類のみ追加、ローグレシピのみ置換。",
+    "node": "Node 22.16.0。v0.1.405で第3段階候補（11種類）3ファイル141/141、第4段階候補（14種類）11ファイル944/944合格。v0.1.406に再適用した最終候補でrogue-revision2, rogue-revision3, starter-decks, poison-stealth, zone-moves, follow-conditions, buffs, secrets, modify-cards, mana-grants-conditions, keywordsの11ファイル974/974合格、終了コード0、スキップ0。ローグ36試合と9クラス45試合の模擬対戦完走、各操作後assertState、ローグ専用試験で操作前状態不変・決定性確認。",
+    "creator": "v0.1.405およびv0.1.406候補の実Chromium offline module map・メモリ保存で最終14種類すべてを別ID別名でUIから再作成・保存しnormalizeCustomCard後に能力定義完全一致。1366x1024/1194x834/844x390/390x844で9デッキ選択・複製・30枚表示・横はみ出しなし、ページエラー・外部リクエストなし、終了コード0。",
+    "effects": "今回追加6種類：情報屋の閃光弾生成と手札上限10、沈黙による挑発・強化解除と潜伏対象拒否、死亡時1ドロー、疾風の2回攻撃と3回目拒否、ランダム1枚割引・残り手札2枚と3枚の条件境界、全体ダメージが敵潜伏ミニオンにも適用され味方・敵プレイヤーは対象外であることと低手札時ドロー。従来効果試験も継続。デッキ30枚・各2枚、1/2/3/4マナの枚数6/14/6/4、ミニオン20・スペル8・秘策2、専用12種24枚・共通3種6枚。",
     "untested": [
-      "候補の全回帰試験は未実施。統合時にカタログ固定数を前提とする試験を適切に拡張して全件実行する。",
-      "他クラスとの統合後のカタログ版更新・旧版混在拒否・保存通信互換性、実機・Safari・実Firebase・Pages配備、対戦バランス、専用イラストは未確認。"
+      "最終候補の全回帰試験は未実施。統合時に全件実行する。",
+      "デッキ編集用2種類の個別効果試験は実施済み、両カードを採用した別レシピでの模擬対戦・バランスは未実施。",
+      "次回統合のカタログ版変更と旧版混在拒否・保存通信互換性、他クラスの未統合提案との競合、実機・Safari・実Firebase・Pages配備、対戦バランス、専用イラストは未確認。"
     ],
-    "notes": "このrevisionでは新規エンジン処理なし。関連既存試験に模擬ルーム試験を含むが、実Firebase試験ではない。main、固定ZIP、Firebaseは未変更。readyは統合候補であり公開済みではない。"
+    "notes": "第3・第4段階を連続実行し、最新版v0.1.406再検証後の最終候補のみ一括保存。main、固定ZIP、Firebase、公開ロックは変更しない。readyは統合候補。"
   },
-  "notes": "第2段階：既存4専用カードは定義そのまま維持。wolf/dragon/spark/echo各2枚を追加4種類に置換し、累積8専用16枚・共通7種類14枚。名称・マナ・能力値は暫定。コンボ要望は維持し未実装カードは採用しない。"
+  "notes": "第3段階：runner/wisp/draw各2枚を夜霧の運び屋・路地の情報屋・封声の刃に置換。第4段階：flame各2枚を双刃の遊撃手に置換、裏取引・針雨はデッキ編集用として追加し初期デッキ外。旧8種類を維持（v0.1.406公開済み4種類含む）。累積14種類、初期デッキ専用12種類24枚。名称・コスト・能力値暫定。コンボ要望は維持、未実装能力は採用しない。"
 }
