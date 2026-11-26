@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "priest",
-  "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 2,
+  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
+  "revision": 4,
   "status": "ready",
   "cards": [
     {
@@ -128,15 +128,95 @@
       "keywords": [
         "lifesteal"
       ]
+    },
+    {
+      "id": "priest_votive",
+      "name": "灯明の使徒",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "heal",
+        "target": "self",
+        "amount": 2
+      }
+    },
+    {
+      "id": "priest_aegis",
+      "name": "祈誓の衛士",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 3,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "summon",
+        "operation": "heal",
+        "target": "self",
+        "amount": 2
+      }
+    },
+    {
+      "id": "priest_penitent",
+      "name": "戒律の審問官",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 4,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "weakenAttack",
+        "target": "enemyMinionChoice",
+        "amount": 2
+      }
+    },
+    {
+      "id": "priest_judgment",
+      "name": "白光の裁定",
+      "type": "spell",
+      "manaCost": 4,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 4,
+        "followUp": {
+          "condition": "killed",
+          "operation": "heal",
+          "target": "self",
+          "amount": 3
+        }
+      }
+    },
+    {
+      "id": "priest_scribe",
+      "name": "聖典の写本師",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "fetchDeck",
+        "target": "deckSpell",
+        "amount": 1
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
-    "guard",
-    "guard",
-    "knight",
-    "knight",
+    "priest_votive",
+    "priest_votive",
+    "priest_aegis",
+    "priest_aegis",
+    "priest_penitent",
+    "priest_penitent",
     "priest_sanctuary_guard",
     "priest_sanctuary_guard",
     "priest_dawn_wave",
@@ -145,16 +225,16 @@
     "wisp",
     "priest_mender",
     "priest_mender",
-    "sentinel",
-    "sentinel",
+    "priest_judgment",
+    "priest_judgment",
     "priest_lightwarden",
     "priest_lightwarden",
     "priest_purify",
     "priest_purify",
     "draw",
     "draw",
-    "sage",
-    "sage",
+    "priest_scribe",
+    "priest_scribe",
     "priest_last_light",
     "priest_last_light",
     "priest_blessing",
@@ -183,8 +263,8 @@
   ],
   "verification": {
     "status": "passed-class-scope",
-    "baseline": "開始・保存直前のmain SHAは4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f、固定ライブラリZIP version 21で前回と同一。前回の全実行ファイルGit blob照合結果を同一不変SHAに対して使用。実体の外側ZIP内のゲームZIPと展開済みゲームZIPのバイト一致・SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad一致。44実行・設定ファイル中、前回ローカル候補との差分はcards.jsとstarter-decks.jsのみ。両ファイルを基準ZIPから復元して累積8カードと新デッキを適用。",
-    "node": "Node v22.16.0、専用試験41/41合格（定義・normalizeCustomCard・デッキ9、従来効果7、新効果7、9クラス×2席模擬対戦18）。合法操作、状態検証、同一入力の決定性、古い操作拒否を確認。",
+    "baseline": "作業開始時v0.1.405 main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / ZIP version21。44ファイルのGit blob SHAを前回取得済み同一コミットの値と照合、内側ZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。保存前に統合役のv0.1.406公開を検出し、main 681ec179c708a222e7dbfd660bb7636f08195ac6 / ZIP version22を実体取得・展開。GITHUB_BASELINE.mdのSHA一致、内側ZIP SHA256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5一致。45実行・設定ファイル中7変更追加ファイルのGit blob SHAを新mainと照合、残りは照合済み旧基準と同一バイト。最新基準のclass-cards.jsで公開済みプリースト4定義と提案の完全一致を確認、重複追加せず残り9定義をローカルに追加。starter-decks.jsのpriestレシピのみ置換。名称衝突なし。保存直前のmain/ZIP/担当HEAD再確認済み。",
+    "node": "Node v22.16.0。v405上の第3段階11種類は専用48/48、第4段階13種類は専用55/55。v406最終候補に再適用し専用55/55（定義・normalizeCustomCard・30枚デッキ14、従来効果14、新効果9、9クラス×2席の模擬対戦18）合格。合法操作、状態検証、決定性、古い操作拒否を確認。試験用の対象カードを含む独立30枚デッキを使用し、模擬対戦は実際の候補デッキを使用。",
     "effectTests": [
       "治癒師: 味方のみ指定、体力上限、空盤面は対象なしで登場",
       "祈祷: 最大・現在体力+2と1ドロー、対象なし拒否・状態不変",
@@ -193,16 +273,21 @@
       "侍祭: 死亡時に他の味方ミニオンを2回復、上限・敵とヒーロー非回復・空盤面安全",
       "聖印: 敵1体のみ選択、沈黙による能力と強化解除・損傷維持、1枚ドロー、対象なし拒否・状態不変",
       "帰還: 自分の最新墓地ミニオンを元の個体IDで蘇生、体力初期化、登場効果なし、空墓地・満盤面で安全に不発",
-      "執行者: 戦闘で生命奪取、HP上限、聖なる盾でダメージ無効時は回復なし。現行エンジンのダメージ量算定を維持"
+      "執行者: 戦闘で生命奪取、HP上限、聖なる盾でダメージ無効時は回復なし。現行エンジンのダメージ量算定を維持",
+      "使徒: 死亡時自分HP2回復、上限30、敵HP不変、1回だけ発動",
+      "衛士: 空盤面でも登場時自分HP2回復、挑発で敵の直接攻撃を制限",
+      "審問官: 選択敵のみ攻撃力-2、体力・味方不変、敵不在でも対象なしで登場可能",
+      "裁定: 敵1体に4ダメージ、倒した場合だけ自分HP3回復（上限30）。非致死・聖なる盾では回復なし、対象なし使用拒否・状態不変",
+      "写本師: 山札に実在するスペル1枚をランダムに同一個体IDで手札へ。山札のスペル不在は安全に不発、疲労ダメージなし"
     ],
-    "browser": "実Chromium 1194x834、オフラインモジュールとメモリ保存。8/8種類をカード作成UIから別名・別IDで再現・保存後定義一致。沈黙の固定値1は数値欄なし。初回ブラウザ試験の自動操作が存在しない数値欄を待ちタイムアウトしたため試験側を修正して全件再実行し成功。pageerror・外部HTTPなし。",
-    "regression": "priest-proposal/starter-decks/turn-effects/follow-conditions/effects/zone-moves/modify-cards/keywords/grant-keywords の9ファイル833/833合格（専用41件含む）。より広い12ファイル一括実行は制限時間で停止し完走扱いにしない。ローカルの旧カード数固定テスト3ファイルの期待値を32に調整したが、この3ファイルを含む一括試験の完走は未確認。統合時に累積カード数に合わせて更新し旧定義維持を検査する必要あり。テスト改変は提案ブランチに保存しない。",
+    "browser": "実Chromium 1194x834、オフラインモジュールとメモリ保存。v405第3段階11/11、第4段階13/13、v406最終候補13/13種類をカード作成UIで別ID・別名として作成・保存し定義完全一致、pageerror・外部HTTPなし。",
+    "regression": "v405最終候補で関連12ファイル1122/1122（408+714、専用55件を含む）、旧24定義の完全一致を確認。v406再適用後にcreation/custom-cards/decks/starter-decks/priest-proposalの5ファイル438/438（専用55件および9クラス45通りの模擬対戦含む）、class-integration406の同名保存互換性・Firebase版ガード・9通り共有状態模擬対戦の選択試験11/11、合計449/449合格。固定カタログ件数3テストをローカルで58→67に調整。既存class-integration406のrevision1固定マニフェスト試験は意図的に対象外（統合時に累積提案と件数・ハッシュを更新する必要）。テスト修正は担当ブランチに保存しない。v405の結果をv406上の実行結果として扱わない。",
     "unverified": [
-      "全Node回帰試験、全ブラウザ試験、実機Safari/iPhone/iPad、実Firebase、公開環境",
-      "他8クラスの新規提案との統合・名称衝突・対戦バランス、専用イラスト、カタログ版更新と混在版拒否は統合役で再検証",
-      "不足効果requestの実装は未検証。今回の統合候補カードには含まない。"
+      "v406最終候補の全Node回帰試験、全ブラウザ試験、実機Safari/iPhone/iPad、実Firebase、Pages配備",
+      "他クラスrevision2以降の未統合提案との競合、対人対戦バランス、専用イラスト、最終カタログ版更新と混在版拒否は統合役で再検証",
+      "攻撃力上限指定破壊のrequestは未実装のまま。今回のcards/deckに含めない。"
     ],
-    "notes": "担当範囲の必須試験は合格。readyは統合候補であり公開済みではない。"
+    "notes": "2段階の開発を一括保存。v406基準で担当範囲の必須試験は合格。readyは統合候補であり公開済みではない。"
   },
-  "notes": "revision2: healer→priest_last_light、heal→priest_purify、echo→priest_recall、titan→priest_lightwardenを各2枚置換。専用8種類16枚、既存7種類14枚、合計30枚。前回の4定義は不変。回復偏重を避け沈黙・蘇生・戦闘回復を採用。数値は暫定。ヒーローパワー、採用制限、共通エンジン変更なし。main・他クラス・固定ZIP・公開版無変更。"
+  "notes": "revision3相当: scout→priest_votive、guard→priest_aegis、knight→priest_penitentを各2枚置換し低マナ帯と弱体化を追加。revision4: sentinel→priest_judgment、sage→priest_scribeを各2枚置換し条件付き除去・呪文サーチを追加。累積13種類26枚、共通wisp/draw各2枚の計30枚。前回8定義不変。v406で公開済み4種類を保持し未統合9種類を提案。共通カードは低マナ帯と手札補充を保つため残す。数値・名称は暫定。新規ルール・クラス採用制限・ヒーローパワー・効果エンジン変更なし。main・他クラス・固定ZIP・公開版は担当作業で変更なし。"
 }
