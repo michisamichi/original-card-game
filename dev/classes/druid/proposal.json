@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "druid",
   "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
-  "revision": 14,
+  "revision": 15,
   "status": "draft",
   "cards": [
     {
@@ -376,371 +376,79 @@
         "target": "graveMinion",
         "amount": 2
       }
+    },
+    {
+      "id": "druid_thornleaf_strike",
+      "name": "棘葉の一閃",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 2
+      }
+    },
+    {
+      "id": "druid_freshleaf_care",
+      "name": "若葉の手当て",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "heal",
+        "target": "self",
+        "amount": 4
+      }
     }
   ],
   "deck": [
-    "scout",
-    "scout",
-    "druid_entangling_roots",
-    "druid_entangling_roots",
-    "druid_briar_stalker",
-    "druid_briar_stalker",
-    "druid_forest_blessing",
-    "druid_forest_blessing",
-    "druid_ancient_bastion",
-    "druid_ancient_bastion",
-    "druid_canopy_warden",
-    "druid_canopy_warden",
-    "druid_spring_sprout",
-    "druid_spring_sprout",
-    "druid_grove_call",
-    "druid_grove_call",
-    "druid_seed_keeper",
-    "druid_seed_keeper",
-    "druid_woodland_oracle",
-    "druid_woodland_oracle",
-    "druid_mountain_beast",
-    "druid_mountain_beast",
-    "druid_seasonal_wisdom",
-    "druid_seasonal_wisdom",
-    "druid_giant_awakening",
-    "druid_giant_awakening",
-    "druid_stream_keeper",
-    "druid_stream_keeper",
+    "wisp",
+    "wisp",
+    "guard",
+    "guard",
+    "wolf",
+    "wolf",
+    "sage",
+    "sage",
+    "knight",
+    "knight",
+    "sentinel",
+    "sentinel",
+    "golem",
+    "golem",
+    "beast",
+    "beast",
+    "dragon",
+    "dragon",
+    "titan",
+    "titan",
+    "druid_thornleaf_strike",
+    "druid_thornleaf_strike",
     "druid_deep_roots",
-    "druid_deep_roots"
+    "druid_deep_roots",
+    "druid_freshleaf_care",
+    "druid_freshleaf_care",
+    "druid_grove_call",
+    "druid_grove_call",
+    "druid_forest_blessing",
+    "druid_forest_blessing"
   ],
   "requests": [],
   "verification": {
     "status": "partial",
     "base": "v0.1.410 / 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
-    "baseline": "固定ZIP version26を取得済み実体から再確認、外側SHA-256 70bfdcc53889714573134e67479543c56c59dba0a846c454bbd342b86dbfc8d9、内側SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。main SHA一致、47 Git blob SHA全件一致（diagnostics.jsは再取得照合）。仮統合実行差分はsrc/class-cards.js・src/starter-decks.jsのみ。",
-    "cardValidation": "累積24種validateCard、normalizeCustomCard、cardClass、公開済み全クラス定義同一、他8初期デッキ無変更、初期デッキ30枚と代替5構成のvalidateDeck/validateClassDeck/inferClass、保存バックアップ・復元・他クラス不採用。公開済み167カード保持、仮統合177カード。",
-    "node": "Node v24.22.3。専用395/395（324戦・22612手、6構成各54戦、同一操作決定性・不正/古い操作拒否・全手状態検証、全24専用カード使用・スキル454回、共有状態模擬6戦で両席投影、非公開手札非露出、重複再送による二重実行なし）。追加秘策境界2/2：同名重複設置拒否、対ミニオン攻撃で未発動、味方盤面7体でも弱体化後に攻撃継続。最小DOM2/2。根脈守樹のマナ4/9/10・沈黙、岩葉の護りの2/6/7/10・対象なし、茨の防柵の攻撃力2/5・発動タイミング、古根の再生の盤面0/5/6/7・墓地なし・登場時効果非発動を確認。第11段階対称比較288戦＋第13段階追加比較144戦＝432戦完走。相手はmain初期デッキ固定、同じ方針・seed・両席・前後攻各36、各構成72戦。実対人バランスの根拠ではない。既存80ファイル全回帰初回3114/3117合格、3件は旧カタログ件数期待値の相違。ゲームコードは変更せずテスト期待値のみ更新し、最終全80ファイルを一括再実行（Node 24.22.3、終了コード0、261.914秒）、3117/3117件合格。旧カード定義・初期デッキの履歴照合は保持。ローカルテストの旧期待値調整は8ファイル（class-expansion410、creation、custom-cards、decks、layout-card-detail、layout-hub、layout-studio、ui）のみ。",
-    "playedCounts": {
-      "druid_deep_roots": 364,
-      "druid_grove_call": 283,
-      "druid_ancient_bastion": 354,
-      "druid_forest_blessing": 168,
-      "druid_giant_awakening": 285,
-      "druid_woodland_oracle": 205,
-      "druid_briar_stalker": 240,
-      "druid_seed_keeper": 301,
-      "druid_canopy_warden": 342,
-      "druid_mountain_beast": 176,
-      "druid_spring_sprout": 324,
-      "druid_stream_keeper": 202,
-      "druid_seasonal_wisdom": 263,
-      "druid_worldroot_colossus": 56,
-      "druid_entangling_roots": 257,
-      "druid_earth_tremor": 60,
-      "druid_ring_guide": 104,
-      "druid_stonewood_warden": 122,
-      "druid_moss_renewal": 45,
-      "druid_verdant_surgewave": 50,
-      "druid_rootwell_keeper": 56,
-      "druid_bark_shield": 63,
-      "druid_bramble_barrier": 38,
-      "druid_ancient_rebirth": 65
-    },
-    "symmetricComparison": {
-      "published": {
-        "games": 72,
-        "wins": 56,
-        "draws": 0,
-        "actions": 7404,
-        "first": 36,
-        "second": 36,
-        "firstWins": 29,
-        "secondWins": 27,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 7
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 4
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 6
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 6
-          },
-          "druid": {
-            "games": 8,
-            "wins": 4
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 7
-          },
-          "mage": {
-            "games": 8,
-            "wins": 6
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "starter": {
-        "games": 72,
-        "wins": 62,
-        "draws": 0,
-        "actions": 6861,
-        "first": 36,
-        "second": 36,
-        "firstWins": 32,
-        "secondWins": 30,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 5
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 7
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 7
-          },
-          "druid": {
-            "games": 8,
-            "wins": 4
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 7
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "control": {
-        "games": 72,
-        "wins": 60,
-        "draws": 0,
-        "actions": 7074,
-        "first": 36,
-        "second": 36,
-        "firstWins": 31,
-        "secondWins": 29,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 6
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 6
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 7
-          },
-          "druid": {
-            "games": 8,
-            "wins": 5
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 4
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "guardian": {
-        "games": 72,
-        "wins": 64,
-        "draws": 0,
-        "actions": 7386,
-        "first": 36,
-        "second": 36,
-        "firstWins": 33,
-        "secondWins": 31,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 7
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 5
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 8
-          },
-          "druid": {
-            "games": 8,
-            "wins": 5
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 7
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "growth": {
-        "games": 72,
-        "wins": 64,
-        "draws": 0,
-        "actions": 6790,
-        "first": 36,
-        "second": 36,
-        "firstWins": 32,
-        "secondWins": 32,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 6
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 7
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 7
-          },
-          "druid": {
-            "games": 8,
-            "wins": 5
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 7
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      },
-      "recovery": {
-        "games": 72,
-        "wins": 66,
-        "draws": 0,
-        "actions": 7376,
-        "first": 36,
-        "second": 36,
-        "firstWins": 34,
-        "secondWins": 32,
-        "byOpponent": {
-          "warrior": {
-            "games": 8,
-            "wins": 8
-          },
-          "shaman": {
-            "games": 8,
-            "wins": 8
-          },
-          "rogue": {
-            "games": 8,
-            "wins": 8
-          },
-          "paladin": {
-            "games": 8,
-            "wins": 7
-          },
-          "hunter": {
-            "games": 8,
-            "wins": 8
-          },
-          "druid": {
-            "games": 8,
-            "wins": 4
-          },
-          "warlock": {
-            "games": 8,
-            "wins": 8
-          },
-          "mage": {
-            "games": 8,
-            "wins": 7
-          },
-          "priest": {
-            "games": 8,
-            "wins": 8
-          }
-        }
-      }
-    },
-    "browser": "実app.js最小DOMハーネスでカード作成フォームを操作して累積24/24別ID・別名保存、normalizeCustomCard一致。初期デッキのクラス選択・採用制限・保存復元に合格。ただし実Chromium本体が存在せず、実ブラウザではない。",
+    "baseline": "固定ZIP version26、外側SHA-256 70bfdcc53889714573134e67479543c56c59dba0a846c454bbd342b86dbfc8d9、内側SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。mainと48対象Git blob SHA全件一致（管理用.gitkeepを含む）。仮統合実行差分はsrc/class-cards.jsとsrc/starter-decks.jsのみ。",
+    "designReference": "2014年のクラス解放直後basic deckの共通ミニオン10種×2・専用スペル5種×2という構成とマナ効率の学習を参考にした独立ゲーム用設計。https://linuxtest.hearthpwn.com/decks/117065-basic-druid-from-basic-decks および https://hearthstone.blizzard.com/en-us/news/17528773 。元カードの名称・画像・データは移植しない。現行エンジンに合わせる。",
+    "deck": "30枚（共通ミニオン20、専用スペル10、各15種2枚）、1～6マナ[4,10,8,4,2,2]、平均2.87。全採用カードに条件付き追加効果・ランダム特殊召喚・秘策なし。",
+    "node": "Node 24.22.3。新規スターター設計、両席で単体ダメージ/対象・回復上限・マナ加速上限・召喚強化、既存秘策境界、最小DOMカード作成・デッキ保存復元、計23/23件合格。全回帰・発展用模擬対戦・対称比較は実行中。一括試験では長時間の2ファイルが途中終了し分割で再実行中。",
+    "browser": "実app.js最小DOMハーネスでカード作成フォームから26専用＋10共通カードを別ID・別名で保存、36/36定義一致。初期デッキ30枚のクラス選択・採用制限・保存復元確認。実ブラウザではない。",
     "notTested": [
-      "実Chromium・Safari・実機のUIとレイアウト",
-      "Node22での全回帰試験、対人バランス、他クラスの未統合提案との組合せ",
-      "実Firebase通信、Pages配備"
+      "全回帰試験・新旧デッキ模擬対戦の最終結果は確認中",
+      "実Chromium/Safari/実機、実Firebase/Pages、対人バランス、他クラス未統合提案との組合せ"
     ],
-    "notes": "担当ブランチproposal.jsonのみ更新。main、固定ZIP、公開ロック、旧ゲーム非変更。共通エンジン変更要望なし。",
-    "totalFinalNodeTests": 3519
+    "notes": "担当ブランチproposal.jsonのみ、既存24専用定義・共通カード維持。初期デッキの旧revision14はe75184534db94e8539d778b79d1dedfc17728c96に保持。main、固定ZIP、公開ロック、旧ゲーム非変更。"
   },
-  "notes": "第14段階：第13段階のカード定義・デッキは変更せず、最終全回帰試験を完了。第13段階：茨の防柵（2マナ秘策、自分のヒーローが攻撃される前に攻撃ミニオンの攻撃力-2、続けて盾の衛兵1体特殊召喚。元の攻撃先は変化しない）・古根の再生（7マナ、自分の墓地からランダムなミニオン2体蘇生、登場時効果なし）を追加。累積24種。第12段階追加2種と今回2種は編集候補。対称比較ではドルイドが高勝率傾向のため初期デッキはこれ以上強化しない。カード名・数値暫定。実Chromium未検証のためdraft、revision7のready候補はb44bfedabde8fad4194104af6b761dbea38bf623に保持。"
+  "notes": "第15段階：ユーザー指示によりチュートリアル直後の旧9クラス制ベーシックデッキの設計（共通ミニオン10種×2・専用スペル5種×2）を参考に、独自定義で初期デッキを全面再設計。序盤の除去・回復・マナ加速、展開・全体強化、中盤以降の大型ミニオンを学ぶ。秘策、複雑な条件付き追加効果、ランダム特殊召喚は初期デッキに入れない。新規の単一効果スペル2種（棘葉の一閃・若葉の手当て）を追加。既存24専用カード全て保持し、旧revision14の発展デッキは履歴に保持。クラススキル、採用制限、効果エンジン、保存・通信は変更しない。カード名・数値暫定。"
 }
+
