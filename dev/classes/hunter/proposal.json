@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "classId": "hunter",
-  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
-  "revision": 7,
-  "status": "ready",
+  "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
+  "revision": 8,
+  "status": "draft",
   "cards": [
     {
       "id": "hunter_ashfang_cub",
@@ -240,6 +240,24 @@
         "target": "enemyMinionChoice",
         "amount": 1
       }
+    },
+    {
+      "id": "hunter_decoy_ambush",
+      "name": "誘影の待ち伏せ",
+      "type": "secret",
+      "manaCost": 2,
+      "ability": {
+        "when": "spellPlayed",
+        "operation": "summonFixed",
+        "target": "tokenScout",
+        "amount": 1,
+        "followUp": {
+          "condition": "outnumbered",
+          "operation": "summonFixed",
+          "target": "tokenWisp",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -276,16 +294,16 @@
   ],
   "requests": [],
   "verification": {
-    "status": "passed",
-    "baseline": "v0.1.408 / main 349d286492840c58a661e6cdc2605cffa5cbf868 / ライブラリZIP v24。ゲームZIP SHA256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12。48件のGit blob SHA一致（ルートcloud-configはsrcの同一内容、.gitkeep管理例外含む）。公開済みハンター7種類は維持、ローカル候補のclass-cards.jsとstarter-decks.jsのみ実行コード変更。",
-    "node": "Node 22.16.0。沈黙採用の中間候補で429/429（専用・固有スキル・custom-cards・creation・secrets、固定件数91→101のローカル期待値修正）。最終候補は初期デッキをrevision6に戻して専用＋全固有スキル関連104/104、終了コード0。累積17カードvalidateCard/normalizeCustomCard一致、名称重複なし、30枚validateDeck、ハンタークラス認識、沈黙による挑発/聖なる盾解除と空対象時登場、直接破壊と潜伏対象拒否、装甲吸収とスキルの秘策非発動・1ターン1回、複数秘策順次発動/攻撃中断/条件ドロー。9クラス×6試合54試合・4974操作（スキル500回）、状態検証・決定性・入力非破壊。最終候補の広い一括試験は時間制限で中断（104件の再実行合格、全回帰合格ではない）。",
-    "balance": "v0.1.408の相手8クラス各6試合、同じseed・合法行動の簡易選択・交互手番で3構成比較、計144試合14243操作完走。R6維持41/48（ウォリアー4/6、パラディン5/6）、沈黙採用37/48（1/6、4/6）、沈黙＋破壊採用34/48（2/6、3/6）。対人勝率の推定ではない。追加2種は予備へ、初期30枚維持。",
-    "browser": "最終候補実Chromium DOM、オフラインモジュール＋メモリ保存、1194x834・390x844で全9デッキ選択・複製・30枚・横はみ出しなし。専用17種（予備含む）＋採用共通2種の全19種を現行カード作成UIから別名・別IDで保存し定義一致。ページエラー/外部通信なし、終了コード0。",
+    "status": "partial",
+    "baseline": "v0.1.410 / main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b / 固定ZIP version 26。ゲームZIP SHA256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654、実行・設定47 blob SHA一致（ルートcloud-configはsrc同一内容、src/.gitkeepはZIP外）。公開済み全143専用定義（hunter15）と9初期デッキ維持。ローカル実行コードの変更はclass-cards.jsのみ。",
+    "node": "Node v24.22.3。専用24件＋クラス選択・固有スキル・秘策回帰を合わせ229/229合格。全定義のvalidateCard/normalizeCustomCard、専用カードの他クラス採用拒否、相手呪文解決後の罠発動・斥候召喚後の盤面比較・空き枠/満杯・致死呪文・スキル非発動・処刑罠の攻撃中断と盾・沈黙・破壊を確認。",
+    "balance": "8相手クラス×8戦×4構成=256戦、21,897操作完走。先後と座席を独立に反転し、顔狙い/盤面重視の2簡易選択方針、共通seed。R6現行38/64（先22/32、後16/32）、誘影の待ち伏せを散裂と交換32/64、封盾を薄暮と交換39/64、巨獣穿ちを断崖と交換32/64。簡易模擬で対人勝率ではない。初期30枚維持。",
+    "browser": "既存カード作成UIの本物のイベントハンドラーをNode模擬DOMで実行し、専用18種＋共通2種=20種類の別ID別名保存・normalizeCustomCard一致（1/1）。実Chromium起動は実行ファイル欠落、別ブラウザからの候補ローカルページ接続も拒否。実ブラウザは未検証。",
     "unverified": [
-      "全Node回帰・固定件数/統合スナップショット依存テストの更新",
-      "実機Safari・実Firebase・Pages配備",
-      "対人バランス・他クラス最新提案統合後の互換性"
+      "実ブラウザでのカード作成・表示検証（draftの理由）",
+      "全Node回帰の最終完了",
+      "実機Safari・実Firebase・Pages配備・対人バランス"
     ]
   },
-  "notes": "第7段階：最新v0.1.408の実装済みクラス固有スキルを含めて検証。守備型対抗の沈黙・直接破壊の2種を追加するが、比較戦では採用構成の勝ち数が減ったため予備カードに留める。累積17種（採用13種26枚、予備4種）、共通2種4枚、計30枚はrevision6と同一。カード定義・名称・数値・採用構成は暫定。公開済み定義変更なし。統合テストの全定義が初期デッキに含まれるという固定前提は予備カードを認める形へ調整が必要。"
+  "notes": "第8段階：v0.1.410に基準更新。公開済み15種を変更せず前回2予備＋『誘影の待ち伏せ』（2マナ、相手スペル解決後に風の斥候1体、召喚後も数的不利なら灯火の精霊1体）を加えた累積18種。初期30枚・専用13種採用、予備5種。実ブラウザ検証未完のためdraft。第7段階のreadyは前コミットに保持。"
 }
