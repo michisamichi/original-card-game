@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "hunter",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -57,6 +57,47 @@
         "target": "enemyCharacters",
         "amount": 2
       }
+    },
+    {
+      "id": "hunter_nightstalker",
+      "name": "夜影の追跡獣",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "stealth"
+      ]
+    },
+    {
+      "id": "hunter_finishing_arrow",
+      "name": "追討の矢",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 2,
+        "followUp": {
+          "condition": "killed",
+          "operation": "damage",
+          "target": "enemyHero",
+          "amount": 2
+        }
+      }
+    },
+    {
+      "id": "hunter_repel_snare",
+      "name": "退却の仕掛け罠",
+      "type": "secret",
+      "manaCost": 3,
+      "ability": {
+        "when": "minionPlayed",
+        "operation": "returnHand",
+        "target": "eventMinion",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -72,12 +113,12 @@
     "hunter_dune_pouncer",
     "hunter_ashfang_cub",
     "hunter_ashfang_cub",
-    "archer",
-    "archer",
+    "hunter_nightstalker",
+    "hunter_nightstalker",
     "beast",
     "beast",
-    "spark",
-    "spark",
+    "hunter_finishing_arrow",
+    "hunter_finishing_arrow",
     "bolt",
     "bolt",
     "flame",
@@ -86,22 +127,22 @@
     "ember",
     "thorn",
     "thorn",
-    "rune",
-    "rune",
+    "hunter_repel_snare",
+    "hunter_repel_snare",
     "hunter_scatter_snare",
     "hunter_scatter_snare"
   ],
   "requests": [],
   "verification": {
     "status": "passed",
-    "baseline": "v0.1.405 / ライブラリZIP v21 / ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。一致した45 Git blob SHA（ルートcloud-config重複含む）、全実行・保護設定、.gitkeep管理例外を確認。",
-    "node": "Node 22.16.0。ローカル候補のcards.js末尾とhunterレシピのみ変更。専用試験61/61：validateCard・normalizeCustomCard・validateDeck、名称衝突なし、死亡・登場の対ヒーローダメージ、急襲の初ターン対象制限、秘策の攻撃中断・非発動条件・生存時継続、9クラス×6模擬戦54試合5992操作（全試合終了・状態検証・決定性・入力非破壊、全新カードのイベント確認）。関連既存回帰348/348（starter-decks/secrets/custom-cards）。初回347/348の1失敗は固定カタログ件数24の期待値のみで、ローカルテストを28に更新して再試験合格。統合時に件数依存テストの更新が必要。",
-    "browser": "実Chromium DOM、オフラインモジュール＋メモリ保存。1194x834・390x844で全9デッキ選択/複製、30枚表示、横はみ出しなし。ハンター15種類すべてを現行作成UIから別名・別IDで作成保存し定義一致。エラー・外部通信なし。",
+    "baseline": "v0.1.405 / main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f / ライブラリZIP v21。ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。前回取得した同一mainの45 Git blob SHA（cloud-config重複含む）を今回取得したZIP実体と再照合し全一致。公開ロックfree確認。",
+    "node": "Node 22.16.0。ローカル候補のみ変更。専用試験66/66（累積7種のvalidateCard・normalizeCustomCard一致・validateDeck・名称重複なし、死亡/登場/急襲/攻撃秘策に加え潜伏の対象制限と解除、撃破時追加ダメージの発動/非発動・対象なし拒否、手札戻し秘策の消費・再使用・登場効果とマナ支払い維持・誤発動防止）。9クラス×6模擬戦54試合5726操作、全試合終了・状態検証・決定性・入力非破壊、全7カードのイベント確認。関連既存回帰425/425（starter-decks/secrets/custom-cards/zone-moves）。初回424/425の1失敗は固定カタログ件数24の期待値のみ。ローカル期待値31に更新して再試験合格。統合時は他の固定件数テストも対応要。",
+    "browser": "実Chromium DOM、オフラインモジュール＋メモリ保存。1194x834・390x844で全9デッキ選択/複製、30枚表示、横はみ出しなし。ハンター15種類すべてを現行作成UIから別名・別IDで保存して定義一致（追加効果と固定数値の手札戻し含む）。ページエラー・外部通信なし。",
     "unverified": [
       "全Node回帰試験（統合時に実施）",
       "実機・Safari・実Firebase・Pages公開",
-      "9クラス統合後の採用率・対戦バランス・通信カタログ版互換性"
+      "9クラス統合後の対戦バランス・通信カタログ版互換性"
     ]
   },
-  "notes": "第1段階：wisp/knight/dragon/wardを専用カード4種類各2枚に交換（計30枚、専用8枚）。既存の死亡・登場・急襲・攻撃反応秘策のみ使用。名称・コスト・数値は暫定。専用カード採用制限・ヒーローパワー未追加。公開済みカード定義は変更なし。統合時の再検証候補。"
+  "notes": "第2段階：archer/spark/runeを専用3種各2枚に交換。累積7種類14枚、30枚維持。同一カード定義の既存汎用効果のみ使用。第1段階のカードは定義維持。名称・コスト・数値は暫定。採用制限・ヒーローパワー未追加。"
 }
