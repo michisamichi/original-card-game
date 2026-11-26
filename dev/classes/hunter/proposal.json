@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "hunter",
   "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 5,
+  "revision": 6,
   "status": "ready",
   "cards": [
     {
@@ -198,6 +198,21 @@
         "target": "self",
         "amount": 1
       }
+    },
+    {
+      "id": "hunter_cliff_harrier",
+      "name": "断崖の襲撃獣",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 4,
+      "maxHealth": 4,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "damage",
+        "target": "enemyMinions",
+        "amount": 1
+      }
     }
   ],
   "deck": [
@@ -223,8 +238,8 @@
     "bolt",
     "hunter_twilight_hunter",
     "hunter_twilight_hunter",
-    "hunter_needle_spider",
-    "hunter_needle_spider",
+    "hunter_cliff_harrier",
+    "hunter_cliff_harrier",
     "hunter_execution_snare",
     "hunter_execution_snare",
     "hunter_trail_forager",
@@ -236,8 +251,8 @@
   "verification": {
     "status": "passed",
     "baseline": "v0.1.406 / main 681ec179c708a222e7dbfd660bb7636f08195ac6 / ライブラリZIP v22。ゲームZIP SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。新規取得したZIPの実行・設定ファイルのblob SHAをmainのツリーと照合一致（ルートcloud-configはsrc重複、.gitkeep管理例外）。公開済み4定義維持。",
-    "node": "Node 22.16.0。専用73/73、関連回帰438/438（secrets/custom-cards/creation/turn-effects）、全て終了コード0。54模擬戦（手番を交替する6 seed×9クラス、状態検証・決定性・入力非破壊・全採用専用カードのイベント確認）5885操作で完走。死亡時1ドローと登場時非発動を確認。固定カタログ数58の既存2試験を68へ変更したローカル候補で実施。より広い一括回帰は時間制限で中断、全回帰合格とはしない。",
-    "browser": "実Chromium、1194x834・390x844、9デッキ選択/複製・30枚表示・横はみ出しなし。累積専用14種と採用共通2種を実際のカード作成UIから別名・別IDで再現保存し定義一致。終了コード0、ページエラー・外部通信なし。",
+    "node": "Node 22.16.0。第5段階専用73/73・関連438/438、54模擬戦5885操作、Chromium合格。第6段階専用74/74・関連438/438（secrets/custom-cards/creation/turn-effects）、全て終了コード0。54模擬戦5853操作、全試合終了・状態検証・決定性・入力非破壊・全採用専用カードのイベント確認。5マナ登場時に敵ミニオン全体へ1ダメージ（敵HP・味方不変、空盤面安全、支払い確認）。既存固定カタログ数58の2試験を69へ変更したローカル候補。広範囲一括回帰は時間制限で中断し、全回帰未実施。簡易戦の対他8クラス（各6戦、ミラー除外）勝利は第5段階32/48、第6段階31/48。第6段階はウォリアー2/6・パラディン1/6。ランダム寄りの合法行動選択・暫定相手デッキのため、対人勝率推定ではない。第6段階の採用は盤面回復・マナ帯拡張の意図による（勝率向上を主張しない）。",
+    "browser": "第5・6段階とも実Chromium、1194x834・390x844、全9デッキ選択/複製、30枚表示・横はみ出しなし。最終候補の累積専用15種（予備含む）と採用共通2種を現行カード作成UIから別名・別IDで再現保存し定義一致。終了コード0、ページエラー・外部通信なし。",
     "unverified": [
       "全Node回帰・統合試験更新",
       "実機・Safari・実Firebase・Pages公開",
@@ -245,5 +260,5 @@
       "他クラスの後続提案統合後の互換性"
     ]
   },
-  "notes": "第5段階：草原の採餌獣2枚を採用し退却の仕掛け罠2枚を予備へ移す。秘策6→4枚、1マナ4→6枚、手札補充を追加。累積専用14種類、採用専用26枚、共通4枚、30枚維持。既存定義は削除・改変なし。名称・数値・構成は暫定。"
+  "notes": "第5・6段階：退却の仕掛け罠・針棘の蜘蛛を各2枚予備へ移し、草原の採餌獣・断崖の襲撃獣を各2枚採用。累積専用15種（採用13種26枚、予備2種）、共通2種4枚、30枚。秘策6→4枚、1マナ4→6枚、5マナ2枚追加。手札補充・盤面回復を意図した暫定構成。公開済み含む全旧定義を維持。"
 }
