@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "druid",
   "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
-  "revision": 15,
+  "revision": 16,
   "status": "draft",
   "cards": [
     {
@@ -441,14 +441,213 @@
     "baseline": "固定ZIP version26、外側SHA-256 70bfdcc53889714573134e67479543c56c59dba0a846c454bbd342b86dbfc8d9、内側SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654。mainと48対象Git blob SHA全件一致（管理用.gitkeepを含む）。仮統合実行差分はsrc/class-cards.jsとsrc/starter-decks.jsのみ。",
     "designReference": "2014年のクラス解放直後basic deckの共通ミニオン10種×2・専用スペル5種×2という構成とマナ効率の学習を参考にした独立ゲーム用設計。https://linuxtest.hearthpwn.com/decks/117065-basic-druid-from-basic-decks および https://hearthstone.blizzard.com/en-us/news/17528773 。元カードの名称・画像・データは移植しない。現行エンジンに合わせる。",
     "deck": "30枚（共通ミニオン20、専用スペル10、各15種2枚）、1～6マナ[4,10,8,4,2,2]、平均2.87。全採用カードに条件付き追加効果・ランダム特殊召喚・秘策なし。",
-    "node": "Node 24.22.3。新規スターター設計、両席で単体ダメージ/対象・回復上限・マナ加速上限・召喚強化、既存秘策境界、最小DOMカード作成・デッキ保存復元、計23/23件合格。全回帰・発展用模擬対戦・対称比較は実行中。一括試験では長時間の2ファイルが途中終了し分割で再実行中。",
+    "node": "Node v24.22.3、85テストファイル。全一括3130件合格、druid.test.jsとeffect-audit398.test.jsがファイル単位で途中終了（終了1、原因は確定できず）。失敗2ファイルを単独で再実行して451/451と10/10合格、両終了0。重複除外した最終3591/3591合格。全採用15種・累積26種はvalidateCard、normalizeCustomCard、クラス採用制限、デッキ、バックアップ・保存復元検証。全公開済み167定義維持、仮統合179種、他8デッキ無変更。専用テストは新初期・旧発展案・発展代替5構成で378戦（各54）・26929手、スキル671回、全26専用カードおよび新初期15種使用、状態検証・決定性・旧操作拒否、7構成の共有状態模擬対戦（両席投影、非公開手札保護・重複再送）合格。対称比較216戦、72戦×3構成（同一方針、seed、両席・前後攻各36、相手はmainの9初期デッキ固定）。新デッキの対象/回復・上限、マナ増加上限、展開と全体強化、単純効果限定・比率とマナ分布検証。実行コードは2ファイル仮統合のみ。旧件数期待値8ファイルのみ変更したローカル検証（履歴の定義照合は保持）。",
     "browser": "実app.js最小DOMハーネスでカード作成フォームから26専用＋10共通カードを別ID・別名で保存、36/36定義一致。初期デッキ30枚のクラス選択・採用制限・保存復元確認。実ブラウザではない。",
     "notTested": [
-      "全回帰試験・新旧デッキ模擬対戦の最終結果は確認中",
-      "実Chromium/Safari/実機、実Firebase/Pages、対人バランス、他クラス未統合提案との組合せ"
+      "実Chromium/Safari/実機でのレイアウト・イベント伝播（Chromium本体なし）",
+      "Node22での再実行、実Firebase/Pages、対人バランス、他クラス未統合提案との組合せ"
     ],
-    "notes": "担当ブランチproposal.jsonのみ、既存24専用定義・共通カード維持。初期デッキの旧revision14はe75184534db94e8539d778b79d1dedfc17728c96に保持。main、固定ZIP、公開ロック、旧ゲーム非変更。"
+    "notes": "担当ブランチproposal.jsonのみ変更。main・固定ZIP・公開ロック・旧ゲーム非変更。他クラスは各担当の初期デッキ再設計と統合役が対応。実ブラウザ未検証のためdraft。第15段階のコミット226a7aacf2b46009edc4a154025934e3bf350bb4の定義/デッキは不変。",
+    "totalFinalNodeTests": 3591,
+    "simulationCoverage": {
+      "actions": 26929,
+      "skills": 671,
+      "counts": {
+        "druid_deep_roots": 404,
+        "druid_thornleaf_strike": 56,
+        "golem": 64,
+        "beast": 61,
+        "druid_grove_call": 332,
+        "knight": 56,
+        "titan": 58,
+        "sentinel": 61,
+        "sage": 47,
+        "guard": 51,
+        "dragon": 69,
+        "druid_freshleaf_care": 50,
+        "wolf": 51,
+        "wisp": 63,
+        "druid_forest_blessing": 217,
+        "druid_woodland_oracle": 216,
+        "druid_canopy_warden": 335,
+        "druid_ancient_bastion": 346,
+        "druid_seed_keeper": 287,
+        "druid_seasonal_wisdom": 260,
+        "druid_stream_keeper": 174,
+        "druid_spring_sprout": 318,
+        "druid_entangling_roots": 248,
+        "scout": 282,
+        "druid_giant_awakening": 291,
+        "druid_mountain_beast": 165,
+        "druid_briar_stalker": 250,
+        "druid_earth_tremor": 56,
+        "druid_worldroot_colossus": 55,
+        "druid_ring_guide": 104,
+        "druid_stonewood_warden": 118,
+        "druid_verdant_surgewave": 53,
+        "druid_moss_renewal": 53,
+        "druid_rootwell_keeper": 59,
+        "druid_bark_shield": 49,
+        "druid_ancient_rebirth": 60,
+        "druid_bramble_barrier": 31
+      },
+      "wins": {
+        "0": 49,
+        "1": 54,
+        "2": 54,
+        "3": 54,
+        "4": 52,
+        "5": 54,
+        "6": 54
+      },
+      "simulations": 378
+    },
+    "symmetricComparison": {
+      "published": {
+        "games": 72,
+        "wins": 56,
+        "draws": 0,
+        "actions": 7404,
+        "first": 36,
+        "second": 36,
+        "firstWins": 29,
+        "secondWins": 27,
+        "byOpponent": {
+          "warrior": {
+            "games": 8,
+            "wins": 7
+          },
+          "shaman": {
+            "games": 8,
+            "wins": 4
+          },
+          "rogue": {
+            "games": 8,
+            "wins": 8
+          },
+          "paladin": {
+            "games": 8,
+            "wins": 6
+          },
+          "hunter": {
+            "games": 8,
+            "wins": 6
+          },
+          "druid": {
+            "games": 8,
+            "wins": 4
+          },
+          "warlock": {
+            "games": 8,
+            "wins": 7
+          },
+          "mage": {
+            "games": 8,
+            "wins": 6
+          },
+          "priest": {
+            "games": 8,
+            "wins": 8
+          }
+        }
+      },
+      "previous": {
+        "games": 72,
+        "wins": 62,
+        "draws": 0,
+        "actions": 6861,
+        "first": 36,
+        "second": 36,
+        "firstWins": 32,
+        "secondWins": 30,
+        "byOpponent": {
+          "warrior": {
+            "games": 8,
+            "wins": 8
+          },
+          "shaman": {
+            "games": 8,
+            "wins": 5
+          },
+          "rogue": {
+            "games": 8,
+            "wins": 8
+          },
+          "paladin": {
+            "games": 8,
+            "wins": 7
+          },
+          "hunter": {
+            "games": 8,
+            "wins": 7
+          },
+          "druid": {
+            "games": 8,
+            "wins": 4
+          },
+          "warlock": {
+            "games": 8,
+            "wins": 8
+          },
+          "mage": {
+            "games": 8,
+            "wins": 7
+          },
+          "priest": {
+            "games": 8,
+            "wins": 8
+          }
+        }
+      },
+      "starter": {
+        "games": 72,
+        "wins": 39,
+        "draws": 0,
+        "actions": 8286,
+        "first": 36,
+        "second": 36,
+        "firstWins": 18,
+        "secondWins": 21,
+        "byOpponent": {
+          "warrior": {
+            "games": 8,
+            "wins": 6
+          },
+          "shaman": {
+            "games": 8,
+            "wins": 0
+          },
+          "rogue": {
+            "games": 8,
+            "wins": 8
+          },
+          "paladin": {
+            "games": 8,
+            "wins": 3
+          },
+          "hunter": {
+            "games": 8,
+            "wins": 3
+          },
+          "druid": {
+            "games": 8,
+            "wins": 2
+          },
+          "warlock": {
+            "games": 8,
+            "wins": 7
+          },
+          "mage": {
+            "games": 8,
+            "wins": 5
+          },
+          "priest": {
+            "games": 8,
+            "wins": 5
+          }
+        }
+      }
+    }
   },
-  "notes": "第15段階：ユーザー指示によりチュートリアル直後の旧9クラス制ベーシックデッキの設計（共通ミニオン10種×2・専用スペル5種×2）を参考に、独自定義で初期デッキを全面再設計。序盤の除去・回復・マナ加速、展開・全体強化、中盤以降の大型ミニオンを学ぶ。秘策、複雑な条件付き追加効果、ランダム特殊召喚は初期デッキに入れない。新規の単一効果スペル2種（棘葉の一閃・若葉の手当て）を追加。既存24専用カード全て保持し、旧revision14の発展デッキは履歴に保持。クラススキル、採用制限、効果エンジン、保存・通信は変更しない。カード名・数値暫定。"
+  "notes": "第16段階：第15段階の初期デッキ・カード定義を確定し、全回帰・模擬対戦を再試験。第15段階：ユーザー指示によりチュートリアル直後の旧9クラス制ベーシックデッキの設計（共通ミニオン10種×2・専用スペル5種×2）を参考に、独自定義で初期デッキを全面再設計。序盤の除去・回復・マナ加速、展開・全体強化、中盤以降の大型ミニオンを学ぶ。秘策、複雑な条件付き追加効果、ランダム特殊召喚は初期デッキに入れない。新規の単一効果スペル2種（棘葉の一閃・若葉の手当て）を追加。既存24専用カード全て保持し、旧revision14の発展デッキは履歴に保持。クラススキル、採用制限、効果エンジン、保存・通信は変更しない。カード名・数値暫定。 公開版の対戦相手固定・同一方針/seedによる対称216戦では公開時56/72、前回強化案62/72、新初期39/72。初心者用として旧案の過度な強さを緩和。対人バランス保証ではない。実Chromium未検証のためdraft。旧24専用カードを含む累積26種、うち新初期の専用5種。"
 }
-
