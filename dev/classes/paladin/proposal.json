@@ -2,16 +2,67 @@
   "schema": 1,
   "classId": "paladin",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "paladin_dawn_squire",
+      "name": "黎光の従騎士",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "divineShield"
+      ]
+    },
+    {
+      "id": "paladin_sanctuary_medic",
+      "name": "聖域の癒し手",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "heal",
+        "target": "self",
+        "amount": 3
+      }
+    },
+    {
+      "id": "paladin_oath_blessing",
+      "name": "白金の誓約",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "buffBoth",
+        "target": "friendlyChoice",
+        "amount": 2
+      }
+    },
+    {
+      "id": "paladin_aegis_guard",
+      "name": "光冠の守護騎士",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [
+        "taunt",
+        "divineShield"
+      ]
+    }
+  ],
   "deck": [
     "scout",
     "scout",
     "guard",
     "guard",
-    "runner",
-    "runner",
+    "paladin_dawn_squire",
+    "paladin_dawn_squire",
     "knight",
     "knight",
     "golem",
@@ -24,23 +75,26 @@
     "archer",
     "sentinel",
     "sentinel",
-    "beast",
-    "beast",
+    "paladin_aegis_guard",
+    "paladin_aegis_guard",
     "heal",
     "heal",
-    "healer",
-    "healer",
+    "paladin_sanctuary_medic",
+    "paladin_sanctuary_medic",
     "sage",
     "sage",
     "ward",
     "ward",
-    "rune",
-    "rune"
+    "paladin_oath_blessing",
+    "paladin_oath_blessing"
   ],
   "requests": [],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "pass",
+    "baseline": "v0.1.405: main HEAD・root tree・全実行ファイルと設定のGit blob SHA、内側ゲームZIPのSHA-256が一致。ロックfree確認。",
+    "node": "Node 22.16.0、ローカル候補に4定義と当クラスのレシピだけを追加。paladin.test.js相当41件（定義/デッキ/normalizeCustomCard一致1、盾の戦闘・消費、回復上限、選択強化、挑発+盾の4件、9クラス×4seedの36模擬対戦）、starter-decks.test.js 74件、keywords/buffs/grant-keywords 335件、合計450/450合格。模擬対戦では全操作の状態検証・決定性・終局を確認（決定性確認は専用36戦）。",
+    "browser": "実Chromium、オフラインimportmap・メモリ保存。1366×1024、1194×834、844×390、390×844で9初期デッキの選択と30枚複製・横はみ出しなし。カード作成UIから全28定義を別名・別IDで再現保存し一致（新規4種含む）。ページエラー・外部通信なし。",
+    "unverified": "全Node回帰、実Firebase・Safari・実機、採用制限・対戦勝率、他クラス提案との統合は未検証。統合役は旧24種固定のテストを新カタログに対応させ、カタログ版・混在版拒否と全回帰を確認すること。専用イラストなし。"
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "第1段階：守護・回復を軸に専用カード4種8枚を暫定初期デッキに採用。runner、healer、rune、beastの各2枚を置換。能力・マナ・ステータス・名称は暫定調整値。既存の汎用効果のみ、固有処理や正式ルールの追加なし。main・固定ZIPは変更しない。"
 }
