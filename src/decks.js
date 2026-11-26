@@ -1,6 +1,7 @@
 // Based on legacy decks.js's separated browser-local store + count validation.
 // New namespace and strict format; never reads legacy keys or migrates old cards.
 import {CATALOG,RULES,STANDARD_DECK,EFFECT_DECK,SECRET_DECK,validateDeck} from './cards.js';
+import {STARTER_DECKS} from './starter-decks.js';
 import {buildCatalog,normalizeCustomCards} from './custom-cards.js';
 import {normalizeTemplates} from './templates.js';
 import {normalizeArt,ART_TOTAL_CHARS} from './card-art.js';
@@ -10,7 +11,7 @@ export const DECK_STORE_KEY='original-card-game:decks:v1';
 export const MAX_SAVED_DECKS=12;
 export const PRESET_ID='preset';
 export const preset=Object.freeze({id:PRESET_ID,name:'基本デッキ',cards:STANDARD_DECK});
-export const presets=Object.freeze([preset,Object.freeze({id:'preset_effect',name:'登場・死亡効果デッキ',cards:EFFECT_DECK}),Object.freeze({id:'preset_secret',name:'秘策デッキ',cards:SECRET_DECK})]);
+export const presets=Object.freeze([preset,Object.freeze({id:'preset_effect',name:'登場・死亡効果デッキ',cards:EFFECT_DECK}),Object.freeze({id:'preset_secret',name:'秘策デッキ',cards:SECRET_DECK}),...STARTER_DECKS]);
 const validId=id=>typeof id==='string'&&/^d_[a-z0-9]{8,40}$/.test(id);
 export function cleanName(name){if(typeof name!=='string'||!name.trim()||name.trim().length>28)throw Error('デッキ名は1〜28文字');return name.trim();}
 export function countCards(cards){const counts=Object.create(null);for(const id of cards)counts[id]=(counts[id]||0)+1;return counts;}
