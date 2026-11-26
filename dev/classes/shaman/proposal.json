@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "shaman",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -57,6 +57,65 @@
         "target": "self",
         "amount": 2
       }
+    },
+    {
+      "id": "shaman_stormcall",
+      "name": "風雷の鼓舞",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "tempAttack",
+        "target": "friendlyMinions",
+        "amount": 2
+      }
+    },
+    {
+      "id": "shaman_hexmist",
+      "name": "変幻の霧",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "transformWisp",
+        "target": "enemyMinionChoice",
+        "amount": 1
+      }
+    },
+    {
+      "id": "shaman_stoneheart",
+      "name": "石核の守護精霊",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "death",
+        "operation": "summonFixed",
+        "target": "tokenGuard",
+        "amount": 1
+      }
+    },
+    {
+      "id": "shaman_spiritgather",
+      "name": "精霊の集い",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "summonFixed",
+        "target": "tokenWisp",
+        "amount": 2,
+        "followUp": {
+          "condition": "wideBoard",
+          "operation": "buffHealth",
+          "target": "friendlyMinions",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -68,8 +127,8 @@
     "wolf",
     "shaman_gale",
     "shaman_gale",
-    "golem",
-    "golem",
+    "shaman_stoneheart",
+    "shaman_stoneheart",
     "dragon",
     "dragon",
     "wisp",
@@ -78,28 +137,28 @@
     "shaman_totemcaller",
     "shaman_thunderstorm",
     "shaman_thunderstorm",
-    "spark",
-    "spark",
+    "shaman_stormcall",
+    "shaman_stormcall",
     "bolt",
     "bolt",
     "sage",
     "sage",
-    "flame",
-    "flame",
+    "shaman_hexmist",
+    "shaman_hexmist",
     "shaman_earthmender",
     "shaman_earthmender",
-    "ember",
-    "ember"
+    "shaman_spiritgather",
+    "shaman_spiritgather"
   ],
   "requests": [],
   "verification": {
     "status": "pass",
-    "baseline": "v0.1.405; 最新開発一式.zipの基準HEAD・本体ZIP SHA-256、src全37 JS・index.html・style.css・package.json・tools 2本・Firebase設定とRulesのGit blob SHA照合一致。ルートcloud-config.jsはsrcと一致、src/.gitkeepは改行のみ。公開ロックfreeを確認。",
-    "node": "Node 22.16.0: 68/68合格（4定義、デッキ1件、個別効果9件、9クラス×6シード54戦、合法操作・決定性・状態検証・対戦終了）。別ID・別名のnormalizeCustomCardで一致。",
-    "integration": "ローカルだけでsrc/cards.jsとstarter-decks.jsに提案を仮組み込み、既存starter-decks.test.js 74/74合格（専用ID、15種30枚、9クラス45通りの対戦、既存プリセット・作成互換性）。試験後に2ファイルを基準blobと一致する状態へ復元。",
-    "browser": "Chromium実DOM・1194×834・オフラインモジュール/メモリ保存: カード作成画面で4種類を別ID・別名で作成し、保存後normalizeCustomCardで能力・効果・数値・種類の完全一致。ページエラー・外部通信なし。",
-    "edgeCases": "召喚時の生成個体とマナ消費、盤面6枠/7枠の境界、敵全体雷撃の死亡処理・空盤面・味方とヒーロー非対象、疾風の召喚ターン制限・2回攻撃・3回目拒否・次ターン復帰、HP15/29/30で回復上限を確認。",
-    "unverified": "全75ファイルの回帰試験、実機・Safari・実Firebase・公開後Pages、クラス間バランス・採用制限は未検証。統合役でカタログ互換性と全回帰を再検証すること。readyは未公開の統合候補。"
+    "baseline": "v0.1.405 / main HEAD 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f・ライブラリZIP version 21は前回から変更なし。保管本体ZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad を再計算、src全37 JSとルート実行/設定7件の44ファイルを前回取得した同一main SHAのGit blob SHAと再照合一致。公開ロックfree。",
+    "node": "Node 22.16.0: 82/82合格（累積8定義、デッキ1件、個別効果19件、9クラス×6シード54戦）。validateCard、別ID別名normalizeCustomCard一致、validateDeck、合法操作・決定性・状態検証・全戦終了。",
+    "integration": "ローカルだけで累積8定義と30枚のレシピをsrc/cards.jsとstarter-decks.jsに仮組み込み、既存starter-decks.test.js 78/78合格（専用ID、9クラス45通りの模擬対戦、既存プリセット・カード作成互換性）。試験後2ファイルを原本へ復元。",
+    "browser": "Chromium実DOM・1194×834・オフラインモジュール/メモリ保存：累積8種類を別名別IDで実カード作成画面から保存し、normalizeCustomCardによる定義一致を確認。変身の固定数値と条件付き追加効果もUIの選択肢のみ使用。ページエラー・外部通信なし。",
+    "edgeCases": "従来4種の境界試験を再実行。風雷の鼓舞：味方のみ+2、ターン終了で解除、空盤面でも進行。変幻の霧：相手ミニオンのみ選択、対象なし/不正対象拒否・状態不変、元の能力/強化解除、死亡効果なし、インスタンスID維持。石核の守護精霊：戦闘死亡後に挑発1/3を1体生成、山札消費なし。精霊の集い：盤面初期0/1/5/6/7体、召喚後3体以上かつ召喚成功時のみ全味方体力+1、7枠満杯なら召喚・追加効果なし、進行継続。",
+    "unverified": "全75ファイルの回帰試験、実機・Safari・実Firebase・Pages、クラス間バランス・採用制限・他クラス提案との統合は未検証。統合役がカタログ互換性・全回帰を検証。readyは未公開の統合候補。"
   },
-  "notes": "第1段階：archer・beast・knight・healerを各2枚、精霊生成・全体雷撃・疾風・登場回復に置換。既存11種類22枚を維持。名称・マナ/ステータスは暫定案。既存汎用効果で全て再現可能なため今回は追加要望なし。ヒーローパワー・オーバーロード等の新ルールは導入しない。"
+  "notes": "第2段階：第1段階の4種類を変更せず、spark・flame・golem・emberを各2枚置換。専用8種類16枚・既存7種類14枚。追加は一時的全体攻撃強化、相手単体変身、死亡時挑発生成、条件付き精霊展開。名前・マナ/ステータスは暫定案。新規効果要求なし。ヒーローパワー・オーバーロード等は新ルールとして追加しない。"
 }
