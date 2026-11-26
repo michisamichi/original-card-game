@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "warrior",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -67,6 +67,33 @@
         "target": "enemyMinions",
         "amount": 1
       }
+    },
+    {
+      "id": "warrior_battlecry",
+      "name": "戦意の号令",
+      "type": "spell",
+      "manaCost": 1,
+      "ability": {
+        "when": "play",
+        "operation": "tempAttack",
+        "target": "friendlyChoice",
+        "amount": 2
+      }
+    },
+    {
+      "id": "warrior_hammerguard",
+      "name": "鋼槌の制圧兵",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 3,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 2
+      }
     }
   ],
   "deck": [
@@ -90,12 +117,12 @@
     "archer",
     "warrior_bannerguard",
     "warrior_bannerguard",
-    "beast",
-    "beast",
+    "warrior_hammerguard",
+    "warrior_hammerguard",
     "titan",
     "titan",
-    "spark",
-    "spark",
+    "warrior_battlecry",
+    "warrior_battlecry",
     "warrior_retaliation",
     "warrior_retaliation",
     "ward",
@@ -104,15 +131,14 @@
   "requests": [],
   "verification": {
     "status": "passed",
-    "baseline": "v0.1.405: 固定ZIP内ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad と基準HEAD一致。src/全JS・index/style/package/tools/Firebase設定のGit blob SHA一致。公開ルートcloud-config.jsはsrcと同一、.gitkeepは改行のみ。",
-    "node": "Node 22.16.0、専用45/45件合格。4定義validateCardと別ID/別名normalizeCustomCard一致、30枚validateDeck、既存22枚維持、急襲/挑発、死亡時強化の対象有無、撃破時ドローと非撃破・対象なし・ヒーロー拒否、全体弱体化の対象有無。",
-    "browser": "Chromium・1194×834・現行カード作成UIの実操作で4枚全て別ID/別名を作成、保存定義を原案と完全照合。ページエラー・外部通信なし。",
-    "simulation": "36/36戦終了（自己対戦と他8クラス、各4 seed、席交代）。seed=123+i*4+j、各戦最大400操作、合法行動・状態検証・同一入力決定性・古い操作再送拒否。既存エンジンを変更せず自作カード経路を利用。",
+    "baseline": "main HEAD unchanged at 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f, fixed library version 21 re-materialized; inner ZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad; all 44 executable/config files byte-identical to previous verified checkout.",
+    "node": "Node 22.16.0: 49/49 passed; all 6 definitions and creator normalization, 30-card deck, 36 simulated games, previous 4 effects plus temporary attack expires on end turn and wrong target rejected; hammerguard enemy-only damage and targetless summon.",
+    "browser": "Chromium 1194×834: recreated and saved all 6 cards through current creator; definitions match, no page errors or external network.",
     "notRun": [
-      "正式カタログへの組込み後の全回帰試験・通信互換性試験（統合時に必要）",
-      "実機・Safari・実Firebase・Pages配備",
-      "対人プレイによるバランス評価"
+      "正式カタログ組込み後の全回帰・通信互換性試験",
+      "Safari・実機・実Firebase・Pages",
+      "対人バランス"
     ]
   },
-  "notes": "第1段階：挑発・盤面維持を中心に4種類×2枚を追加候補とし、runner/sentinel/bolt/dragon各2枚を置換。名称・数値は暫定。クラス採用制限・ヒーローパワー未追加。既存効果のみで再現可能。readyは統合候補であり公開ではない。"
+  "notes": "第2段階：戦意の号令、鋼槌の制圧兵を各2枚追加しspark/beastを置換。専用6種類12枚、共通18枚。名称・数値は暫定。クラス採用制限・ヒーローパワー未追加。readyは統合候補。"
 }
