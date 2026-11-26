@@ -2,7 +2,7 @@
   "schema": 1,
   "classId": "priest",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 1,
+  "revision": 2,
   "status": "ready",
   "cards": [
     {
@@ -72,6 +72,62 @@
           "amount": 2
         }
       }
+    },
+    {
+      "id": "priest_last_light",
+      "name": "残光の侍祭",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "heal",
+        "target": "friendlyMinions",
+        "amount": 2
+      }
+    },
+    {
+      "id": "priest_purify",
+      "name": "静寂の聖印",
+      "type": "spell",
+      "manaCost": 2,
+      "ability": {
+        "when": "play",
+        "operation": "silence",
+        "target": "enemyMinionChoice",
+        "amount": 1,
+        "followUp": {
+          "condition": "always",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "priest_recall",
+      "name": "魂の帰還",
+      "type": "spell",
+      "manaCost": 4,
+      "ability": {
+        "when": "play",
+        "operation": "reviveLast",
+        "target": "graveMinion",
+        "amount": 1
+      }
+    },
+    {
+      "id": "priest_lightwarden",
+      "name": "白翼の執行者",
+      "type": "minion",
+      "manaCost": 6,
+      "attack": 5,
+      "maxHealth": 6,
+      "keywords": [
+        "lifesteal"
+      ]
     }
   ],
   "deck": [
@@ -91,20 +147,20 @@
     "priest_mender",
     "sentinel",
     "sentinel",
-    "titan",
-    "titan",
-    "heal",
-    "heal",
+    "priest_lightwarden",
+    "priest_lightwarden",
+    "priest_purify",
+    "priest_purify",
     "draw",
     "draw",
     "sage",
     "sage",
-    "healer",
-    "healer",
+    "priest_last_light",
+    "priest_last_light",
     "priest_blessing",
     "priest_blessing",
-    "echo",
-    "echo"
+    "priest_recall",
+    "priest_recall"
   ],
   "requests": [
     {
@@ -127,22 +183,26 @@
   ],
   "verification": {
     "status": "passed-class-scope",
-    "baseline": "main SHAとライブラリZIPのGITHUB_BASELINE.mdが一致。内側ゲームZIP SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad一致。src/*.js全37件、index.html、style.css、package.json、tools-*.js、database.rules.json、firebase.jsonのGit blob SHAがmainと一致。ルートcloud-config.jsはsrc版と同じSHA。作業開始・保存直前のmain SHA一致。",
-    "node": "Node v22.16.0。ローカルのみcards.jsに4定義を追加しstarter-decks.jsのpriestレシピを置換。専用試験30/30合格（定義・normalizeCustomCard・validateDeck・重複確認5、効果と境界条件7、9クラス×2席の模擬対戦18）。効果試験では合法操作・状態検証・決定性・古い操作拒否も確認。",
+    "baseline": "開始・保存直前のmain SHAは4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f、固定ライブラリZIP version 21で前回と同一。前回の全実行ファイルGit blob照合結果を同一不変SHAに対して使用。実体の外側ZIP内のゲームZIPと展開済みゲームZIPのバイト一致・SHA256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad一致。44実行・設定ファイル中、前回ローカル候補との差分はcards.jsとstarter-decks.jsのみ。両ファイルを基準ZIPから復元して累積8カードと新デッキを適用。",
+    "node": "Node v22.16.0、専用試験41/41合格（定義・normalizeCustomCard・デッキ9、従来効果7、新効果7、9クラス×2席模擬対戦18）。合法操作、状態検証、同一入力の決定性、古い操作拒否を確認。",
     "effectTests": [
       "治癒師: 味方のみ指定、体力上限、空盤面は対象なしで登場",
       "祈祷: 最大・現在体力+2と1ドロー、対象なし拒否・状態不変",
       "番人: 自陣ターン終了に自身を含む味方を1回復、上限と敵非回復",
-      "波動: 自分HP+3（上限30）の後に敵ミニオン全体2ダメージ、死亡除去、味方・敵ヒーロー無傷、敵盤面なしでも回復、満HPでもダメージ"
+      "波動: 自分HP+3（上限30）の後に敵ミニオン全体2ダメージ、死亡除去、味方・敵ヒーロー無傷、敵盤面なしでも回復、満HPでもダメージ",
+      "侍祭: 死亡時に他の味方ミニオンを2回復、上限・敵とヒーロー非回復・空盤面安全",
+      "聖印: 敵1体のみ選択、沈黙による能力と強化解除・損傷維持、1枚ドロー、対象なし拒否・状態不変",
+      "帰還: 自分の最新墓地ミニオンを元の個体IDで蘇生、体力初期化、登場効果なし、空墓地・満盤面で安全に不発",
+      "執行者: 戦闘で生命奪取、HP上限、聖なる盾でダメージ無効時は回復なし。現行エンジンのダメージ量算定を維持"
     ],
-    "browser": "実Chromium 1194x834、オフラインモジュールとメモリ保存。既存カード作成UIの基本・追加効果選択肢から4/4種類を別名・別IDで作成、保存後の定義完全一致。pageerror・外部HTTPリクエストなし。",
-    "regression": "starter-decks/turn-effects/follow-conditions/effects/creation/priest-proposal の関連試験500/501。唯一の失敗はcreation.test.jsの既存カード数固定24→実際28の期待値。ローカル検証用のcreation/custom-cards/decksの3ファイルの固定値のみ28に調整し再試験270/270合格。テスト改変は提案ブランチに保存しない。統合時に固定カード数の期待値を累積採用数に合わせ、旧24定義維持を検査する必要あり。",
+    "browser": "実Chromium 1194x834、オフラインモジュールとメモリ保存。8/8種類をカード作成UIから別名・別IDで再現・保存後定義一致。沈黙の固定値1は数値欄なし。初回ブラウザ試験の自動操作が存在しない数値欄を待ちタイムアウトしたため試験側を修正して全件再実行し成功。pageerror・外部HTTPなし。",
+    "regression": "priest-proposal/starter-decks/turn-effects/follow-conditions/effects/zone-moves/modify-cards/keywords/grant-keywords の9ファイル833/833合格（専用41件含む）。より広い12ファイル一括実行は制限時間で停止し完走扱いにしない。ローカルの旧カード数固定テスト3ファイルの期待値を32に調整したが、この3ファイルを含む一括試験の完走は未確認。統合時に累積カード数に合わせて更新し旧定義維持を検査する必要あり。テスト改変は提案ブランチに保存しない。",
     "unverified": [
       "全Node回帰試験、全ブラウザ試験、実機Safari/iPhone/iPad、実Firebase、公開環境",
       "他8クラスの新規提案との統合・名称衝突・対戦バランス、専用イラスト、カタログ版更新と混在版拒否は統合役で再検証",
       "不足効果requestの実装は未検証。今回の統合候補カードには含まない。"
     ],
-    "notes": "カード・効果・初期デッキの担当範囲の必須試験は合格。readyは統合候補であり公開済みではない。"
+    "notes": "担当範囲の必須試験は合格。readyは統合候補であり公開済みではない。"
   },
-  "notes": "revision1: archer→priest_mender、ward→priest_blessing、golem→priest_sanctuary_guard、dragon→priest_dawn_waveを各2枚置換。旧22枚維持。15種類×2枚・30枚。回復と盤面維持を優先した暫定値。波動は回復を先にして敵盤面なしでも回復が不発にならないよう設計。ヒーローパワー、クラス採用制限、新規ルールなし。main/他クラス/固定ZIP/公開版は無変更。"
+  "notes": "revision2: healer→priest_last_light、heal→priest_purify、echo→priest_recall、titan→priest_lightwardenを各2枚置換。専用8種類16枚、既存7種類14枚、合計30枚。前回の4定義は不変。回復偏重を避け沈黙・蘇生・戦闘回復を採用。数値は暫定。ヒーローパワー、採用制限、共通エンジン変更なし。main・他クラス・固定ZIP・公開版無変更。"
 }
