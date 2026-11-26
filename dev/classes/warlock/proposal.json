@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "classId": "warlock",
-  "baseMain": "681ec179c708a222e7dbfd660bb7636f08195ac6",
-  "revision": 6,
+  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
+  "revision": 7,
   "status": "ready",
   "cards": [
     {
@@ -326,6 +326,62 @@
           "amount": 2
         }
       }
+    },
+    {
+      "id": "warlock_grave_lantern",
+      "name": "墓灯の導師",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "fetchDeck",
+        "target": "deckMinion",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warlock_hunger_of_ashes",
+      "name": "灰燼の渇望",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 3,
+        "followUp": {
+          "condition": "notKilled",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warlock_bloodbound_sentinel",
+      "name": "血盟の番兵",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 3,
+      "maxHealth": 5,
+      "keywords": [
+        "lifesteal"
+      ],
+      "ability": {
+        "when": "summon",
+        "operation": "heal",
+        "target": "self",
+        "amount": 2,
+        "followUp": {
+          "condition": "lowHP",
+          "operation": "grantTaunt",
+          "target": "sourceMinion",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -380,7 +436,7 @@
         "target": "self",
         "amount": 2
       },
-      "description": "候補：2マナのスペルで自分に3ダメージを与え、生存していれば2枚ドロー。追加効果にも同操作を選択可能にする案。通常のダメージ・勝敗処理を再利用し、固定の自傷値には呪文ダメージ加算や生命奪取を適用しない案。実装・名称・数値は統合役の判断。未実装なのでカード・デッキに入れない。",
+      "description": "候補：2マナのスペルで自分に3ダメージを与え、生存していれば2枚ドロー。追加効果にも同操作を選択可能にする案。通常のダメージ・勝敗処理を再利用し、固定の自傷値には呪文ダメージ加算や生命奪取を適用しない案。実装・名称・数値は統合役の判断。未実装なのでカード・デッキに入れない。 v0.1.408ではウォーロック固有スキルの自傷2＋生存時1ドローは実装済みだが、汎用カード作成効果の自傷は未実装。スキルは変更せず、汎用効果追加を引き続き提案する。",
       "tests": [
         "HP4→1で2枚ドロー、HP3以下では敗北して追加効果なし",
         "手札上限・空山札・呪文ダメージ持ち・生命奪取持ち・乱数不使用",
@@ -390,12 +446,12 @@
   ],
   "verification": {
     "status": "passed",
-    "baseline": "main 681ec179c708a222e7dbfd660bb7636f08195ac6 v0.1.406。固定ZIP version 22実体再取得、内側SHA-256 2d772cf0b62d077333d1048afece527dfc07650f2075d190b6e7c0a028a501b5。src tree 87008113fadf0445f803cf6c991cf143506c8516をGit形式で計算し一致。ルート実行/保護設定8 blob（公開用cloud-configはsrc同一）一致。ロックfree確認。公開済み4カード同一。保存直前main/branch/ZIP版確認。",
-    "node": "Node 22.16.0。第5段階専用試験135/135、第6段階150/150合格（それぞれ2レシピ×9クラス×両席×3seed=108戦、決定性・assertState・終局。第6段階は累計19定義のvalidateCard/別ID別名normalizeCustomCard/名前衝突/公開済み同一性/validateDeckを含む）。既存効果・移動・ターン・追加条件・自作・v406統合・過去の担当試験8ファイル706/706合格。新規効果の蘇生空墓地・満盤面・空手札・登場効果非発動、死亡時墓地回収の自身除外・手札満杯、挑発と死亡回復上限、単体ダメージと盾・HP回復、破棄成功時のみ自己強化、ターン終了時ドロー・HP15/16・満手札・空山札終局・沈黙を確認。",
-    "browser": "v406の変更前実コード、Chromium実DOM 1194×834で19種類を別ID・別名で作成保存し全定義一致。ページエラー・外部通信なし。",
-    "localBuiltIn": "ローカル複製のみで公開済み4定義を維持、残り15定義をclass-cards.jsに追加、starter-decks.jsのwarlockのみ更新。最終採用レシピでstarter-decks.test.js 113/113合格（45模擬戦含む）。正式カタログ版は変更していない試験用。",
-    "balance": "ローカル組込候補で4レシピ各54戦（216戦）、両席・3 seed・9クラス相手、同一の簡易合法行動選択、各操作決定性・状態検証・終局全合格。Revision4レシピ19勝35敗、guardを奈落の門番に2枚交換25勝29敗、終焉の告使を虚無の君主に2枚交換30勝24敗、残火の取引を黒蝕の託宣者に2枚交換26勝28敗。平均マナ2.53→2.80、6マナ枠を確保し低HP回復・継続ドローの特徴を持つ最後の案を選択。複数一括入替は第5/6段階の別ID自作カード比較で34/54、44/54勝となったため見送り。対戦AIは単純選択で実力・対人勝率を推定できない。",
-    "notVerified": "最終候補全Node回帰・他クラス同時統合・正式カタログ版更新と混在版拒否・実機/Safari/実Firebase/Pages配備・対人バランス・自傷追加要望は未検証。統合役が再検証すること。"
+    "baseline": "v0.1.408 main 349d286492840c58a661e6cdc2605cffa5cbf868、固定ZIP v24（20,171,036 bytes）再取得。内側ZIP SHA-256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12、src/.gitkeep補完後のGit tree 5241d101991d14a2f92dc95c27f61bfeefdbe965、ルート実行/保護7 blob＋src/cloud-config.js一致。公開ロックfree。保存直前のmain、担当HEAD、ZIP版照合。",
+    "node": "Node 22.16.0、ローカル組込候補専用84/84合格（22定義のvalidateCard・別ID別名normalizeCustomCard・30枚validateDeck・クラス推定、7境界試験、54模擬戦）。既存7関連ファイル＋専用試験の計777/777合格。初回776/777で固定カタログ数91の期待値のみ失敗、試験用複製の期待値を105に変更し再実行した。ゲーム処理の変更なし。統合役には正式カタログ数に合わせた試験更新が必要。墓灯の導師の死亡時ミニオン限定サーチ・満手札、灰燼の渇望の撃破/非撃破分岐、血盟の番兵の回復後HP15/16と満HP・挑発分岐を実行。",
+    "simulation": "9クラス×両席×3 seedの54戦、固有スキルを合法行動の候補に含める（自傷死回避の簡易方針）、全操作の決定性・assertState・全戦終局を確認。starter-decks.test.jsの45組の模擬戦とclass-skills408.test.jsも777件に含む。対人勝率は未評価。",
+    "browser": "試験用組込候補のChromium実DOM（1194×834）で専用22種類を別ID・別名でカード作成UIから保存し、全定義一致。ページエラー・外部HTTP通信なし。",
+    "localBuiltIn": "ローカル試験用のclass-cards.jsへ未公開14定義を追加、warlockのレシピのみrevision6のものに変更。公開済み8定義維持。正式カタログ版変更なし。",
+    "notVerified": "全Node回帰・他クラス未統合提案との同時統合・正式カタログ版更新・混在版拒否・実機/Safari/実Firebase/Pages配備・対人バランス・汎用自傷追加要望は未検証。公開前に統合役で再検証。"
   },
-  "notes": "第5・6段階まとめ。第5段階に冥界との取引・魂壺の番人・奈落の門番、第6段階に夜蝕の吸精・虚無の君主・黒蝕の託宣者を追加。累計19種類、既存13種類の定義は維持。初期デッキは残火の取引2枚→黒蝕の託宣者2枚のみ入替、専用13種26枚・共通2種4枚の30枚。同名2枚。残火の取引含む他6種はデッキ編集用候補。蘇生失敗時は追加破棄なし、空手札時は蘇生が成功しても破棄のみ不発。君主は破棄不発なら強化なし。低HP回復は初段効果後・生存時。カード名・マナ・数値暫定、自傷追加要望維持、採用制限・ヒーローパワー未変更。"
+  "notes": "第7段階：v0.1.408のクラススキル導入後に再検証。墓灯の導師・灰燼の渇望・血盟の番兵を追加し累計22種類。既存19定義とRevision6の30枚レシピは変更なし（専用13種類26枚、共通2種類4枚）。新3種類はデッキ編集用候補。名称・数値は暫定。血盟の番兵は回復後のHPが15以下で挑発付与。自傷スキルは変更なし、カード作成の汎用自傷要望は維持。"
 }
