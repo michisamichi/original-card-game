@@ -2,9 +2,73 @@
   "schema": 1,
   "classId": "warrior",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "warrior_vanguard",
+      "name": "鉄牙の先陣",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 2,
+      "maxHealth": 2,
+      "keywords": [
+        "rush"
+      ]
+    },
+    {
+      "id": "warrior_bannerguard",
+      "name": "不屈の旗衛兵",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "death",
+        "operation": "buffHealth",
+        "target": "friendlyMinions",
+        "amount": 1
+      }
+    },
+    {
+      "id": "warrior_retaliation",
+      "name": "戦果の一撃",
+      "type": "spell",
+      "manaCost": 3,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinionChoice",
+        "amount": 3,
+        "followUp": {
+          "condition": "killed",
+          "operation": "draw",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "warrior_ironmarshal",
+      "name": "鉄壁の軍団長",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 3,
+      "maxHealth": 5,
+      "keywords": [
+        "taunt"
+      ],
+      "ability": {
+        "when": "summon",
+        "operation": "weakenAttack",
+        "target": "enemyMinions",
+        "amount": 1
+      }
+    }
+  ],
   "deck": [
     "scout",
     "scout",
@@ -12,35 +76,43 @@
     "guard",
     "wolf",
     "wolf",
-    "runner",
-    "runner",
+    "warrior_vanguard",
+    "warrior_vanguard",
     "knight",
     "knight",
     "golem",
     "golem",
-    "dragon",
-    "dragon",
+    "warrior_ironmarshal",
+    "warrior_ironmarshal",
     "wisp",
     "wisp",
     "archer",
     "archer",
-    "sentinel",
-    "sentinel",
+    "warrior_bannerguard",
+    "warrior_bannerguard",
     "beast",
     "beast",
     "titan",
     "titan",
     "spark",
     "spark",
-    "bolt",
-    "bolt",
+    "warrior_retaliation",
+    "warrior_retaliation",
     "ward",
     "ward"
   ],
   "requests": [],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "passed",
+    "baseline": "v0.1.405: 固定ZIP内ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad と基準HEAD一致。src/全JS・index/style/package/tools/Firebase設定のGit blob SHA一致。公開ルートcloud-config.jsはsrcと同一、.gitkeepは改行のみ。",
+    "node": "Node 22.16.0、専用45/45件合格。4定義validateCardと別ID/別名normalizeCustomCard一致、30枚validateDeck、既存22枚維持、急襲/挑発、死亡時強化の対象有無、撃破時ドローと非撃破・対象なし・ヒーロー拒否、全体弱体化の対象有無。",
+    "browser": "Chromium・1194×834・現行カード作成UIの実操作で4枚全て別ID/別名を作成、保存定義を原案と完全照合。ページエラー・外部通信なし。",
+    "simulation": "36/36戦終了（自己対戦と他8クラス、各4 seed、席交代）。seed=123+i*4+j、各戦最大400操作、合法行動・状態検証・同一入力決定性・古い操作再送拒否。既存エンジンを変更せず自作カード経路を利用。",
+    "notRun": [
+      "正式カタログへの組込み後の全回帰試験・通信互換性試験（統合時に必要）",
+      "実機・Safari・実Firebase・Pages配備",
+      "対人プレイによるバランス評価"
+    ]
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "第1段階：挑発・盤面維持を中心に4種類×2枚を追加候補とし、runner/sentinel/bolt/dragon各2枚を置換。名称・数値は暫定。クラス採用制限・ヒーローパワー未追加。既存効果のみで再現可能。readyは統合候補であり公開ではない。"
 }
