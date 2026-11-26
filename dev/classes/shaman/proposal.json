@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "classId": "shaman",
-  "baseMain": "349d286492840c58a661e6cdc2605cffa5cbf868",
-  "revision": 7,
-  "status": "ready",
+  "baseMain": "92a060b82e0b482cc8f4a8cfd2c5372b1abc619b",
+  "revision": 8,
+  "status": "draft",
   "cards": [
     {
       "id": "shaman_totemcaller",
@@ -285,6 +285,48 @@
         "target": "friendlyRandom",
         "amount": 1
       }
+    },
+    {
+      "id": "shaman_stonebolt",
+      "name": "雷礫の精霊",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 2,
+      "maxHealth": 3,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "damage",
+        "target": "enemyRandom",
+        "amount": 2,
+        "followUp": {
+          "condition": "killed",
+          "operation": "restoreMana",
+          "target": "self",
+          "amount": 1
+        }
+      }
+    },
+    {
+      "id": "shaman_windcairn",
+      "name": "岩嶺の風呼び",
+      "type": "minion",
+      "manaCost": 5,
+      "attack": 3,
+      "maxHealth": 4,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "summonFixed",
+        "target": "tokenScout",
+        "amount": 1,
+        "followUp": {
+          "condition": "wideBoard",
+          "operation": "grantRush",
+          "target": "friendlyMinions",
+          "amount": 1
+        }
+      }
     }
   ],
   "deck": [
@@ -321,13 +363,13 @@
   ],
   "requests": [],
   "verification": {
-    "status": "pass",
-    "baseline": "v0.1.408 / main 349d286492840c58a661e6cdc2605cffa5cbf868、ライブラリZIP version24を実取得・展開。ゲーム本体SHA-256 26acd824273e9d4770ed0dc0bb022ac055152b4215fdb722c67a93b015bd7a12 が基準記録と一致。46実行・設定ファイルのGit blob SHAをmainの変更分と既照合の不変ファイルに照合一致。公開済み8定義は提案と完全一致。保存直前のmain/ZIP版は不変。",
-    "node": "Node 22.16.0、ローカルの仮統合候補に対し既存starter-decks.test.jsとclass-skills408.test.jsを実行、166/166合格。追加shaman408-local.test.js 52/52合格（19定義のvalidateCardと別ID・別名normalizeCustomCard一致、交換レシピvalidateDeckとクラス推定、個別・複合効果6件、交換レシピ9クラス×3seedの27戦）。合計218/218。",
-    "browser": "Chromium実DOM、1194×834、オフラインモジュール/メモリ保存。累積19種を実カード作成画面から別名別IDで作成・保存し、ID/名称を元に戻した定義と一致。19/19合格。",
-    "integration": "ローカルのみで未公開11種をclass-cards.jsへ追加し、シャーマンだけRevision4の30枚レシピに変更。既存初期デッキ45戦と追加交換デッキ27戦、既存スキルの共有トランザクション・投影9戦を含む。新規定義はデッキ編集向けで初期デッキは変更なし。",
-    "edgeCases": "地脈の湧水：4マナ消費後に2回復し、残2マナでスキルを使用可能。スキル使用後にマナ回復しても同ターン再使用不可。暁風の祭司：相手ターン開始時は強化なし、次の自ターン開始時に攻撃+1。スキル＋精霊の集い：スキル召喚個体を3体以上条件に算入。6体からスキルで7体になり再使用不可。60seedでスキル3種全ての召喚結果を観測、同一状態・操作の決定性、マナ2消費、手札/山札不変を確認。既存スキル試験で満杯盤面、古い操作・権限外操作拒否、次ターンリセットも合格。",
-    "unverified": "全回帰試験、他クラス最新提案との仮統合、実機Safari・実Firebase・Pages、対人バランス、統合時カタログ版更新は未検証。既存の固定マニフェスト試験は今回未実施、交換カードを初期デッキ採用と分離して更新する必要あり。readyは公開前の統合候補。"
+    "status": "partial",
+    "baseline": "v0.1.410 / main 92a060b82e0b482cc8f4a8cfd2c5372b1abc619b、ライブラリ固定ZIP version26を取得・展開。ゲーム本体SHA-256 8da3254df175b54a5695eb6095d6acc6244ec6ae497a702ef5341fb01e7d0654 とGITHUB_BASELINE記録一致。実行・設定47ファイルのGit blob SHAを同コミットの実取得SHAに照合し全件一致。公開済みシャーマン17定義・30枚レシピ一致。保存前のmain/担当HEAD/ZIP版の変化なし。公開ロックはfreeを確認（担当提案のみのため取得なし）。",
+    "node": "Node 24.22.3（旧版のNode 22.16.0ではない）。仮統合候補の独自試験77件と既存starter-decks・class-skills408・class-selection409の212件を同一候補で実行、289/289合格・終了コード0。class-expansion410の定義・保存互換、スキル優先45戦、v409待機部屋拒否を選択実行126/126合格・終了コード0。計415/415。固定143種マニフェストの件数一致試験は新規候補4種類を含むため対象外。",
+    "integration": "ローカルで未公開4種をclass-cards.jsへ仮追加、171種類。歴史マニフェストの公開済み143クラス定義、共通24定義を含む既存ソース、全9初期デッキ・シャーマン30枚は無変更。累積21種のvalidateCard、別ID別名normalizeCustomCard一致、クラス採用制限・保存/バックアップ、新4名称の旧自作カード衝突互換を確認。交換レシピ（guard→manafount、wisp→dawnchant、gale→stonebolt、ancientmonolith→windcairn、各2枚）は検証用のみ。既存初期45戦＋スキル優先初期45戦＋交換27戦、交換共有トランザクション全9戦完走、旧スキル共有9ケース。全操作合法・状態検証、交換共有では直接applyAction一致、重複再送拒否・両席投影の秘匿も確認。",
+    "edgeCases": "地脈の湧水：4マナから2回復、スキル使用後の回復でも再使用不可。暁風の祭司：自ターン開始時のみ強化。雷礫の精霊：敵なし、不殺、撃破、聖なる盾、呪文ダメージ非加算、死亡効果で相手が特殊召喚する時も追加効果が先行し1回のみ、決定性。岩嶺の風呼び：召喚前盤面0/1/2/5/6/7枠、登場と特殊召喚を含め3体以上かつ特殊召喚成功時のみ急襲付与、7枠制限、召喚ターン敵ミニオンのみ攻撃可能、相手に付与なし。先に精霊招来を使用した個体も条件に算入。",
+    "browser": "未完（draftの理由）。実Chromium再現用21種UI試験を準備したが、環境のChromium実行本体欠損で起動不可。別の実ブラウザもローカル開発用URL接続不可。今回のカード作成UI再現保存は0/21実行、過去revision7の19/19結果を今回の合格とは扱わない。次回、同一候補でUIの発動条件/効果/対象/数値/追加条件/追加効果/追加対象/数値/特殊能力を21種別名で入力し、保存したnormalizeCustomCardのID・名称を戻した定義の完全一致を確認。",
+    "unverified": "今回の実Chromium 21種再現保存、全回帰、実機Safari・実Firebase・Pages・対人バランス、統合時のカタログ版更新、他クラスの未統合提案との結合は未検証。draftであり統合／公開不可。revision7は過去にready検証済みだが今回のdraftを自動統合しない。"
   },
-  "notes": "第7段階：v0.1.408の実装済みクラススキルに対応して再検証。地脈の湧水（登場時マナ回復）と暁風の祭司（ターン開始時ランダム味方攻撃強化）を交換候補として追加。累積19種類、初期デッキ30枚はRevision4の専用13種類26枚＋共通2種類4枚のまま。公開済み8種不変、未統合11種。既存スキルの変更、新規ルール・カード固有処理の追加なし。カード名称・性能・交換候補は暫定。"
+  "notes": "第8段階：v0.1.410の17種統合・採用制限に対応。地脈の湧水・暁風の祭司（revision7の未統合2種）に、雷礫の精霊（登場時ランダム敵ミニオン2ダメージ、撃破時マナ1回復）と岩嶺の風呼び（登場時に風の斥候1体、召喚成功後3体以上なら味方全員に急襲付与）を交換候補として追加。累積21種、公開済み17種、追加候補4種。現行初期デッキ30枚は完全維持。数値・名称は暫定。汎用効果のみで、カード固有処理・新ルール・既存スキル変更なし。ブラウザ実再現未完のためdraft。"
 }
