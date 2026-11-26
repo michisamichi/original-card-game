@@ -2,9 +2,63 @@
   "schema": 1,
   "classId": "hunter",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "hunter_ashfang_cub",
+      "name": "燼牙の幼獣",
+      "type": "minion",
+      "manaCost": 1,
+      "attack": 1,
+      "maxHealth": 1,
+      "keywords": [],
+      "ability": {
+        "when": "death",
+        "operation": "damage",
+        "target": "enemyHero",
+        "amount": 1
+      }
+    },
+    {
+      "id": "hunter_ridge_marksman",
+      "name": "稜線の狙撃手",
+      "type": "minion",
+      "manaCost": 3,
+      "attack": 3,
+      "maxHealth": 2,
+      "keywords": [],
+      "ability": {
+        "when": "summon",
+        "operation": "damage",
+        "target": "enemyHero",
+        "amount": 2
+      }
+    },
+    {
+      "id": "hunter_dune_pouncer",
+      "name": "砂嵐の追撃獣",
+      "type": "minion",
+      "manaCost": 4,
+      "attack": 4,
+      "maxHealth": 3,
+      "keywords": [
+        "rush"
+      ]
+    },
+    {
+      "id": "hunter_scatter_snare",
+      "name": "散裂の仕掛け罠",
+      "type": "secret",
+      "manaCost": 3,
+      "ability": {
+        "when": "heroAttack",
+        "operation": "damage",
+        "target": "enemyCharacters",
+        "amount": 2
+      }
+    }
+  ],
   "deck": [
     "scout",
     "scout",
@@ -12,12 +66,12 @@
     "wolf",
     "runner",
     "runner",
-    "knight",
-    "knight",
-    "dragon",
-    "dragon",
-    "wisp",
-    "wisp",
+    "hunter_ridge_marksman",
+    "hunter_ridge_marksman",
+    "hunter_dune_pouncer",
+    "hunter_dune_pouncer",
+    "hunter_ashfang_cub",
+    "hunter_ashfang_cub",
     "archer",
     "archer",
     "beast",
@@ -34,13 +88,20 @@
     "thorn",
     "rune",
     "rune",
-    "ward",
-    "ward"
+    "hunter_scatter_snare",
+    "hunter_scatter_snare"
   ],
   "requests": [],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "passed",
+    "baseline": "v0.1.405 / ライブラリZIP v21 / ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad。一致した45 Git blob SHA（ルートcloud-config重複含む）、全実行・保護設定、.gitkeep管理例外を確認。",
+    "node": "Node 22.16.0。ローカル候補のcards.js末尾とhunterレシピのみ変更。専用試験61/61：validateCard・normalizeCustomCard・validateDeck、名称衝突なし、死亡・登場の対ヒーローダメージ、急襲の初ターン対象制限、秘策の攻撃中断・非発動条件・生存時継続、9クラス×6模擬戦54試合5992操作（全試合終了・状態検証・決定性・入力非破壊、全新カードのイベント確認）。関連既存回帰348/348（starter-decks/secrets/custom-cards）。初回347/348の1失敗は固定カタログ件数24の期待値のみで、ローカルテストを28に更新して再試験合格。統合時に件数依存テストの更新が必要。",
+    "browser": "実Chromium DOM、オフラインモジュール＋メモリ保存。1194x834・390x844で全9デッキ選択/複製、30枚表示、横はみ出しなし。ハンター15種類すべてを現行作成UIから別名・別IDで作成保存し定義一致。エラー・外部通信なし。",
+    "unverified": [
+      "全Node回帰試験（統合時に実施）",
+      "実機・Safari・実Firebase・Pages公開",
+      "9クラス統合後の採用率・対戦バランス・通信カタログ版互換性"
+    ]
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "第1段階：wisp/knight/dragon/wardを専用カード4種類各2枚に交換（計30枚、専用8枚）。既存の死亡・登場・急襲・攻撃反応秘策のみ使用。名称・コスト・数値は暫定。専用カード採用制限・ヒーローパワー未追加。公開済みカード定義は変更なし。統合時の再検証候補。"
 }
