@@ -2,22 +2,58 @@
   "schema": 1,
   "classId": "mage",
   "baseMain": "4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
-  "revision": 0,
-  "status": "draft",
-  "cards": [],
+  "revision": 1,
+  "status": "ready",
+  "cards": [
+    {
+      "id": "mage_astral_apprentice",
+      "name": "星環の見習い魔導士",
+      "type": "minion",
+      "manaCost": 2,
+      "attack": 1,
+      "maxHealth": 3,
+      "keywords": [
+        "spellDamage"
+      ]
+    },
+    {
+      "id": "mage_crimson_comet",
+      "name": "紅星の彗弾",
+      "type": "spell",
+      "manaCost": 4,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyChoice",
+        "amount": 5
+      }
+    },
+    {
+      "id": "mage_frost_tempest",
+      "name": "白銀の魔嵐",
+      "type": "spell",
+      "manaCost": 5,
+      "ability": {
+        "when": "play",
+        "operation": "damage",
+        "target": "enemyMinions",
+        "amount": 3
+      }
+    }
+  ],
   "deck": [
     "scout",
     "scout",
     "guard",
     "guard",
-    "wolf",
-    "wolf",
-    "knight",
-    "knight",
+    "mage_astral_apprentice",
+    "mage_astral_apprentice",
+    "mage_crimson_comet",
+    "mage_crimson_comet",
     "golem",
     "golem",
-    "dragon",
-    "dragon",
+    "mage_frost_tempest",
+    "mage_frost_tempest",
     "wisp",
     "wisp",
     "archer",
@@ -39,8 +75,19 @@
   ],
   "requests": [],
   "verification": {
-    "status": "not-run",
-    "notes": "v0.1.405の暫定レシピを転記。新規カードなし。今回の初期化では対戦回帰試験未実施。"
+    "status": "passed",
+    "base": "v0.1.405 / main 4a6409e3bc366f160c3a773ac6dc2b5b4be13a6f",
+    "baseline": "固定ZIP version_id=21取得・展開。内側ゲームZIP SHA-256 a415e3c30929b59d9ac17d6b3d47b955ecbc7213e53b18ae85967d7f9ce5a3ad と基準記録一致。src全37 JS、index.html、style.css、package.json、tools 2件、Firebase Rules/configをmainのblob SHAと照合一致。ルートcloud-config.jsはsrc版と一致。",
+    "node": "Node 22.16.0。新規60/60件（validateCard/normalizeCustomCard/validateDeck/ID・名称重複検査1、効果境界5、9クラス×両席×3 seed=54模擬対戦）。既存starter-decks、spell-damage-destroy、custom-cardsを合わせ353/353件合格。模擬対戦は同能力の自作IDを使い、各操作assertState、500操作以内の終了を確認。",
+    "effects": "見習い登場→呪文ダメージ+1、彗弾は敵HP6または指定ミニオン5ダメージ、魔嵐は敵ミニオン全体3（強化2体で5）・味方/敵ヒーロー非対象。空盤面は既存仕様どおり使用でき、マナを消費し不発。初回テストの空盤面使用不可という誤った期待値を既存仕様に合わせ修正後合格。効果試験の同一操作再現性確認。",
+    "browser": "実Chromium、1194×834、既存カード作成UIを操作して3種類を別名で保存。ID/名称を戻した定義が完全一致。ページエラー・外部通信なし（インメモリ保存、オフラインモジュールマップ）。",
+    "untested": [
+      "全75ファイルの回帰試験（今回の関連4ファイルのみ）",
+      "正式IDを本体カタログに統合した後の試験・他クラス提案との競合",
+      "実機・Safari・実Firebase・Pages公開",
+      "対人バランス調整"
+    ],
+    "integration": "readyは提案単位の検証済みを意味する。統合役は最新版に再適用し、カタログ互換性・全回帰試験・実行環境を確認すること。"
   },
-  "notes": "初期化：現行の30枚レシピ"
+  "notes": "第1段階：狼・騎士・竜の各2枚を専用3種へ差し替え。呪文ダメージ強化・単体除去・全体除去を採用。30枚、同名2枚以内、ミニオン16・スペル10・秘策4。名称・数値は暫定、採用制限・ヒーローパワー・凍結は追加しない。main・固定ZIPは変更しない。"
 }
